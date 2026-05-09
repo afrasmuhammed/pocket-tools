@@ -72,6 +72,7 @@ class Router {
 
       const tool = getTool(toolId);
       setAppTitle(appTitle, tool.name, false);
+      toolContainer.dataset.category = tool.category;
       toolContainer.replaceChildren();
       const skeleton = document.createElement('div');
       skeleton.className = 'skeleton';

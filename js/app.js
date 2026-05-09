@@ -184,6 +184,10 @@ function renderHome() {
     chip.addEventListener('click', () => {
       document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
+      chip.classList.remove('chip-tapped');
+      void chip.offsetWidth; // force reflow to restart animation
+      chip.classList.add('chip-tapped');
+      chip.addEventListener('animationend', () => chip.classList.remove('chip-tapped'), { once: true });
       currentCategory = chip.dataset.category || 'all';
       renderGrid();
     });
