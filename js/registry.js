@@ -70,6 +70,7 @@ export const TOOLS = [
   // DOCUMENTS (8 — bonus rotate-pdf, unprotect-pdf, receipt-enhancer)
   { id: 'merge-pdf',         name: 'Merge PDF',            category: 'documents', desc: 'Combine multiple PDFs',              icon: ICONS.merge,  needsPdfLib: true },
   { id: 'split-pdf',         name: 'Split PDF',            category: 'documents', desc: 'Split into separate pages',          icon: ICONS.split,  needsPdfLib: true },
+  { id: 'protect-pdf',       name: 'Password Protect PDF', category: 'documents', desc: 'AES-256 encrypt your PDF',           icon: ICONS.lock },
   { id: 'page-numbers',      name: 'PDF Page Numberer',    category: 'documents', desc: 'Add page numbers',                   icon: ICONS.hash,   needsPdfLib: true },
   { id: 'extract-pdf',       name: 'Extract PDF Text',     category: 'documents', desc: 'Pull all text out of a PDF',         icon: ICONS.read,   needsPdfJs: true },
   { id: 'rotate-pdf',        name: 'Rotate PDF',           category: 'documents', desc: 'Rotate pages 90°/180°/270°',         icon: ICONS.rotate, needsPdfLib: true },
