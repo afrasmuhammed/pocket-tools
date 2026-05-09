@@ -46,14 +46,17 @@ class Router {
 
     // Home
     if (!hash || hash === '#' || hash === '#/') {
+      // Add skip-anim BEFORE unhiding home so animations never start
+      const grid = document.getElementById('tool-grid');
+      if (this._homeScroll && grid) grid.classList.add('skip-anim');
+
       viewTool.classList.add('hidden');
       viewHome.classList.remove('hidden');
       btnBack.classList.add('hidden');
       setAppTitle(appTitle, 'Pocket Tools', true);
       this.currentToolId = null;
+
       if (this._homeScroll) {
-        const grid = document.getElementById('tool-grid');
-        if (grid) grid.classList.add('skip-anim');
         window.scrollTo({ top: this._homeScroll, behavior: 'instant' });
         this._homeScroll = null;
         requestAnimationFrame(() => grid?.classList.remove('skip-anim'));
