@@ -51,12 +51,14 @@ class Router {
       btnBack.classList.add('hidden');
       setAppTitle(appTitle, 'Pocket Tools', true);
       this.currentToolId = null;
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: this._homeScroll ?? 0, behavior: 'instant' });
+      this._homeScroll = null;
       return;
     }
 
     // Tool route
     if (hash.startsWith('#/tool/')) {
+      this._homeScroll = window.scrollY;
       const toolId = decodeURIComponent(hash.replace('#/tool/', '')).trim();
 
       if (!isValidToolId(toolId)) {
