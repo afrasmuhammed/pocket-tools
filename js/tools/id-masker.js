@@ -4,14 +4,16 @@ import { UI } from '../core/ui.js';
 
 export default {
   init() {
-    const upload = document.getElementById('im-upload');
-    const styleEl = document.getElementById('im-style');
-    const pageEl = document.getElementById('im-page');
-    const btnUndo = document.getElementById('im-undo');
-    const btnClear = document.getElementById('im-clear');
+    const upload      = document.getElementById('im-upload');
+    const controls    = document.getElementById('im-controls');
+    const preview     = document.getElementById('im-preview');
+    const styleEl     = document.getElementById('im-style');
+    const pageEl      = document.getElementById('im-page');
+    const btnUndo     = document.getElementById('im-undo');
+    const btnClear    = document.getElementById('im-clear');
     const btnDownload = document.getElementById('im-download');
-    const canvas = document.getElementById('im-canvas');
-    const ctx = canvas.getContext('2d');
+    const canvas      = document.getElementById('im-canvas');
+    const ctx         = canvas.getContext('2d');
 
     let sourceCanvas = document.createElement('canvas');
     let masks = [];
@@ -21,6 +23,11 @@ export default {
     let currentFile = null;
 
     const hasSource = () => sourceCanvas.width > 0 && sourceCanvas.height > 0;
+
+    const showUI = (visible) => {
+      controls.classList.toggle('hidden', !visible);
+      preview.classList.toggle('hidden', !visible);
+    };
 
     const fitCanvas = (width, height) => {
       const maxSide = 1600;
@@ -93,6 +100,7 @@ export default {
       sctx.drawImage(image, 0, 0, image.width * scale, image.height * scale);
       masks = [];
       render();
+      showUI(true);
     };
 
     const loadPdfFile = async (file) => {
@@ -113,6 +121,7 @@ export default {
       await pdf.destroy();
       masks = [];
       render();
+      showUI(true);
     };
 
     const loadCurrentFile = async () => {
@@ -137,6 +146,7 @@ export default {
         masks = [];
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         canvas.width = 0;
+        showUI(false);
         return;
       }
       await loadCurrentFile();
@@ -160,10 +170,7 @@ export default {
 
     const stopDraw = () => {
       if (!drawing) return;
-      if (!current) {
-        drawing = false;
-        return;
-      }
+      if (!current) { drawing = false; return; }
       drawing = false;
       if (current.w > 6 && current.h > 6) masks.push(current);
       current = null;
@@ -177,8 +184,8 @@ export default {
     canvas.addEventListener('touchmove', moveDraw, { passive: false });
     window.addEventListener('touchend', stopDraw);
 
-    btnUndo.onclick = () => { masks.pop(); render(); };
-    btnClear.onclick = () => { masks = []; render(); };
+    btnUndo.onclick     = () => { masks.pop(); render(); };
+    btnClear.onclick    = () => { masks = []; render(); };
     btnDownload.onclick = () => {
       if (!hasSource()) return UI.showError('Select a file first.');
       canvas.toBlob((blob) => {
