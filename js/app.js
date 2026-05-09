@@ -213,12 +213,34 @@ function initTheme() {
   if (!btn) return;
   btn.addEventListener('click', () => {
     const html = document.documentElement;
-    // Determine current effective theme
     const current = html.getAttribute('data-theme') ||
       (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     const next = current === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('pt-theme', next);
+
+    // Position of the toggle button centre — animation origin
+    const r = btn.getBoundingClientRect();
+    const x = Math.round(r.left + r.width  / 2);
+    const y = Math.round(r.top  + r.height / 2);
+    // Radius needed to cover the farthest corner of the viewport
+    const maxR = Math.hypot(
+      Math.max(x, window.innerWidth  - x),
+      Math.max(y, window.innerHeight - y)
+    );
+    html.style.setProperty('--theme-x', `${x}px`);
+    html.style.setProperty('--theme-y', `${y}px`);
+    html.style.setProperty('--theme-r', `${Math.ceil(maxR)}px`);
+
+    const apply = () => {
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('pt-theme', next);
+    };
+
+    // View Transitions API gives us the snapshot-based circular reveal
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      apply();
+      return;
+    }
+    document.startViewTransition(apply);
   });
 }
 
