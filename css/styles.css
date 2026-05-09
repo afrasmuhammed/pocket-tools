@@ -683,6 +683,21 @@ input[type="file"].btn:hover, input[type="file"].btn-secondary:hover { border-co
 .metric strong, .image-summary strong, .password-output, .timer-display { overflow-wrap: anywhere; }
 .tool-container button:not(.password-toggle), .btn { text-align: center; white-space: normal; }
 
+/* ── Shared small-button variant ── */
+.btn-sm { min-height: 36px; padding: 7px 13px; font-size: 13px; width: auto; flex-shrink: 0; }
+
+/* ── UUID Generator ── */
+.uuid-display { display: block; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 13px; letter-spacing: 0.02em; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; word-break: break-all; color: var(--fg); line-height: 1.6; }
+.uuid-batch-controls { display: flex; align-items: center; gap: 10px; }
+.uuid-batch-controls input[type="number"] { width: 72px; min-height: 36px; padding: 7px 10px; font-size: 14px; font-family: inherit; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); color: var(--fg); flex-shrink: 0; }
+.uuid-count-label { font-size: 13px; color: var(--muted); }
+.uuid-batch-wrap { margin-top: 4px; }
+.uuid-batch-list { list-style: none !important; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 0; max-height: 420px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.uuid-batch-item { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.uuid-batch-item:last-child { border-bottom: none; }
+.uuid-batch-item .uuid-display { border: none; border-radius: 0; background: transparent; padding: 0; font-size: 12px; width: 100%; }
+.uuid-batch-item .btn { min-height: 30px; padding: 4px 12px; font-size: 12px; width: auto; }
+
 /* ── Responsive ── */
 @media (min-width: 720px) {
   .image-panel-primary { grid-template-columns: minmax(0, 1.4fr) minmax(260px, .8fr); align-items: stretch; }
