@@ -1,3 +1,6 @@
+# Claude Code session data (contains local machine paths)
+.claude/
+
 # macOS
 .DS_Store
 .AppleDouble

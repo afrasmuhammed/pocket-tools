@@ -34,6 +34,7 @@ export default {
       selectedFiles = [];
       previews = [];
       upload.value = '';
+      upload.closest('.drop-zone')?._reset?.();
       render();
     };
 
@@ -75,7 +76,7 @@ export default {
 
     upload.onchange = (event) => {
       const raw = Array.from(event.target.files || []);
-      if (!raw.length) return;
+      if (!raw.length) { clear(); return; }
       if (raw.length > MAX_FILES) UI.showError(`Only the first ${MAX_FILES} photos were added.`);
 
       clear();

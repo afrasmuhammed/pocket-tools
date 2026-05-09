@@ -1,0 +1,30 @@
+<div class="tool-header">
+  <h2>Text Diff</h2>
+  <p>Compare two blocks of text and see exactly what changed, line by line.</p>
+</div>
+
+<div class="tool-dashboard">
+
+  <section class="tool-panel">
+    <div class="settings-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="input-group" style="margin-bottom:0">
+        <label for="diff-original">Original</label>
+        <textarea id="diff-original" placeholder="Paste original text here…" rows="10"></textarea>
+      </div>
+      <div class="input-group" style="margin-bottom:0">
+        <label for="diff-modified">Modified</label>
+        <textarea id="diff-modified" placeholder="Paste modified text here…" rows="10"></textarea>
+      </div>
+    </div>
+    <button class="btn" id="btn-diff" style="margin-top:14px">Compare</button>
+  </section>
+
+  <section class="tool-panel" id="diff-result-panel" style="display:none">
+    <div class="panel-title">
+      <h3>Differences</h3>
+      <span id="diff-stats" style="font-size:13px;color:var(--muted)"></span>
+    </div>
+    <div id="diff-output" class="diff-output"></div>
+  </section>
+
+</div>

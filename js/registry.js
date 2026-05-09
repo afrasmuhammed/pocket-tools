@@ -22,6 +22,9 @@ const ICONS = {
   drop:     'M12 2l5 5a7 7 0 1 1-10 0z',
   watermark:'M3 3h18v18H3z M7 8h10 M7 12h10 M7 16h6',
   sun:      'M12 4V2 M12 22v-2 M4 12H2 M22 12h-2 M5 5l-1-1 M20 20l-1-1 M5 19l-1 1 M20 4l-1 1 M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z',
+  vat:      'M9 14l6-8 M5 18h4 M15 18h4 M8 18l8-12 M4 6h16',
+  diff:     'M5 8h6 M5 12h8 M5 16h4 M15 10l2 2 4-4 M15 16l2 2 4-4',
+  countdown:'M12 22a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 2v2 M12 8v5l3 2 M4.2 15l1.8-1',
   merge:    'M8 3v5a4 4 0 0 0 4 4h0a4 4 0 0 1 4 4v5 M16 3v5a4 4 0 0 1-4 4 M4 12h16',
   split:    'M16 3l4 4-4 4 M20 7H4 M8 13l-4 4 4 4 M4 17h16',
   lock:     'M5 11h14v10H5z M8 11V7a4 4 0 0 1 8 0v4',
@@ -72,7 +75,7 @@ export const TOOLS = [
   { id: 'extract-pdf',       name: 'Extract PDF Text',     category: 'documents', desc: 'Pull all text out of a PDF',         icon: ICONS.read,   needsPdfJs: true },
   { id: 'rotate-pdf',        name: 'Rotate PDF',           category: 'documents', desc: 'Rotate pages 90°/180°/270°',         icon: ICONS.rotate, needsPdfLib: true },
   { id: 'unprotect-pdf',     name: 'Unprotect PDF',        category: 'documents', desc: 'Remove a known password',            icon: ICONS.unlock, needsPdfLib: true },
-  { id: 'id-masker',         name: 'Aadhaar / PAN Masker',  category: 'documents', desc: 'Mask sensitive ID details',          icon: ICONS.shield, needsPdfJs: true },
+  { id: 'id-masker',         name: 'ID Masker',             category: 'documents', desc: 'Mask sensitive ID details',          icon: ICONS.shield, needsPdfJs: true },
   { id: 'receipt-enhancer',  name: 'Receipt Enhancer',     category: 'documents', desc: 'B/W + contrast for receipts',        icon: ICONS.contrast },
 
   // TEXT (6)
@@ -86,16 +89,21 @@ export const TOOLS = [
   // MATH (5)
   { id: 'bill-splitter',     name: 'Bill Splitter',        category: 'math',      desc: 'Split a bill, with tip',             icon: ICONS.split2 },
   { id: 'discount-calculator',name:'Discount Calculator',  category: 'math',      desc: 'Final price after discount',         icon: ICONS.percent },
-  { id: 'emi-calculator',    name: 'EMI Calculator',       category: 'math',      desc: 'Monthly loan EMI',                   icon: ICONS.emi },
+  { id: 'emi-calculator',    name: 'Loan Calculator',      category: 'math',      desc: 'Monthly loan repayment',             icon: ICONS.emi },
   { id: 'percentage-change', name: 'Percentage Change',    category: 'math',      desc: 'Increase / decrease %',              icon: ICONS.delta },
   { id: 'unit-converter',    name: 'Unit Converter',       category: 'math',      desc: 'Length, weight, temperature',        icon: ICONS.ruler },
   { id: 'grocery-calculator',name: 'Grocery Calculator',    category: 'math',      desc: 'List items and total prices',        icon: ICONS.cart },
+  { id: 'vat-calculator',    name: 'VAT Calculator',        category: 'math',      desc: 'Add or remove VAT (19 % / 7 %)',     icon: ICONS.vat },
+
+  // TEXT additions
+  { id: 'text-diff',         name: 'Text Diff',             category: 'text',      desc: 'Compare two texts line by line',     icon: ICONS.diff },
 
   // TIME (4)
   { id: 'pomodoro',          name: 'Pomodoro Timer',       category: 'time',      desc: 'Focus 25/5 timer',                   icon: ICONS.timer },
   { id: 'days-between',      name: 'Days Between Dates',   category: 'time',      desc: 'Days between two dates',             icon: ICONS.cal },
   { id: 'timezone',          name: 'Timezone Matcher',     category: 'time',      desc: 'Compare timezones',                  icon: ICONS.globe },
   { id: 'stopwatch',         name: 'Stopwatch',            category: 'time',      desc: 'Lap stopwatch',                      icon: ICONS.watch },
+  { id: 'countdown',         name: 'Countdown Timer',      category: 'time',      desc: 'Count down to any date & time',      icon: ICONS.countdown },
 
   // UTILITIES (3)
   { id: 'password-generator',name: 'Password Generator',   category: 'utilities', desc: 'Strong random passwords',            icon: ICONS.key },

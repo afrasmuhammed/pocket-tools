@@ -132,7 +132,14 @@ export default {
 
     upload.onchange = async (event) => {
       const file = event.target.files[0];
-      if (!file) return;
+      if (!file) {
+        image = null;
+        selectedEl.textContent = 'None';
+        btnDownload.disabled = true;
+        emptyEl.classList.remove('hidden');
+        stageEl.classList.add('hidden');
+        return;
+      }
       const v = FileHelper.validateImage(file);
       if (!v.ok) {
         upload.value = '';

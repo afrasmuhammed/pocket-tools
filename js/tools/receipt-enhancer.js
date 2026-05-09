@@ -5,6 +5,7 @@ export default {
   init() {
     const upload = document.getElementById('re-upload');
     const controls = document.getElementById('re-controls');
+    const previewSection = document.getElementById('re-preview');
     const contrastEl = document.getElementById('re-contrast');
     const contrastVal = document.getElementById('re-contrast-val');
     const threshEl = document.getElementById('re-threshold');
@@ -45,7 +46,12 @@ export default {
 
     upload.onchange = (e) => {
       const file = e.target.files[0];
-      if (!file) return;
+      if (!file) {
+        img = null;
+        controls.classList.add('hidden');
+        previewSection.classList.add('hidden');
+        return;
+      }
       const v = FileHelper.validateImage(file);
       if (!v.ok) { upload.value = ''; return UI.showError(v.error); }
       baseName = file.name.replace(/\.[^/.]+$/, '');
@@ -55,6 +61,7 @@ export default {
         img = new Image();
         img.onload = () => {
           controls.classList.remove('hidden');
+          previewSection.classList.remove('hidden');
           render();
         };
         img.src = ev.target.result;

@@ -16,7 +16,13 @@ export default {
 
     upload.onchange = (e) => {
       const file = e.target.files[0];
-      if (!file) return;
+      if (!file) {
+        // Cleared — hide canvas/controls and reset state
+        controls.classList.add('hidden');
+        canvas.width = 0;
+        img = null;
+        return;
+      }
       const v = FileHelper.validateImage(file);
       if (!v.ok) { upload.value = ''; return UI.showError(v.error); }
 

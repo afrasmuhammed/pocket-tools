@@ -110,6 +110,7 @@ export default {
       for (const item of items) URL.revokeObjectURL(item.previewUrl);
       items = [];
       upload.value = '';
+      upload.closest('.drop-zone')?._reset?.();
       renderList();
     };
 
@@ -146,7 +147,7 @@ export default {
     upload.onchange = (e) => {
       const raw = Array.from(e.target.files || []);
       const selected = raw.slice(0, MAX_FILES);
-      if (!selected.length) return;
+      if (!selected.length) { clearItems(); return; }
       if (raw.length > MAX_FILES) UI.showError(`Only the first ${MAX_FILES} images were added.`);
 
       const next = [];

@@ -22,7 +22,7 @@ export default {
 
     upload.onchange = async (e) => {
       const incoming = Array.from(e.target.files);
-      if (incoming.length === 0) return;
+      if (incoming.length === 0) { files = []; countEl.textContent = '0'; controls.classList.add('hidden'); return; }
       const ok = [];
       for (const f of incoming) {
         const v = await FileHelper.validatePdf(f);

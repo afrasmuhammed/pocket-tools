@@ -23,6 +23,7 @@ export default {
     
     this.btnWork.onclick = () => this.setMode('work');
     this.btnBreak.onclick = () => this.setMode('break');
+    this.updateModeButtons();
   },
 
   setMode(mode) {
@@ -31,6 +32,12 @@ export default {
     this.timeLeft = mode === 'work' ? 25 * 60 : 5 * 60;
     this.status.textContent = mode === 'work' ? 'Work Time' : 'Break Time';
     this.updateDisplay();
+    this.updateModeButtons();
+  },
+
+  updateModeButtons() {
+    this.btnWork.classList.toggle('btn-secondary', this.mode !== 'work');
+    this.btnBreak.classList.toggle('btn-secondary', this.mode !== 'break');
   },
 
   start() {

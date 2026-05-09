@@ -8,11 +8,11 @@
       <input type="file" id="re-upload" accept="image/*,.heic,.heif,image/heic,image/heif">
       <div>
         <strong>Select Receipt Photo</strong>
-        <span>Enhancement settings are ready before upload.</span>
+        <span>Upload a receipt photo to enhance contrast and clarity.</span>
       </div>
     </div>
   </section>
-  <section id="re-controls" class="image-panel">
+  <section id="re-controls" class="image-panel hidden">
     <div class="settings-grid">
       <div class="input-group">
         <label>Contrast: <span id="re-contrast-val">1.6×</span></label>
@@ -26,5 +26,12 @@
     </div>
     <button id="re-download" class="btn">Download Enhanced</button>
   </section>
+  <section id="re-preview" class="image-panel hidden">
+    <div class="panel-title">
+      <h3>Preview</h3>
+    </div>
+    <div class="bw-preview-wrap">
+      <canvas id="re-canvas"></canvas>
+    </div>
+  </section>
 </div>
-<canvas id="re-canvas" class="hidden"></canvas>

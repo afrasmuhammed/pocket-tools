@@ -1,16 +1,30 @@
 import { UI } from './core/ui.js';
 import { getTool, isValidToolId } from './registry.js';
 
-function setAppTitle(element, title) {
+function makePTLogo() {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'app-logo');
+  svg.setAttribute('viewBox', '0 0 28 28');
+  svg.setAttribute('aria-hidden', 'true');
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('width', '28'); rect.setAttribute('height', '28'); rect.setAttribute('rx', '7');
+  rect.setAttribute('style', 'fill: var(--accent)');
+  const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  text.setAttribute('x', '14'); text.setAttribute('y', '19.5');
+  text.setAttribute('text-anchor', 'middle'); text.setAttribute('fill', 'white');
+  text.setAttribute('font-family', 'Inter,-apple-system,BlinkMacSystemFont,sans-serif');
+  text.setAttribute('font-size', '11.5'); text.setAttribute('font-weight', '800');
+  text.textContent = 'PT';
+  svg.appendChild(rect); svg.appendChild(text);
+  return svg;
+}
+
+function setAppTitle(element, title, showLogo = false) {
   element.replaceChildren();
-  const logo = document.createElement('img');
-  logo.className = 'app-logo';
-  logo.src = 'assets/icon-192.png';
-  logo.alt = '';
-  logo.setAttribute('aria-hidden', 'true');
-  const text = document.createElement('span');
-  text.textContent = title;
-  element.append(logo, text);
+  if (showLogo) element.appendChild(makePTLogo());
+  const span = document.createElement('span');
+  span.textContent = title;
+  element.appendChild(span);
 }
 
 class Router {
@@ -22,11 +36,11 @@ class Router {
   }
 
   async handleRoute() {
-    const viewHome = document.getElementById('view-home');
-    const viewTool = document.getElementById('view-tool');
+    const viewHome      = document.getElementById('view-home');
+    const viewTool      = document.getElementById('view-tool');
     const toolContainer = document.getElementById('tool-container');
-    const btnBack = document.getElementById('btn-back');
-    const appTitle = document.getElementById('app-title');
+    const btnBack       = document.getElementById('btn-back');
+    const appTitle      = document.getElementById('app-title');
 
     const hash = window.location.hash || '';
 
@@ -35,7 +49,7 @@ class Router {
       viewTool.classList.add('hidden');
       viewHome.classList.remove('hidden');
       btnBack.classList.add('hidden');
-      setAppTitle(appTitle, 'Pocket Tools');
+      setAppTitle(appTitle, 'Pocket Tools', true);
       this.currentToolId = null;
       window.scrollTo(0, 0);
       return;
@@ -43,10 +57,8 @@ class Router {
 
     // Tool route
     if (hash.startsWith('#/tool/')) {
-      const rawId = hash.replace('#/tool/', '');
-      const toolId = decodeURIComponent(rawId).trim();
+      const toolId = decodeURIComponent(hash.replace('#/tool/', '')).trim();
 
-      // Whitelist guard — only known tool IDs allowed (prevents path traversal)
       if (!isValidToolId(toolId)) {
         UI.showError('Unknown tool.');
         window.location.hash = '#/';
@@ -59,7 +71,7 @@ class Router {
       btnBack.onclick = () => { window.location.hash = '#/'; };
 
       const tool = getTool(toolId);
-      setAppTitle(appTitle, tool.name);
+      setAppTitle(appTitle, tool.name, false);
       toolContainer.replaceChildren();
       const skeleton = document.createElement('div');
       skeleton.className = 'skeleton';
@@ -81,12 +93,10 @@ class Router {
       return;
     }
 
-    // Unknown hash — go home
     window.location.hash = '#/';
   }
 
   async loadTool(toolId, container) {
-    // 1. Fetch template (cached after first load)
     let html = this.templateCache.get(toolId);
     if (!html) {
       const res = await fetch(`templates/${toolId}.html`);
@@ -94,11 +104,8 @@ class Router {
       html = await res.text();
       this.templateCache.set(toolId, html);
     }
-
-    // 2. Inject template. Templates are static, served from same origin, gated by CSP.
     container.innerHTML = html;
 
-    // 3. Lazy load tool JS module
     let module = this.moduleCache.get(toolId);
     if (!module) {
       module = await import(`./tools/${toolId}.js`);
@@ -108,8 +115,75 @@ class Router {
     if (module.default && typeof module.default.init === 'function') {
       module.default.init();
       this.currentToolId = toolId;
+      hookDropZones(container);
     }
   }
+}
+
+function fmtBytes(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(1) + ' MB';
+}
+
+function hookDropZones(container) {
+  container.querySelectorAll('.drop-zone input[type="file"]').forEach(input => {
+    const zone = input.closest('.drop-zone');
+    if (!zone) return;
+
+    // Snapshot original label text before any interaction
+    const origStrong = zone.querySelector('strong')?.textContent ?? 'Select File';
+    const origSpan   = zone.querySelector('span')?.textContent   ?? '';
+
+    // Inject a persistent clear button into the zone
+    const clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.className = 'drop-zone-clear hidden';
+    clearBtn.textContent = '✕ Clear';
+    zone.appendChild(clearBtn);
+
+    // Exposed reset helper — tool JS can call zone._reset() after clearing
+    // programmatically (e.g. action-row Clear buttons that do input.value='')
+    zone._reset = () => {
+      input.value = '';
+      zone.classList.remove('drop-zone--ready');
+      clearBtn.classList.add('hidden');
+      const strong = zone.querySelector('strong');
+      const span   = zone.querySelector('span');
+      if (strong) strong.textContent = origStrong;
+      if (span)   span.textContent   = origSpan;
+    };
+
+    // Clear handler — resets input, UI, and notifies tool JS via change event
+    clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      zone._reset();
+      // Fire change so tool JS can react (reset metrics, hide result panels, etc.)
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    input.addEventListener('change', () => {
+      const files = input.files;
+      // Only update UI when files are actually present — don't revert on
+      // programmatic input.value='' (some tools do this after processing)
+      if (!files || files.length === 0) return;
+      const strong = zone.querySelector('strong');
+      const span   = zone.querySelector('span');
+      if (files.length === 1) {
+        if (strong) strong.textContent = files[0].name;
+        if (span)   span.textContent   = fmtBytes(files[0].size);
+      } else {
+        if (strong) strong.textContent = `${files.length} files selected`;
+        if (span) {
+          const total = Array.from(files).reduce((s, f) => s + f.size, 0);
+          span.textContent = fmtBytes(total) + ' total';
+        }
+      }
+      zone.classList.add('drop-zone--ready');
+      clearBtn.classList.remove('hidden');
+    });
+  });
 }
 
 export const appRouter = new Router();

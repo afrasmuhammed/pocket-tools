@@ -133,7 +133,12 @@ export default {
 
     upload.onchange = async (event) => {
       currentFile = event.target.files[0];
-      if (!currentFile) return;
+      if (!currentFile) {
+        masks = [];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.width = 0;
+        return;
+      }
       await loadCurrentFile();
     };
 

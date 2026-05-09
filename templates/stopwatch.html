@@ -1,21 +1,24 @@
 <div class="tool-header">
   <h2>Stopwatch</h2>
-  <p>A simple, precise stopwatch with lap functionality.</p>
+  <p>Precise stopwatch with lap recording.</p>
 </div>
+
 <div class="tool-dashboard">
+
   <section class="tool-panel timer-panel">
     <div id="sw-display" class="timer-display">00:00.00</div>
-  </section>
-  <section class="tool-panel">
-    <div class="button-row">
+    <div class="timer-actions">
       <button id="btn-sw-start" class="btn">Start</button>
       <button id="btn-sw-pause" class="btn btn-secondary hidden">Pause</button>
       <button id="btn-sw-lap" class="btn btn-secondary" disabled>Lap</button>
       <button id="btn-sw-reset" class="btn btn-secondary">Reset</button>
     </div>
   </section>
+
   <section class="tool-panel">
-    <h3>Laps</h3>
-    <div id="sw-laps"></div>
+    <div class="panel-title"><h3>Laps</h3></div>
+    <div id="sw-laps" class="lap-list"></div>
+    <p class="sw-laps-empty muted small" style="text-align:center;padding:16px 0;margin:0">No laps recorded yet.</p>
   </section>
+
 </div>

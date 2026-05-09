@@ -13,7 +13,7 @@ export default {
 
     upload.onchange = async (e) => {
       const file = e.target.files[0];
-      if (!file) return;
+      if (!file) { currentFile = null; controls.classList.add("hidden"); return; }
       const v = await FileHelper.validatePdf(file);
       if (!v.ok) {
         currentFile = null;

@@ -1,0 +1,52 @@
+<div class="tool-header">
+  <h2>VAT Calculator</h2>
+  <p>Add or remove German VAT (19 % standard · 7 % reduced) in one click.</p>
+</div>
+
+<div class="tool-dashboard">
+
+  <section class="tool-panel">
+    <div class="settings-grid">
+
+      <div class="input-group">
+        <label for="vat-mode">Mode</label>
+        <select id="vat-mode">
+          <option value="add">Add VAT to net price</option>
+          <option value="remove">Remove VAT from gross price</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="vat-rate">VAT Rate</label>
+        <select id="vat-rate">
+          <option value="19">19 % — Standard rate</option>
+          <option value="7">7 % — Reduced rate (food, books…)</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="vat-amount" id="vat-amount-label">Net Price (€)</label>
+        <input type="number" id="vat-amount" placeholder="e.g. 84.03" min="0" step="0.01">
+      </div>
+
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Net (excl. VAT)</span>
+        <strong id="vat-net">—</strong>
+      </div>
+      <div class="metric">
+        <span id="vat-label-amount">VAT Amount</span>
+        <strong id="vat-tax">—</strong>
+      </div>
+      <div class="metric">
+        <span>Gross (incl. VAT)</span>
+        <strong id="vat-gross">—</strong>
+      </div>
+    </div>
+  </section>
+
+</div>

@@ -3,28 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f5f2eb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e0e0d" media="(prefers-color-scheme: dark)">
   <meta name="description" content="Pocket Tools — a focused workspace for images, documents, text, dates, and everyday calculations.">
   <meta name="robots" content="index, follow">
-
-  <!-- Strict CSP: only this origin, no external anything. blob: + data: needed for canvas/file output. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
-
   <title>Pocket Tools</title>
-
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234f46e5'/><text x='50' y='72' text-anchor='middle' font-family='Inter,system-ui,sans-serif' font-size='52' font-weight='800' fill='white'>PT</text></svg>">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/styles.css?v=13">
 </head>
 <body>
 
   <header class="app-header">
     <button id="btn-back" class="btn-icon hidden" aria-label="Back to home">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
     </button>
-    <h1 id="app-title"><img class="app-logo" src="assets/icon-192.png" alt="" aria-hidden="true"><span>Pocket Tools</span></h1>
+    <h1 id="app-title">
+      <svg class="app-logo" viewBox="0 0 28 28" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <rect width="28" height="28" rx="7" style="fill: var(--accent)"/>
+        <text x="14" y="19.5" text-anchor="middle" fill="white"
+          font-family="Inter,-apple-system,BlinkMacSystemFont,sans-serif"
+          font-size="11.5" font-weight="800">PT</text>
+      </svg>
+      <span>Pocket Tools</span>
+    </h1>
     <span class="header-spacer"></span>
   </header>
 
@@ -34,9 +40,17 @@
     <section id="view-home" class="view">
       <div class="hero">
         <div class="hero-text">
-          <h2>Tools</h2>
-          <p class="muted">A focused workspace for images, documents, text, dates, and everyday calculations.</p>
+          <p class="hero-eyebrow">41 tools &nbsp;·&nbsp; free &nbsp;·&nbsp; works offline</p>
+          <h2>Everyday tools,<br>done right.</h2>
+          <p class="hero-sub">Images, PDFs, text, time &amp; more.</p>
         </div>
+      </div>
+
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="search" id="tool-search" class="search-input" placeholder="Search 41 tools…" autocomplete="off" spellcheck="false">
       </div>
 
       <nav class="categories" aria-label="Tool categories">
@@ -67,6 +81,6 @@
 
   <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/app.js?v=6"></script>
 </body>
 </html>

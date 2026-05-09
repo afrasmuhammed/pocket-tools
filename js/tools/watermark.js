@@ -5,6 +5,7 @@ export default {
   init() {
     const upload = document.getElementById('wm-upload');
     const controls = document.getElementById('wm-controls');
+    const preview = document.getElementById('wm-preview');
     const textEl = document.getElementById('wm-text');
     const posEl = document.getElementById('wm-pos');
     const colorEl = document.getElementById('wm-color');
@@ -56,7 +57,13 @@ export default {
 
     upload.onchange = (e) => {
       const file = e.target.files[0];
-      if (!file) return;
+      if (!file) {
+        img = null;
+        baseName = 'watermarked';
+        canvas.width = 0;
+        preview.classList.add('hidden');
+        return;
+      }
       const v = FileHelper.validateImage(file);
       if (!v.ok) { upload.value = ''; return UI.showError(v.error); }
       baseName = file.name.replace(/\.[^/.]+$/, "");
@@ -66,6 +73,7 @@ export default {
         img = new Image();
         img.onload = () => {
           controls.classList.remove('hidden');
+          preview.classList.remove('hidden');
           render();
         };
         img.src = ev.target.result;

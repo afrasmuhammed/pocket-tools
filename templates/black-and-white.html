@@ -1,20 +1,29 @@
 <div class="tool-header">
-  <h2>Image to Black & White</h2>
-  <p>Instantly remove color from any image.</p>
+  <h2>Black &amp; White</h2>
+  <p>Convert any image to grayscale instantly — all processing stays in your browser.</p>
 </div>
 
-<div class="image-workbench">
-  <section class="image-panel">
-    <div class="drop-zone">
+<div class="tool-dashboard">
+
+  <section class="tool-panel">
+    <div class="drop-zone" id="bw-drop">
       <input type="file" id="bw-upload" accept="image/*,.heic,.heif,image/heic,image/heif">
       <div>
         <strong>Select Image</strong>
-        <span>The preview converts to grayscale as soon as the image loads.</span>
+        <span>JPG, PNG, WebP, GIF, BMP, HEIC — up to 10 MB</span>
       </div>
     </div>
   </section>
-  <section id="bw-controls" class="image-panel">
-    <button id="bw-download" class="btn">Download B&W Image</button>
+
+  <section class="tool-panel hidden" id="bw-result">
+    <div class="panel-title">
+      <h3 id="bw-filename">Preview</h3>
+      <button id="bw-download" class="btn" style="width:auto;min-height:36px;padding:7px 16px;font-size:13px">Download B&amp;W</button>
+    </div>
+    <div class="bw-preview-wrap">
+      <canvas id="bw-canvas"></canvas>
+    </div>
+    <p class="field-hint" style="margin-top:10px">Click <strong>Select Image</strong> again to convert a different photo.</p>
   </section>
+
 </div>
-<canvas id="bw-canvas" class="hidden"></canvas>
