@@ -100,7 +100,7 @@ class Router {
   async loadTool(toolId, container) {
     let html = this.templateCache.get(toolId);
     if (!html) {
-      const res = await fetch(`templates/${toolId}.html?v=2`);
+      const res = await fetch(`templates/${toolId}.html?v=3`);
       if (!res.ok) throw new Error(`Template not found: ${toolId}`);
       html = await res.text();
       this.templateCache.set(toolId, html);
