@@ -255,13 +255,6 @@ main { max-width: var(--max-w); margin: 0 auto; padding: 20px 16px 100px; paddin
   }
 }
 
-/* Category-colored glow on hover */
-.tool-card[data-category="photos"]:hover    { border-color: rgba(245,158,11,.45); box-shadow: 0 8px 28px rgba(245,158,11,.18), 0 2px 8px rgba(245,158,11,.1); }
-.tool-card[data-category="documents"]:hover { border-color: rgba(59,130,246,.45);  box-shadow: 0 8px 28px rgba(59,130,246,.18),  0 2px 8px rgba(59,130,246,.1); }
-.tool-card[data-category="text"]:hover      { border-color: rgba(139,92,246,.45);  box-shadow: 0 8px 28px rgba(139,92,246,.18),  0 2px 8px rgba(139,92,246,.1); }
-.tool-card[data-category="math"]:hover      { border-color: rgba(16,185,129,.45);  box-shadow: 0 8px 28px rgba(16,185,129,.18),  0 2px 8px rgba(16,185,129,.1); }
-.tool-card[data-category="time"]:hover      { border-color: rgba(6,182,212,.45);   box-shadow: 0 8px 28px rgba(6,182,212,.18),   0 2px 8px rgba(6,182,212,.1); }
-.tool-card[data-category="utilities"]:hover { border-color: rgba(244,63,94,.45);   box-shadow: 0 8px 28px rgba(244,63,94,.18),   0 2px 8px rgba(244,63,94,.1); }
 
 /* Icon pill */
 .icon-wrap {
