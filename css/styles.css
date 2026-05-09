@@ -139,6 +139,7 @@ main { max-width: var(--max-w); margin: 0 auto; padding: 20px 16px 100px; paddin
   margin: 0 0 8px;
   font-size: 40px; font-weight: 900;
   letter-spacing: -1.5px; line-height: 1.08;
+  font-feature-settings: "ss01" 1, "cv05" 1;
   background: linear-gradient(150deg, #09090b 0%, #52525b 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
