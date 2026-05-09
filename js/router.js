@@ -46,10 +46,6 @@ class Router {
 
     // Home
     if (!hash || hash === '#' || hash === '#/') {
-      // Add skip-anim BEFORE unhiding home so animations never start
-      const grid = document.getElementById('tool-grid');
-      if (this._homeScroll && grid) grid.classList.add('skip-anim');
-
       viewTool.classList.add('hidden');
       viewHome.classList.remove('hidden');
       btnBack.classList.add('hidden');
@@ -59,7 +55,6 @@ class Router {
       if (this._homeScroll) {
         window.scrollTo({ top: this._homeScroll, behavior: 'instant' });
         this._homeScroll = null;
-        requestAnimationFrame(() => grid?.classList.remove('skip-anim'));
       } else {
         window.scrollTo(0, 0);
       }
@@ -69,6 +64,8 @@ class Router {
     // Tool route
     if (hash.startsWith('#/tool/')) {
       this._homeScroll = window.scrollY;
+      // Strip animate-cards so cards don't re-animate when user presses back
+      document.getElementById('tool-grid')?.classList.remove('animate-cards');
       const toolId = decodeURIComponent(hash.replace('#/tool/', '')).trim();
 
       if (!isValidToolId(toolId)) {

@@ -143,6 +143,10 @@ function renderGrid() {
   const grid = document.getElementById('tool-grid');
   if (!grid) return;
   grid.replaceChildren();
+  // Re-trigger entry animation for freshly rendered cards
+  grid.classList.remove('animate-cards');
+  void grid.offsetWidth; // force reflow so removing+adding restarts animation
+  grid.classList.add('animate-cards');
 
   const q = currentSearch.trim().toLowerCase();
 
