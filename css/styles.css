@@ -331,7 +331,7 @@ main { max-width: var(--max-w); margin: 0 auto; padding: 20px 16px 100px; paddin
 .tool-container input[type="radio"] { margin-right: 8px; vertical-align: middle; accent-color: var(--accent); }
 
 /* ── Buttons ── */
-.btn, .tool-container button {
+.btn, .tool-container button:not(.password-toggle) {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 46px; padding: 11px 22px;
   background: var(--accent); color: #fff;
@@ -340,12 +340,12 @@ main { max-width: var(--max-w); margin: 0 auto; padding: 20px 16px 100px; paddin
   transition: background .15s, box-shadow .15s, transform .1s;
   box-shadow: 0 1px 3px var(--accent-glow);
 }
-.btn:hover, .tool-container button:hover {
+.btn:hover, .tool-container button:not(.password-toggle):hover {
   background: var(--accent-hover); border-color: var(--accent-hover);
   box-shadow: 0 3px 12px var(--accent-glow); opacity: 1;
 }
-.btn:active, .tool-container button:active { transform: scale(0.98); }
-.btn:disabled, .tool-container button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; transform: none; }
+.btn:active, .tool-container button:not(.password-toggle):active { transform: scale(0.98); }
+.btn:disabled, .tool-container button:not(.password-toggle):disabled { opacity: .45; cursor: not-allowed; box-shadow: none; transform: none; }
 
 .btn-secondary, .tool-container button.secondary, .tool-container button.btn-secondary {
   background: var(--card); color: var(--fg);
@@ -614,7 +614,7 @@ input[type="file"].btn:hover, input[type="file"].btn-secondary:hover { border-co
 .button-row .btn { flex: 1 1 160px; min-width: 0; white-space: normal; }
 .tool-panel > .btn, .image-panel > .btn { margin-top: 12px; }
 .metric strong, .image-summary strong, .password-output, .timer-display { overflow-wrap: anywhere; }
-.tool-container button, .btn { text-align: center; white-space: normal; }
+.tool-container button:not(.password-toggle), .btn { text-align: center; white-space: normal; }
 
 /* ── Responsive ── */
 @media (min-width: 720px) {
