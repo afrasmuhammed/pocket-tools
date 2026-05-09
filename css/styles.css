@@ -226,6 +226,7 @@ main { max-width: var(--max-w); margin: 0 auto; padding: 20px 16px 100px; paddin
   from { opacity: 0; transform: translateY(18px) scale(0.95); }
   to   { opacity: 1; transform: translateY(0)    scale(1); }
 }
+.skip-anim .tool-card { animation: none; opacity: 1; transform: none; }
 
 .tool-card {
   display: flex; flex-direction: column; align-items: flex-start;

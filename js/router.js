@@ -51,8 +51,15 @@ class Router {
       btnBack.classList.add('hidden');
       setAppTitle(appTitle, 'Pocket Tools', true);
       this.currentToolId = null;
-      window.scrollTo({ top: this._homeScroll ?? 0, behavior: 'instant' });
-      this._homeScroll = null;
+      if (this._homeScroll) {
+        const grid = document.getElementById('tool-grid');
+        if (grid) grid.classList.add('skip-anim');
+        window.scrollTo({ top: this._homeScroll, behavior: 'instant' });
+        this._homeScroll = null;
+        requestAnimationFrame(() => grid?.classList.remove('skip-anim'));
+      } else {
+        window.scrollTo(0, 0);
+      }
       return;
     }
 
