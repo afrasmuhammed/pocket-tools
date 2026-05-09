@@ -403,10 +403,10 @@ main { max-width: var(--max-w); margin: 0 auto; padding: 20px 16px 100px; paddin
 .input-group { margin-bottom: 16px; }
 .input-group textarea { min-height: 140px; }
 
-.password-wrap { position: relative; }
-.password-wrap input { width: 100%; padding-right: 44px; box-sizing: border-box; }
-.password-toggle { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--muted); padding: 4px; line-height: 0; display: flex; align-items: center; justify-content: center; }
-.password-toggle:hover { color: var(--fg); }
+.password-wrap { position: relative; display: block; }
+.password-wrap input { display: block; width: 100%; padding-right: 44px; box-sizing: border-box; }
+.password-toggle { position: absolute !important; top: 50%; right: 10px; transform: translateY(-50%); background: none !important; border: none !important; box-shadow: none !important; cursor: pointer; color: var(--muted); padding: 0; margin: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; line-height: 0; }
+.password-toggle:hover { color: var(--fg); background: none !important; }
 
 .results-container {
   margin: 16px 0; padding: 18px;
