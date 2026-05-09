@@ -39,6 +39,17 @@ export default {
     const passEl     = document.getElementById('ppr-pass');
     const suggestBtn = document.getElementById('ppr-suggest');
     const btnGen     = document.getElementById('ppr-generate');
+    const toggleBtn  = document.getElementById('ppr-toggle');
+    const eyeIcon    = document.getElementById('ppr-eye');
+    const eyeOffIcon = document.getElementById('ppr-eye-off');
+
+    const setPasswordVisible = (visible) => {
+      passEl.type = visible ? 'text' : 'password';
+      eyeIcon.classList.toggle('hidden', visible);
+      eyeOffIcon.classList.toggle('hidden', !visible);
+    };
+
+    toggleBtn.onclick = () => setPasswordVisible(passEl.type === 'password');
 
     let currentFile = null;
 
@@ -61,7 +72,8 @@ export default {
       const bytes = new Uint8Array(18);
       crypto.getRandomValues(bytes);
       passEl.value = Array.from(bytes, b => chars[b % chars.length]).join('');
-      UI.showSuccess('Strong password generated — save it somewhere safe!');
+      setPasswordVisible(true);
+      UI.showSuccess('Strong password generated — copy it before closing!');
     };
 
     btnGen.onclick = async () => {

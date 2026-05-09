@@ -403,6 +403,11 @@ main { max-width: var(--max-w); margin: 0 auto; padding: 20px 16px 100px; paddin
 .input-group { margin-bottom: 16px; }
 .input-group textarea { min-height: 140px; }
 
+.password-wrap { position: relative; display: flex; align-items: center; }
+.password-wrap input { flex: 1; padding-right: 44px; }
+.password-toggle { position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: var(--muted); padding: 4px; line-height: 0; }
+.password-toggle:hover { color: var(--text); }
+
 .results-container {
   margin: 16px 0; padding: 18px;
   background: var(--card); border: 1px solid var(--border);
