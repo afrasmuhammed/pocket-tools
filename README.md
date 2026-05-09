@@ -1,6 +1,6 @@
 # Pocket Tools
 
-48 tools — free, works offline. Images, PDFs, text, time, money & more.  
+48 tools — free, designed offline-first. Full service-worker offline support is in progress.  
 Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/pocket-tools/)
 
 ## Categories
@@ -18,3 +18,7 @@ Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/p
 ## In progress (branch: developer-tools-category)
 
 - Developer category (7 tools) — being built tool by tool; not yet merged to main
+
+## Known issues / follow-up work
+
+- **Service worker does not provide true offline caching.** The current `sw.js` wipes all caches on activation and has no fetch handler — every request goes to the network. Implement proper `install` + `fetch` handlers with a precache manifest in a dedicated follow-up branch.
