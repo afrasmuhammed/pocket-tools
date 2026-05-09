@@ -206,9 +206,26 @@ function renderHome() {
   }
 }
 
+/* ── Theme toggle ───────────────────────────────────────── */
+
+function initTheme() {
+  const btn = document.getElementById('btn-theme');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const html = document.documentElement;
+    // Determine current effective theme
+    const current = html.getAttribute('data-theme') ||
+      (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('pt-theme', next);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderHome();
   appRouter.handleRoute();
+  initTheme();
 
   // Track recently used tools via hash changes
   window.addEventListener('hashchange', () => {
