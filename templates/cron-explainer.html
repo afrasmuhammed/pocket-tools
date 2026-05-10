@@ -1,0 +1,34 @@
+<div class="tool-header">
+  <h2>Cron Explainer</h2>
+  <p>Paste a cron expression and get a plain-English description instantly.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label>Examples</label>
+      <div class="cron-chips">
+        <button class="chip" data-cron="* * * * *">Every minute</button>
+        <button class="chip" data-cron="0 * * * *">Every hour</button>
+        <button class="chip" data-cron="0 9 * * 1">Mon 9am</button>
+        <button class="chip" data-cron="0 0 1 * *">1st of month</button>
+        <button class="chip" data-cron="0 18 * * 1-5">Weekdays 6pm</button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="cron-input">Cron Expression</label>
+      <input id="cron-input" type="text" class="input-text"
+             placeholder="e.g. 0 9 * * 1"
+             spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+      <p class="cron-hint">Format: minute hour day month weekday</p>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="cron-result-wrap">
+      <p id="cron-result" class="cron-result" aria-live="polite" aria-label="Cron expression description"></p>
+      <p id="cron-error"  class="cron-error  hidden" aria-live="assertive"></p>
+    </div>
+  </section>
+</div>
