@@ -568,7 +568,7 @@ html[data-theme="dark"] .tool-card:hover {
 .bw-preview-wrap canvas { display: block; width: 100%; height: auto; max-height: 480px; object-fit: contain; }
 .canvas-frame canvas { cursor: crosshair; display: block; max-width: 100%; height: auto; }
 
-.tool-dashboard { display: grid; gap: 16px; }
+.tool-dashboard { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
 .tool-panel { padding: 24px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-xs); }
 .tool-panel h3 { margin: 0 0 10px; font-size: 15px; font-weight: 650; letter-spacing: -0.01em; }
 .panel-copy { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
@@ -697,6 +697,23 @@ input[type="file"].btn:hover, input[type="file"].btn-secondary:hover { border-co
 .uuid-batch-item:last-child { border-bottom: none; }
 .uuid-batch-item .uuid-display { border: none; border-radius: 0; background: transparent; padding: 0; font-size: 12px; width: 100%; }
 .uuid-batch-item .btn { min-height: 30px; padding: 4px 12px; font-size: 12px; width: auto; }
+
+/* ── JSON Formatter ── */
+.json-output {
+  display: block; margin: 0; box-sizing: border-box; width: 100%; min-width: 0;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 12.5px; line-height: 1.6; tab-size: 2;
+  background: var(--bg); color: var(--fg);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  min-height: 120px; max-height: 420px;
+  overflow: auto; white-space: pre;
+  user-select: text; -webkit-user-select: text;
+  word-break: normal; overflow-wrap: normal;
+  cursor: text;
+}
+.json-output.json-error { border-color: var(--danger); color: var(--danger); white-space: pre-wrap; }
+.json-stats { font-size: 11.5px; color: var(--muted); margin: 6px 0 0; min-height: 1em; }
 
 /* ── Responsive ── */
 @media (min-width: 720px) {

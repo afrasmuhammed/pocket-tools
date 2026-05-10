@@ -1,0 +1,27 @@
+<div class="tool-header">
+  <h2>JSON Formatter</h2>
+  <p>Format, validate, or minify JSON. Parse errors show line and column info.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="jf-input">Input JSON</label>
+      <textarea id="jf-input" placeholder='Paste JSON here… e.g. {"name":"Alice","age":30}' spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-jf-format" class="btn">Format</button>
+      <button id="btn-jf-minify" class="btn btn-secondary">Minify</button>
+      <button id="btn-jf-clear"  class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label>Output</label>
+      <pre id="jf-output" class="json-output" aria-live="polite" aria-label="Formatted JSON output"></pre>
+      <p id="jf-stats" class="json-stats"></p>
+    </div>
+    <button id="btn-jf-copy" class="btn">Copy Output</button>
+  </section>
+</div>
