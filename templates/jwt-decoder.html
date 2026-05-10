@@ -1,0 +1,42 @@
+<div class="tool-header">
+  <h2>JWT Decoder</h2>
+  <p>Decode JWT tokens instantly. Header and payload are pretty-printed as JSON.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="jwt-input">JWT Token</label>
+      <textarea id="jwt-input" class="textarea-short" placeholder="Paste your JWT here… header.payload.signature" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+      <p class="jwt-privacy">Decoded entirely in your browser — nothing is sent anywhere. Signatures are not verified.</p>
+    </div>
+    <p id="jwt-error" class="jwt-error hidden"></p>
+    <button id="btn-jwt-clear" class="btn btn-secondary">Clear</button>
+  </section>
+
+  <section class="tool-panel">
+    <div class="jwt-section">
+      <div class="jwt-section-head">
+        <span class="jwt-section-label">Header</span>
+        <button id="btn-jwt-copy-header" class="btn btn-secondary btn-sm">Copy</button>
+      </div>
+      <pre id="jwt-header-out" class="json-output jwt-pre" aria-label="Decoded JWT header"></pre>
+    </div>
+
+    <div class="jwt-section">
+      <div class="jwt-section-head">
+        <span class="jwt-section-label">Payload</span>
+        <button id="btn-jwt-copy-payload" class="btn btn-secondary btn-sm">Copy</button>
+      </div>
+      <pre id="jwt-payload-out" class="json-output jwt-pre" aria-label="Decoded JWT payload"></pre>
+    </div>
+
+    <div class="jwt-section">
+      <div class="jwt-section-head">
+        <span class="jwt-section-label">Signature</span>
+        <button id="btn-jwt-copy-sig" class="btn btn-secondary btn-sm">Copy</button>
+      </div>
+      <pre id="jwt-sig-out" class="json-output jwt-pre jwt-sig-pre" aria-label="JWT signature"></pre>
+    </div>
+  </section>
+</div>
