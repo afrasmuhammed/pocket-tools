@@ -1,0 +1,69 @@
+<div class="tool-header">
+  <h2>Regex Tester</h2>
+  <p>Test regular expressions live — match highlighting, indices, and captured groups.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label>Examples</label>
+      <div class="cron-chips">
+        <button class="chip"
+          data-pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+          data-flags="g"
+          data-test="Contact us at hello@example.com or sales@foo.co.uk for help.">Email</button>
+        <button class="chip"
+          data-pattern="https?://[^\s]+"
+          data-flags="g"
+          data-test="Visit https://example.com or http://test.org/page for more.">URL</button>
+        <button class="chip"
+          data-pattern="\+?[0-9]{1,3}[-\s]?[0-9]{3,4}[-\s]?[0-9]{3,4}"
+          data-flags="g"
+          data-test="Call +49 6252 12345 or 030-12345678 today.">Phone</button>
+        <button class="chip"
+          data-pattern="\d{4}-\d{2}-\d{2}"
+          data-flags="g"
+          data-test="Events on 2026-01-15 and 2026-03-20.">Date (ISO)</button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="regex-pattern">Pattern</label>
+      <div class="regex-pattern-wrap">
+        <span class="regex-delimiter">/</span>
+        <input id="regex-pattern" type="text" class="input-text regex-pattern-input"
+               placeholder="e.g. \d+" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <span class="regex-delimiter">/</span>
+      </div>
+      <p id="regex-error" class="regex-error hidden"></p>
+    </div>
+
+    <div class="input-group">
+      <label for="regex-flags">Flags</label>
+      <input id="regex-flags" type="text" class="input-text regex-flags-input"
+             value="g" placeholder="e.g. gi" spellcheck="false" autocomplete="off" autocapitalize="off">
+    </div>
+
+    <div class="input-group">
+      <label for="regex-test">Test String</label>
+      <textarea id="regex-test" class="textarea-short"
+                placeholder="Paste or type the text to match against…"
+                spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <div class="regex-result-header">
+        <label>Matches</label>
+        <span id="regex-match-count" class="regex-match-count"></span>
+      </div>
+      <div id="regex-matches" class="regex-matches" aria-live="polite" aria-label="Match results"></div>
+    </div>
+
+    <div class="input-group">
+      <label>Highlighted</label>
+      <div id="regex-highlight" class="regex-highlight" aria-live="polite" aria-label="Highlighted test string"></div>
+    </div>
+  </section>
+</div>
