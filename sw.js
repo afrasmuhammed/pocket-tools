@@ -1,7 +1,10 @@
 // Pocket Tools — service worker (cache-busting mode).
 // Wipes all old caches and passes every request straight to the network.
+// NOTE: There is no precache list here — all assets are served from the
+// network. Bump VERSION whenever deploying to force existing users to
+// re-activate this worker and pick up fresh assets via HTTP cache.
 
-const VERSION = 'pocket-tools-v36';
+const VERSION = 'pocket-tools-v37';
 
 self.addEventListener('install', () => self.skipWaiting());
 

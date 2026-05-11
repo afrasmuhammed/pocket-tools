@@ -1,0 +1,32 @@
+<div class="tool-header">
+  <h2>UUID Generator</h2>
+  <p>Generate cryptographically random v4 UUIDs, one at a time or in bulk.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label>Single UUID</label>
+      <code class="uuid-display" id="uuid-single" aria-label="Generated UUID">—</code>
+    </div>
+    <div class="button-row">
+      <button id="btn-uuid-copy-single" class="btn btn-secondary">Copy UUID</button>
+      <button id="btn-uuid-generate" class="btn">Generate New</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="uuid-count">Batch Generate</label>
+      <div class="uuid-batch-controls">
+        <input type="number" id="uuid-count" value="10" min="1" max="100">
+        <span class="uuid-count-label">UUIDs (max 100)</span>
+      </div>
+    </div>
+    <button id="btn-uuid-batch" class="btn">Generate Batch</button>
+    <div id="uuid-batch-wrap" class="uuid-batch-wrap hidden">
+      <ul id="uuid-batch-list" class="uuid-batch-list"></ul>
+      <button id="btn-uuid-copy-all" class="btn btn-secondary">Copy All</button>
+    </div>
+  </section>
+</div>

@@ -1,9 +1,9 @@
 import { appRouter } from './router.js';
 import { TOOLS, getTool } from './registry.js';
 
-const CATEGORY_ORDER  = ['photos', 'documents', 'text', 'math', 'time', 'utilities'];
-const CATEGORY_LABELS = { photos: 'Photos', documents: 'Documents', text: 'Text', math: 'Money & Math', time: 'Time', utilities: 'Utilities' };
-const CATEGORY_COLORS = { photos: '#f59e0b', documents: '#3b82f6', text: '#8b5cf6', math: '#10b981', time: '#06b6d4', utilities: '#f43f5e' };
+const CATEGORY_ORDER  = ['photos', 'documents', 'text', 'math', 'time', 'utilities', 'developer'];
+const CATEGORY_LABELS = { photos: 'Photos', documents: 'Documents', text: 'Text', math: 'Money & Math', time: 'Time', utilities: 'Utilities', developer: 'Developer' };
+const CATEGORY_COLORS = { photos: '#f59e0b', documents: '#3b82f6', text: '#8b5cf6', math: '#10b981', time: '#06b6d4', utilities: '#f43f5e', developer: '#0d9488' };
 
 const RECENT_KEY = 'pt-recent';
 const RECENT_MAX = 4;

@@ -8,7 +8,8 @@ export const CATEGORIES = [
   { id: 'text',      label: 'Text' },
   { id: 'math',      label: 'Money & Math' },
   { id: 'time',      label: 'Time' },
-  { id: 'utilities', label: 'Utilities' },
+  { id: 'utilities',  label: 'Utilities' },
+  { id: 'developer',  label: 'Developer' },
 ];
 
 // Simple inline SVG path strokes. 24×24 viewBox, stroke="currentColor".
@@ -53,6 +54,13 @@ const ICONS = {
   qr:       'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h3v3h-3z M20 14v3 M14 20h3 M20 20v1',
   dice:     'M5 3h14v14H5z M9 7l0 0 M15 7l0 0 M9 13l0 0 M15 13l0 0 M12 10l0 0',
   contrast: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 2v20',
+  encode:   'M4 9h16 M4 9l3-3 M4 9l3 3 M20 15H4 M20 15l-3-3 M20 15l-3 3',
+  uid:      'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z',
+  braces:   'M8 3a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 M16 3a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2',
+  jwtoken:  'M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z M9 12l2 2 4-4',
+  crontab:  'M4 5h16v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5z M4 9h16 M8 2v4 M16 2v4 M8 13h.01 M12 13h.01 M16 13h.01 M12 17h.01',
+  regexp:   'M9 4l-5 8 5 8 M15 4l5 8-5 8 M4 12h16',
+  swatch:   'M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5z M7 15h2v2H7z M11 15h2v2h-2z M15 15h2v2h-2z',
 };
 
 export const TOOLS = [
@@ -110,6 +118,15 @@ export const TOOLS = [
   { id: 'qr-generator',      name: 'QR Code Generator',    category: 'utilities', desc: 'Make a QR code',                     icon: ICONS.qr },
   { id: 'random-decision',   name: 'Random Decision',      category: 'utilities', desc: 'Pick one from a list',               icon: ICONS.dice },
   { id: 'signature-png',     name: 'Signature to PNG',      category: 'utilities', desc: 'Draw transparent signature',         icon: ICONS.pen },
+
+  // DEVELOPER (7)
+  { id: 'base64-encoder',  name: 'Base64 Encoder / Decoder', category: 'developer', desc: 'Encode or decode Base64 text',         icon: ICONS.encode  },
+  { id: 'uuid-generator',  name: 'UUID Generator',            category: 'developer', desc: 'Generate random v4 UUIDs',             icon: ICONS.uid     },
+  { id: 'json-formatter',  name: 'JSON Formatter',            category: 'developer', desc: 'Validate, format, or minify JSON',      icon: ICONS.braces  },
+  { id: 'jwt-decoder',     name: 'JWT Decoder',               category: 'developer', desc: 'Decode JWT header & payload',           icon: ICONS.jwtoken },
+  { id: 'cron-explainer',  name: 'Cron Explainer',            category: 'developer', desc: 'Human-readable cron schedule',          icon: ICONS.crontab },
+  { id: 'regex-tester',    name: 'Regex Tester',              category: 'developer', desc: 'Test and debug regex patterns',         icon: ICONS.regexp  },
+  { id: 'color-palette',   name: 'Color Palette Extractor',   category: 'developer', desc: 'Extract dominant colors from an image', icon: ICONS.swatch  },
 ];
 
 const TOOL_MAP = new Map(TOOLS.map(t => [t.id, t]));
