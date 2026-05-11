@@ -387,7 +387,7 @@ html[data-theme="dark"] .tool-card:hover {
 .tool-container input[type="radio"] { margin-right: 8px; vertical-align: middle; accent-color: var(--accent); }
 
 /* ── Buttons ── */
-.btn, .tool-container button:not(.password-toggle):not(.chip) {
+.btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 46px; padding: 11px 22px;
   background: var(--accent); color: #fff;
@@ -396,12 +396,12 @@ html[data-theme="dark"] .tool-card:hover {
   transition: background .15s, box-shadow .15s, transform .1s;
   box-shadow: 0 1px 3px var(--accent-glow);
 }
-.btn:hover, .tool-container button:not(.password-toggle):not(.chip):hover {
+.btn:hover {
   background: var(--accent-hover); border-color: var(--accent-hover);
   box-shadow: 0 3px 12px var(--accent-glow); opacity: 1;
 }
-.btn:active, .tool-container button:not(.password-toggle):not(.chip):active { transform: scale(0.98); }
-.btn:disabled, .tool-container button:not(.password-toggle):not(.chip):disabled { opacity: .45; cursor: not-allowed; box-shadow: none; transform: none; }
+.btn:active  { transform: scale(0.98); }
+.btn:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; transform: none; }
 
 .btn-secondary, .tool-container button.secondary, .tool-container button.btn-secondary {
   background: var(--card); color: var(--fg);
@@ -681,7 +681,7 @@ input[type="file"].btn:hover, input[type="file"].btn-secondary:hover { border-co
 .button-row .btn { flex: 1 1 160px; min-width: 0; white-space: normal; }
 .tool-panel > .btn, .image-panel > .btn { margin-top: 12px; }
 .metric strong, .image-summary strong, .password-output, .timer-display { overflow-wrap: anywhere; }
-.tool-container button:not(.password-toggle):not(.chip), .btn { text-align: center; white-space: normal; }
+.btn { text-align: center; white-space: normal; }
 
 /* ── Shared small-button variant ── */
 .btn-sm { min-height: 36px; padding: 7px 13px; font-size: 13px; width: auto; flex-shrink: 0; }
@@ -796,6 +796,24 @@ input[type="file"].btn:hover, input[type="file"].btn-secondary:hover { border-co
   background: color-mix(in srgb, var(--accent) 30%, transparent);
   color: var(--fg); border-radius: 2px; padding: 0 1px;
 }
+
+/* ── Color Palette Extractor ── */
+.cp2-preview-wrap { margin-top: 8px; }
+.cp2-preview { display: block; max-width: 200px; max-height: 150px; width: auto; height: auto; border-radius: var(--radius-sm); border: 1px solid var(--border); object-fit: contain; }
+.cp2-empty { display: flex; align-items: center; justify-content: center; min-height: 80px; }
+.cp2-empty p { color: var(--muted); font-size: 13.5px; text-align: center; }
+.cp2-results { display: flex; flex-direction: column; gap: 16px; }
+.cp2-swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.cp2-swatch {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 6px; cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.cp2-swatch:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.cp2-swatch-color { display: block; width: 100%; aspect-ratio: 1; border-radius: 6px; min-height: 48px; }
+.cp2-swatch-hex { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 11px; font-weight: 600; color: var(--fg); letter-spacing: 0.03em; }
+.cp2-swatch-rgb { font-size: 10px; color: var(--muted); }
 
 /* ── Responsive ── */
 @media (min-width: 720px) {
