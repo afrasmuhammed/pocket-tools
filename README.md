@@ -15,9 +15,14 @@ Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/p
 | Utilities | Password Generator, QR Code Generator, Random Decision, Signature to PNG |
 | Developer | Base64 Encoder/Decoder, UUID Generator, JSON Formatter, JWT Decoder, Cron Explainer, Regex Tester, Color Palette Extractor |
 
-## In progress (branch: developer-tools-category)
+## Libraries added (branch: developer-tools-category)
 
-- Developer category (7 tools) — being built tool by tool; not yet merged to main
+| Library | Version | Vendored to | Used by |
+|---|---|---|---|
+| cronstrue | 3.14.0 | `lib/cronstrue.min.js` | Cron Explainer |
+
+ESM shim at `lib/cronstrue-esm.js` wraps the UMD bundle for use with `import`.  
+All other tools (Base64, UUID, JSON Formatter, JWT Decoder, Regex Tester, Color Palette Extractor) use only built-in browser APIs — no additional dependencies.
 
 ## Known issues / follow-up work
 
