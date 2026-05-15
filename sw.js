@@ -1,23 +1,25 @@
 // Pocket Tools — service worker (offline-first).
-// Precaches all static assets at install time and serves them cache-first.
-// Google Fonts are cached at runtime (separate long-lived cache).
-// Bump CACHE_VERSION whenever deploying to invalidate old caches.
+// Strategy:
+//   install  → cache shell assets (atomic); cache tools/libs best-effort
+//   activate → delete stale app caches, keep fonts cache
+//   fetch    → cache-first for same-origin; runtime cache for Google Fonts
+//
+// Bump CACHE_VERSION on every deploy so existing users pick up fresh assets.
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME    = `pocket-tools-${CACHE_VERSION}`;
 const FONTS_CACHE   = 'pocket-tools-fonts-v1';
 
 // ---------------------------------------------------------------------------
-// Precache manifest — every local asset the app needs to work offline.
+// App shell — MUST be cached for the app to work offline at all.
+// cache.addAll() is atomic; a single failure aborts the install, so keep
+// this list small and reliable (no large binaries, no query-string URLs).
 // ---------------------------------------------------------------------------
-const PRECACHE_URLS = [
-  // App shell
+const SHELL_URLS = [
   './',
   'index.html',
   'manifest.json',
   'css/styles.css?v=15',
-
-  // Core JS
   'js/app.js',
   'js/registry.js',
   'js/router.js',
@@ -25,7 +27,17 @@ const PRECACHE_URLS = [
   'js/core/lazy.js',
   'js/core/ui.js',
   'js/core/validate.js',
+  'assets/apple-touch-icon.png',
+  'assets/icon-192.png',
+  'assets/icon-512.png',
+  'assets/icon-maskable-512.png',
+];
 
+// ---------------------------------------------------------------------------
+// Tool assets — cached best-effort so a single failure doesn't abort install.
+// Anything missed here will be runtime-cached on first use.
+// ---------------------------------------------------------------------------
+const TOOL_URLS = [
   // Tool modules (48)
   'js/tools/alphabetical-sorter.js',
   'js/tools/base64-encoder.js',
@@ -126,7 +138,7 @@ const PRECACHE_URLS = [
   'templates/whitespace-remover.html',
   'templates/word-counter.html',
 
-  // Libraries
+  // Libraries (large files — best-effort so a slow network doesn't abort install)
   'lib/cronstrue-esm.js',
   'lib/cronstrue.min.js',
   'lib/pdf-lib.min.js',
@@ -136,27 +148,39 @@ const PRECACHE_URLS = [
   'lib/qpdf.wasm',
   'lib/qrcode.min.js',
 
-  // Assets / icons
-  'assets/apple-touch-icon.png',
-  'assets/icon-192.png',
-  'assets/icon-512.png',
-  'assets/icon-maskable-512.png',
+  // Remaining assets
   'assets/og-image.png',
 ];
 
 // ---------------------------------------------------------------------------
-// Install — cache everything in PRECACHE_URLS before going live.
+// Helpers
+// ---------------------------------------------------------------------------
+
+/** Fetch a URL and store it in `cache`. Silently ignore any error. */
+async function cacheOne(cache, url) {
+  try {
+    const res = await fetch(url);
+    if (res.ok) await cache.put(url, res);
+  } catch (_) { /* network error — will be runtime-cached on next online visit */ }
+}
+
+// ---------------------------------------------------------------------------
+// Install — cache shell (required) then all other assets (best-effort).
 // ---------------------------------------------------------------------------
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(PRECACHE_URLS))
-      .then(() => self.skipWaiting()),
+    caches.open(CACHE_NAME).then(async (cache) => {
+      // Shell: atomic — if any URL fails the install aborts cleanly.
+      await cache.addAll(SHELL_URLS);
+      // Tools, templates, libs: best-effort — don't block install on failures.
+      await Promise.all(TOOL_URLS.map(url => cacheOne(cache, url)));
+      self.skipWaiting();
+    }),
   );
 });
 
 // ---------------------------------------------------------------------------
-// Activate — delete stale app caches; keep the fonts cache across deploys.
+// Activate — delete stale app caches; preserve the fonts cache.
 // ---------------------------------------------------------------------------
 self.addEventListener('activate', (event) => {
   event.waitUntil(
@@ -171,40 +195,40 @@ self.addEventListener('activate', (event) => {
 });
 
 // ---------------------------------------------------------------------------
-// Fetch — cache-first for everything we own; runtime-cache for Google Fonts.
+// Fetch — cache-first for same-origin; runtime-cache for Google Fonts.
 // ---------------------------------------------------------------------------
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Google Fonts — cache-first, populate on first fetch (separate long-lived cache).
+  // Google Fonts — cache-first, populate on first online fetch.
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
     event.respondWith(
       caches.open(FONTS_CACHE).then(cache =>
         cache.match(request).then(cached => {
           if (cached) return cached;
-          return fetch(request).then(response => {
-            if (response.ok) cache.put(request, response.clone());
-            return response;
-          }).catch(() => cached); // offline and not yet cached → no font (graceful)
+          return fetch(request).then(res => {
+            if (res.ok) cache.put(request, res.clone());
+            return res;
+          }).catch(() => new Response('', { status: 408 }));
         }),
       ),
     );
     return;
   }
 
-  // Only intercept same-origin requests.
+  // Same-origin only — let the browser handle cross-origin normally.
   if (url.origin !== self.location.origin) return;
 
   // Cache-first: serve from cache, fall back to network and cache the result.
   event.respondWith(
     caches.match(request).then(cached => {
       if (cached) return cached;
-      return fetch(request).then(response => {
-        if (response.ok) {
-          caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
+      return fetch(request).then(res => {
+        if (res.ok) {
+          caches.open(CACHE_NAME).then(cache => cache.put(request, res.clone()));
         }
-        return response;
+        return res;
       });
     }),
   );
