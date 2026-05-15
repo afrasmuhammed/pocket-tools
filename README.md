@@ -1,6 +1,6 @@
 # Pocket Tools
 
-48 tools — free, designed offline-first. Full service-worker offline support is in progress.  
+48 tools — free, works offline. Install as a PWA and use all 48 tools without a network connection.  
 Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/pocket-tools/)
 
 ## Categories
@@ -24,6 +24,6 @@ Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/p
 ESM shim at `lib/cronstrue-esm.js` wraps the UMD bundle for use with `import`.  
 All other tools (Base64, UUID, JSON Formatter, JWT Decoder, Regex Tester, Color Palette Extractor) use only built-in browser APIs — no additional dependencies.
 
-## Known issues / follow-up work
+## Offline support
 
-- **Service worker does not provide true offline caching.** The current `sw.js` wipes all caches on activation and has no fetch handler — every request goes to the network. Implement proper `install` + `fetch` handlers with a precache manifest in a dedicated follow-up branch.
+`sw.js` precaches all 120+ static assets (HTML shell, CSS, 48 tool JS modules, 48 tool templates, all library files, all icons) at install time. Every subsequent load is served cache-first — no network required. Google Fonts are cached at runtime on first visit and reused offline thereafter (system fallback fonts are used if the fonts were never fetched).
