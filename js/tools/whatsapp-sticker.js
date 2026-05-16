@@ -315,7 +315,7 @@ export default {
       editorCanvas.style.cursor = 'grab';
     };
 
-    // Mouse — listeners added/removed per-drag so they don't leak
+    // Mouse — mousemove/mouseup on document so drag continues outside canvas bounds
     editorCanvas.addEventListener('mousedown', (e) => {
       e.preventDefault();
       startDrag(e.clientX, e.clientY);
@@ -329,18 +329,21 @@ export default {
       document.addEventListener('mouseup',   onUp);
     });
 
-    // Touch
+    // Touch — touchmove/touchend on document so drag continues outside canvas bounds
     editorCanvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
       startDrag(e.touches[0].clientX, e.touches[0].clientY);
+      const onMove = (e) => { e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY); };
+      const onEnd  = ()  => {
+        endDrag();
+        document.removeEventListener('touchmove', onMove);
+        document.removeEventListener('touchend',  onEnd);
+        document.removeEventListener('touchcancel', onEnd);
+      };
+      document.addEventListener('touchmove',   onMove, { passive: false });
+      document.addEventListener('touchend',    onEnd);
+      document.addEventListener('touchcancel', onEnd);
     }, { passive: false });
-
-    editorCanvas.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      moveDrag(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: false });
-
-    editorCanvas.addEventListener('touchend', endDrag);
 
     // ── Upload queue rendering ────────────────────────────
 
