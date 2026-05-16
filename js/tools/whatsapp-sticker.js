@@ -3,6 +3,7 @@ import { UI } from '../core/ui.js';
 
 // ── Constants ─────────────────────────────────────────────
 const MAX_FILES     = 30;
+const MAX_INPUT_MB  = 25;         // input file size cap
 const SIZE          = 512;        // sticker canvas size in px
 const MAX_BYTES     = 500 * 1024; // 500 KB — matches what WhatsApp sticker apps use in practice
 const MIN_QUALITY   = 0.50;
@@ -473,7 +474,11 @@ export default {
 
       clearItems();
       for (const file of selected) {
-        const v = FileHelper.validateImage(file);
+        if (file.size > MAX_INPUT_MB * 1024 * 1024) {
+          UI.showError(`${file.name}: File too large — please use an image under 25 MB.`);
+          continue;
+        }
+        const v = FileHelper.validateImage(file, MAX_INPUT_MB);
         if (!v.ok) { UI.showError(`${file.name}: ${v.error}`); continue; }
         items.push({
           file,
