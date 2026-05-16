@@ -37,14 +37,16 @@ function defaultEdits() {
 function drawSticker(canvas, ctx, image, edits) {
   canvas.width  = SIZE;
   canvas.height = SIZE;
+  // clearRect after width reset is redundant but explicit for clarity
   ctx.clearRect(0, 0, SIZE, SIZE);
 
   ctx.save();
 
-  // Brightness / contrast via ctx.filter (gracefully ignored on unsupported browsers)
-  const bf = Math.max(0, 1 + edits.brightness / 100);
-  const cf = Math.max(0, 1 + edits.contrast   / 100);
-  ctx.filter = `brightness(${bf}) contrast(${cf})`;
+  // brightness(1) = no change, brightness(2) = fully bright, brightness(0) = black
+  // contrast(1)   = no change, contrast(2)  = vivid,         contrast(0)   = grey
+  // NOTE: ctx.filter is NOT part of the save/restore state in all browsers,
+  // so we reset it explicitly after drawImage rather than relying on restore().
+  ctx.filter = `brightness(${1 + edits.brightness / 100}) contrast(${1 + edits.contrast / 100})`;
 
   // Flip around canvas centre
   ctx.translate(SIZE / 2, SIZE / 2);
@@ -53,22 +55,26 @@ function drawSticker(canvas, ctx, image, edits) {
   ctx.translate(-SIZE / 2, -SIZE / 2);
 
   // Contain-fit, then zoom + offset
-  const base  = Math.min(SIZE / image.width, SIZE / image.height);
-  const sc    = base * edits.zoom;
-  const w     = image.width  * sc;
-  const h     = image.height * sc;
-  const dx    = (SIZE - w) / 2 + edits.offsetX;
-  const dy    = (SIZE - h) / 2 + edits.offsetY;
+  const base = Math.min(SIZE / image.width, SIZE / image.height);
+  const sc   = base * edits.zoom;
+  const w    = image.width  * sc;
+  const h    = image.height * sc;
+  const dx   = (SIZE - w) / 2 + edits.offsetX;
+  const dy   = (SIZE - h) / 2 + edits.offsetY;
   ctx.drawImage(image, dx, dy, w, h);
 
-  ctx.restore(); // removes filter + flip transforms
+  // Reset filter BEFORE restore so border drawing is never affected,
+  // regardless of whether the browser includes filter in the save/restore stack.
+  ctx.filter = 'none';
+
+  ctx.restore(); // removes flip transforms
 
   // Border — drawn after restore so it's always at canvas edges regardless of flip
   if (edits.border) {
     const bw = edits.borderWidth;
     ctx.fillStyle = edits.borderColor;
-    ctx.fillRect(0,        0,         SIZE, bw);          // top
-    ctx.fillRect(0,        SIZE - bw,  SIZE, bw);          // bottom
+    ctx.fillRect(0,        0,         SIZE, bw);           // top
+    ctx.fillRect(0,        SIZE - bw,  SIZE, bw);           // bottom
     ctx.fillRect(0,        bw,        bw,   SIZE - bw * 2); // left
     ctx.fillRect(SIZE - bw, bw,       bw,   SIZE - bw * 2); // right
   }
