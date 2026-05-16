@@ -1019,6 +1019,143 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
 .ws-instructions a { color: var(--accent); text-decoration: none; }
 .ws-instructions a:hover { text-decoration: underline; }
 
+/* Sticker grid — hover overlay with Edit/Download buttons */
+.ws-sticker-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.52);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.ws-sticker-item:hover .ws-sticker-overlay,
+.ws-sticker-item:focus-within .ws-sticker-overlay { opacity: 1; }
+
+.ws-overlay-btn {
+  font-size: 11px !important;
+  padding: 4px 9px !important;
+  line-height: 1.4 !important;
+}
+
+/* Editor modal */
+.ws-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.70);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.ws-modal {
+  background: var(--bg);
+  border-radius: 14px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 540px;
+  max-height: 92dvh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.ws-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 1;
+}
+
+.ws-modal-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.ws-modal-body {
+  padding: 18px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ws-editor-canvas-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.ws-editor-canvas {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: grab;
+  touch-action: none;
+  /* checkerboard so transparency is visible */
+  background: repeating-conic-gradient(#8882 0 25%, transparent 0 50%) 0 0 / 12px 12px;
+}
+
+.ws-editor-canvas:active { cursor: grabbing; }
+
+.ws-editor-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ws-ctrl-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ws-ctrl-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.ws-color-input {
+  width: 34px;
+  height: 34px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  background: none;
+  flex-shrink: 0;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

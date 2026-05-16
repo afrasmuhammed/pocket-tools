@@ -42,7 +42,7 @@
       <h3>Stickers <span class="muted small" id="ws-sticker-count"></span></h3>
       <button id="ws-download-all" class="btn" disabled>Download ZIP</button>
     </div>
-    <p class="field-hint" style="margin-bottom:14px">Click any sticker to download it individually.</p>
+    <p class="field-hint" style="margin-bottom:14px">Hover a sticker to edit or download it individually.</p>
     <div id="ws-grid" class="ws-sticker-grid"></div>
   </section>
 
@@ -57,8 +57,72 @@
       </li>
       <li>Open the app, create a new sticker pack, import the <code>.webp</code> files, and tap <em>Add to WhatsApp</em>.</li>
     </ol>
+    <p class="field-hint" style="margin-top:12px">For best results, use images with a clear subject or transparent background (PNG).</p>
   </section>
 
 </div>
 
 <canvas id="ws-canvas" class="hidden"></canvas>
+
+<!-- Per-sticker editor modal -->
+<div id="ws-modal-overlay" class="ws-modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="ws-modal-title">
+  <div class="ws-modal">
+
+    <div class="ws-modal-header">
+      <span class="ws-modal-title" id="ws-modal-title">Edit Sticker</span>
+      <div style="display:flex;gap:8px;flex-shrink:0;align-items:center">
+        <button id="ws-modal-reset" class="btn btn-secondary">Reset</button>
+        <button id="ws-modal-apply" class="btn">Apply</button>
+        <button id="ws-modal-close" class="btn-icon" aria-label="Close editor">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="ws-modal-body">
+
+      <div class="ws-editor-canvas-wrap">
+        <canvas id="ws-editor-canvas" class="ws-editor-canvas" width="512" height="512"></canvas>
+        <p class="field-hint">Drag image to reposition · Use zoom to scale</p>
+      </div>
+
+      <div class="ws-editor-controls">
+
+        <div class="input-group">
+          <label for="ws-zoom">Zoom: <span id="ws-zoom-val">100%</span></label>
+          <input type="range" id="ws-zoom" min="50" max="200" step="1" value="100">
+        </div>
+
+        <div class="input-group">
+          <label for="ws-brightness">Brightness: <span id="ws-brightness-val">0</span></label>
+          <input type="range" id="ws-brightness" min="-100" max="100" step="1" value="0">
+        </div>
+
+        <div class="input-group">
+          <label for="ws-contrast">Contrast: <span id="ws-contrast-val">0</span></label>
+          <input type="range" id="ws-contrast" min="-100" max="100" step="1" value="0">
+        </div>
+
+        <div class="ws-ctrl-row">
+          <button id="ws-flip-h" class="btn btn-secondary">↔ Flip H</button>
+          <button id="ws-flip-v" class="btn btn-secondary">↕ Flip V</button>
+        </div>
+
+        <div class="ws-ctrl-row" style="flex-wrap:wrap">
+          <label class="ws-ctrl-check">
+            <input type="checkbox" id="ws-border-on">
+            Border
+          </label>
+          <input type="color" id="ws-border-color" value="#ffffff" title="Border colour" class="ws-color-input">
+          <div class="input-group" style="flex:1;min-width:120px;margin:0">
+            <label for="ws-border-width">Thickness: <span id="ws-border-width-val">4px</span></label>
+            <input type="range" id="ws-border-width" min="2" max="20" step="1" value="4">
+          </div>
+        </div>
+
+        <p class="field-hint">For best results, use images with a clear subject or transparent background (PNG).</p>
+
+      </div>
+    </div>
+  </div>
+</div>
