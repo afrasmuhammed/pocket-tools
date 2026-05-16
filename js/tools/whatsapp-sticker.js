@@ -33,6 +33,26 @@ function defaultEdits() {
   };
 }
 
+// ── Pixel-level brightness/contrast (works in all browsers incl. Safari < 18) ──
+// brightness: -100 → +100 (0 = no change)
+// contrast:   -100 → +100 (0 = no change)
+function applyBrightnessContrast(ctx, width, height, brightness, contrast) {
+  if (brightness === 0 && contrast === 0) return;
+  const imageData = ctx.getImageData(0, 0, width, height);
+  const data      = imageData.data;
+  const b         = brightness * 2.55;             // map -100→+100 to -255→+255
+  const contrastC = contrast   * 2.55;             // map -100→+100 to -255→+255
+  // Standard "Photoshop-style" contrast formula — factor=1 when contrast=0
+  const factor = (259 * (contrastC + 255)) / (255 * (259 - contrastC));
+  for (let i = 0; i < data.length; i += 4) {
+    data[i]     = Math.min(255, Math.max(0, factor * (data[i]     + b - 128) + 128));
+    data[i + 1] = Math.min(255, Math.max(0, factor * (data[i + 1] + b - 128) + 128));
+    data[i + 2] = Math.min(255, Math.max(0, factor * (data[i + 2] + b - 128) + 128));
+    // alpha (data[i+3]) is intentionally left unchanged
+  }
+  ctx.putImageData(imageData, 0, 0);
+}
+
 // ── Core draw — works on any 512×512 canvas context ──────
 function drawSticker(canvas, ctx, image, edits) {
   canvas.width  = SIZE;
@@ -41,12 +61,6 @@ function drawSticker(canvas, ctx, image, edits) {
   ctx.clearRect(0, 0, SIZE, SIZE);
 
   ctx.save();
-
-  // brightness(1) = no change, brightness(2) = fully bright, brightness(0) = black
-  // contrast(1)   = no change, contrast(2)  = vivid,         contrast(0)   = grey
-  // NOTE: ctx.filter is NOT part of the save/restore state in all browsers,
-  // so we reset it explicitly after drawImage rather than relying on restore().
-  ctx.filter = `brightness(${1 + edits.brightness / 100}) contrast(${1 + edits.contrast / 100})`;
 
   // Flip around canvas centre
   ctx.translate(SIZE / 2, SIZE / 2);
@@ -63,13 +77,12 @@ function drawSticker(canvas, ctx, image, edits) {
   const dy   = (SIZE - h) / 2 + edits.offsetY;
   ctx.drawImage(image, dx, dy, w, h);
 
-  // Reset filter BEFORE restore so border drawing is never affected,
-  // regardless of whether the browser includes filter in the save/restore stack.
-  ctx.filter = 'none';
-
   ctx.restore(); // removes flip transforms
 
-  // Border — drawn after restore so it's always at canvas edges regardless of flip
+  // Pixel-level brightness/contrast — works in Safari < 18 where ctx.filter is unsupported
+  applyBrightnessContrast(ctx, SIZE, SIZE, edits.brightness, edits.contrast);
+
+  // Border — drawn after brightness/contrast so its colour is never affected
   if (edits.border) {
     const bw = edits.borderWidth;
     ctx.fillStyle = edits.borderColor;
@@ -123,9 +136,10 @@ export default {
     // ── State ─────────────────────────────────────────────
     // items: { file, previewUrl, _image, edits, output:{blob,url,name}|null, error }
     let items = [];
-    let editorItem  = null;  // item currently open in editor
-    let editorEdits = null;  // working-copy edits while editing
-    let isDragging  = false;
+    let editorItem     = null;   // item currently open in editor
+    let editorEdits    = null;   // working-copy edits while editing
+    let isDragging     = false;
+    let isSliderDragging = false; // true while a pointer-captured slider drag is active
     let dragStart        = { x: 0, y: 0 };
     let dragStartOffset  = { x: 0, y: 0 };
 
@@ -243,17 +257,36 @@ export default {
       redrawEditor();
     };
 
-    brightnessInput.oninput = () => {
-      editorEdits.brightness = Number(brightnessInput.value);
-      brightnessVal.textContent = String(editorEdits.brightness);
-      redrawEditor();
+    // makeSliderCapture — wraps a <input type="range"> with explicit pointer capture
+    // so drag continues in Firefox/Safari even when the cursor leaves the element.
+    // Also sets isSliderDragging while a capture is active, so the backdrop click
+    // handler can ignore a pointerup that lands over the modal overlay.
+    const makeSliderCapture = (slider, onValue) => {
+      slider.addEventListener('pointerdown', (e) => {
+        slider.setPointerCapture(e.pointerId);
+        isSliderDragging = true;
+      });
+      slider.addEventListener('pointermove', (e) => {
+        if (!slider.hasPointerCapture(e.pointerId)) return;
+        onValue(slider.value);
+      });
+      slider.addEventListener('pointerup',     () => { isSliderDragging = false; });
+      slider.addEventListener('pointercancel', () => { isSliderDragging = false; });
+      // 'input' fires for keyboard and assistive-tech changes not covered by pointermove
+      slider.addEventListener('input', () => { onValue(slider.value); });
     };
 
-    contrastInput.oninput = () => {
-      editorEdits.contrast = Number(contrastInput.value);
+    makeSliderCapture(brightnessInput, (v) => {
+      editorEdits.brightness = Number(v);
+      brightnessVal.textContent = String(editorEdits.brightness);
+      redrawEditor();
+    });
+
+    makeSliderCapture(contrastInput, (v) => {
+      editorEdits.contrast = Number(v);
       contrastVal.textContent = String(editorEdits.contrast);
       redrawEditor();
-    };
+    });
 
     flipHBtn.onclick = () => {
       editorEdits.flipH = !editorEdits.flipH;
@@ -292,8 +325,9 @@ export default {
     btnModalApply.onclick = applyEdits;
     btnModalClose.onclick = closeEditor;
 
-    // Close on backdrop click
+    // Close on backdrop click — but ignore if a slider drag just released over the backdrop
     modalOverlay.addEventListener('click', (e) => {
+      if (isSliderDragging) return;
       if (e.target === modalOverlay) closeEditor();
     });
 
