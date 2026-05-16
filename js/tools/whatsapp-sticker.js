@@ -4,7 +4,7 @@ import { UI } from '../core/ui.js';
 // ── Constants ─────────────────────────────────────────────
 const MAX_FILES     = 30;
 const SIZE          = 512;        // sticker canvas size in px
-const MAX_BYTES     = 100 * 1024; // 100 KB WhatsApp limit
+const MAX_BYTES     = 500 * 1024; // 500 KB — matches what WhatsApp sticker apps use in practice
 const MIN_QUALITY   = 0.50;
 const QUALITY_START = 0.85;
 const QUALITY_STEP  = 0.05;
@@ -143,7 +143,7 @@ export default {
         blob = await canvasToWebP(q);
       }
       if (blob.size > MAX_BYTES) {
-        throw new Error(`Still ${fmtBytes(blob.size)} at minimum quality — image too complex to compress under 100 KB.`);
+        throw new Error('Image too large to convert — try a simpler image or crop tighter.');
       }
       return blob;
     };

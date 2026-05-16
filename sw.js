@@ -8,7 +8,7 @@
 // All URL versions MUST match the query strings used in index.html and router.js:
 //   css/styles.css?v=15  |  js/app.js?v=9  |  templates/*.html?v=3  |  js/tools/*.js?v=2
 
-const CACHE_VERSION = 'v7';
+const CACHE_VERSION = 'v8';
 const CACHE_NAME    = `pocket-tools-${CACHE_VERSION}`;
 const FONTS_CACHE   = 'pocket-tools-fonts-v1';
 
