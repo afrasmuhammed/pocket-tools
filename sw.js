@@ -6,7 +6,7 @@
 //
 // Bump CACHE_VERSION on every deploy so existing users pick up fresh assets.
 
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const CACHE_NAME    = `pocket-tools-${CACHE_VERSION}`;
 const FONTS_CACHE   = 'pocket-tools-fonts-v1';
 
@@ -165,16 +165,20 @@ async function cacheOne(cache, url) {
 }
 
 // ---------------------------------------------------------------------------
-// Install — cache shell (required) then all other assets (best-effort).
+// Install — cache shell synchronously, then activate immediately.
+// Tool assets are fetched in the background so they don't delay activation.
 // ---------------------------------------------------------------------------
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      // Shell: atomic — if any URL fails the install aborts cleanly.
+      // Cache the 15 shell files — small, fast (<1 s), required for offline.
       await cache.addAll(SHELL_URLS);
-      // Tools, templates, libs: best-effort — don't block install on failures.
-      await Promise.all(TOOL_URLS.map(url => cacheOne(cache, url)));
+      // Activate NOW — don't make users wait for 3 MB+ of tool/lib downloads.
       self.skipWaiting();
+      // Kick off tool + lib caching in the background.
+      // Not awaited: the SW stays alive while these fetches are in-flight,
+      // and anything missed here gets runtime-cached on first use.
+      TOOL_URLS.forEach(url => cacheOne(cache, url));
     }),
   );
 });
