@@ -61,6 +61,7 @@ const ICONS = {
   crontab:  'M4 5h16v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5z M4 9h16 M8 2v4 M16 2v4 M8 13h.01 M12 13h.01 M16 13h.01 M12 17h.01',
   regexp:   'M9 4l-5 8 5 8 M15 4l5 8-5 8 M4 12h16',
   swatch:   'M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5z M7 15h2v2H7z M11 15h2v2h-2z M15 15h2v2h-2z',
+  sticker:  'M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z M9.5 9.5l0 0 M14.5 9.5l0 0 M9 14s1.5 2 3 2 3-2 3-2',
 };
 
 export const TOOLS = [
@@ -74,6 +75,7 @@ export const TOOLS = [
   { id: 'color-picker',      name: 'Image Color Picker',   category: 'photos',    desc: 'Pick HEX/RGB from a photo',          icon: ICONS.drop },
   { id: 'watermark',         name: 'Text Watermark',       category: 'photos',    desc: 'Add a text watermark',               icon: ICONS.watermark },
   { id: 'black-and-white',   name: 'Black & White',        category: 'photos',    desc: 'Convert image to grayscale',         icon: ICONS.sun },
+  { id: 'whatsapp-sticker', name: 'WhatsApp Sticker Maker', category: 'photos',  desc: 'Make 512×512 WebP stickers',           icon: ICONS.sticker },
 
   // DOCUMENTS (8 — bonus rotate-pdf, unprotect-pdf, receipt-enhancer)
   { id: 'merge-pdf',         name: 'Merge PDF',            category: 'documents', desc: 'Combine multiple PDFs',              icon: ICONS.merge,  needsPdfLib: true },

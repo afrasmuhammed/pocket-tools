@@ -1,0 +1,64 @@
+<div class="tool-header">
+  <h2>WhatsApp Sticker Maker</h2>
+  <p>Convert any images to 512×512 WebP stickers under 100 KB, ready to import into WhatsApp.</p>
+</div>
+
+<div class="image-workbench">
+
+  <section class="image-panel image-panel-primary">
+    <div class="drop-zone">
+      <input type="file" id="ws-upload" accept="image/*,.heic,.heif,image/heic,image/heif" multiple>
+      <div>
+        <strong>Select Images</strong>
+        <span>JPG, PNG, WebP, HEIC — up to 30 images.</span>
+      </div>
+    </div>
+    <div class="image-summary">
+      <div>
+        <span class="summary-label">Files</span>
+        <strong id="ws-file-count">0</strong>
+      </div>
+      <div>
+        <span class="summary-label">Ready</span>
+        <strong id="ws-ready-count">0</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="image-panel">
+    <div class="panel-title">
+      <h3>Queue</h3>
+    </div>
+    <div id="ws-empty" class="empty-state">No images selected yet.</div>
+    <div id="ws-list" class="image-list"></div>
+    <div class="action-row" style="margin-top:12px">
+      <button id="ws-convert" class="btn">Convert to Stickers</button>
+      <button id="ws-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="image-panel hidden" id="ws-preview-panel">
+    <div class="panel-title">
+      <h3>Stickers <span class="muted small" id="ws-sticker-count"></span></h3>
+      <button id="ws-download-all" class="btn" disabled>Download ZIP</button>
+    </div>
+    <p class="field-hint" style="margin-bottom:14px">Click any sticker to download it individually.</p>
+    <div id="ws-grid" class="ws-sticker-grid"></div>
+  </section>
+
+  <section class="image-panel">
+    <h3 style="margin-bottom:12px;font-size:0.875rem;font-weight:600;color:var(--fg)">How to add stickers to WhatsApp</h3>
+    <ol class="ws-instructions">
+      <li>Download the ZIP file and unzip it to get the <code>.webp</code> files.</li>
+      <li>Install <strong>Sticker Maker for WhatsApp</strong> on your phone —
+        <a href="https://apps.apple.com/app/sticker-maker-studio/id1443101544" target="_blank" rel="noopener noreferrer">App Store</a>
+        or
+        <a href="https://play.google.com/store/apps/details?id=com.marsvard.stickermakerforwhatsapp" target="_blank" rel="noopener noreferrer">Play Store</a>.
+      </li>
+      <li>Open the app, create a new sticker pack, import the <code>.webp</code> files, and tap <em>Add to WhatsApp</em>.</li>
+    </ol>
+  </section>
+
+</div>
+
+<canvas id="ws-canvas" class="hidden"></canvas>

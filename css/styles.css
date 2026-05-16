@@ -956,6 +956,69 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
   to   { clip-path: circle(var(--theme-r, 150vmax) at var(--theme-x, 50%) var(--theme-y, 50%)); }
 }
 
+/* ── WhatsApp Sticker Maker ─────────────────────────────── */
+.ws-sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.ws-sticker-item {
+  position: relative;
+  cursor: pointer;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 2px solid var(--border);
+  /* checkerboard background shows transparency */
+  background: repeating-conic-gradient(#8882 0 25%, transparent 0 50%) 0 0 / 12px 12px;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  aspect-ratio: 1;
+}
+
+.ws-sticker-item:hover,
+.ws-sticker-item:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  outline: none;
+}
+
+.ws-sticker-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.ws-size-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0,0,0,0.60);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 4px;
+  pointer-events: none;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+.ws-instructions {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--fg);
+  margin: 0;
+}
+
+.ws-instructions a { color: var(--accent); text-decoration: none; }
+.ws-instructions a:hover { text-decoration: underline; }
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

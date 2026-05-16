@@ -8,7 +8,7 @@
 // All URL versions MUST match the query strings used in index.html and router.js:
 //   css/styles.css?v=15  |  js/app.js?v=9  |  templates/*.html?v=3  |  js/tools/*.js?v=2
 
-const CACHE_VERSION = 'v5';
+const CACHE_VERSION = 'v6';
 const CACHE_NAME    = `pocket-tools-${CACHE_VERSION}`;
 const FONTS_CACHE   = 'pocket-tools-fonts-v1';
 
@@ -90,9 +90,10 @@ const TOOL_URLS = [
   'js/tools/vat-calculator.js?v=2',
   'js/tools/watermark.js?v=2',
   'js/tools/whitespace-remover.js?v=2',
+  'js/tools/whatsapp-sticker.js?v=2',
   'js/tools/word-counter.js?v=2',
 
-  // Tool templates (48) — router does: fetch(`templates/${id}.html?v=3`)
+  // Tool templates (49) — router does: fetch(`templates/${id}.html?v=3`)
   'templates/alphabetical-sorter.html?v=3',
   'templates/base64-encoder.html?v=3',
   'templates/bill-splitter.html?v=3',
@@ -140,6 +141,7 @@ const TOOL_URLS = [
   'templates/vat-calculator.html?v=3',
   'templates/watermark.html?v=3',
   'templates/whitespace-remover.html?v=3',
+  'templates/whatsapp-sticker.html?v=3',
   'templates/word-counter.html?v=3',
 
   // Libraries (large files — best-effort so slow networks don't abort install)
