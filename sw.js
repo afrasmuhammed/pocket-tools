@@ -42,7 +42,7 @@ const SHELL_URLS = [
 // Anything missed here will be runtime-cached on first use while online.
 // ---------------------------------------------------------------------------
 const TOOL_URLS = [
-  // Tool modules (48) — router does: import(`./tools/${id}.js?v=2`)
+  // Tool modules (49) — router does: import(`./tools/${id}.js?v=2`)
   'js/tools/alphabetical-sorter.js?v=2',
   'js/tools/base64-encoder.js?v=2',
   'js/tools/bill-splitter.js?v=2',

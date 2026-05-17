@@ -1,6 +1,6 @@
 # Pocket Tools
 
-48 tools — free, works offline. Install as a PWA and use all 48 tools without a network connection.  
+49 tools — free, works offline. Install as a PWA and use all 49 tools without a network connection.  
 Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/pocket-tools/)
 
 ## Categories
@@ -26,4 +26,4 @@ All other tools (Base64, UUID, JSON Formatter, JWT Decoder, Regex Tester, Color 
 
 ## Offline support
 
-`sw.js` precaches all 120+ static assets (HTML shell, CSS, 48 tool JS modules, 48 tool templates, all library files, all icons) at install time. Every subsequent load is served cache-first — no network required. Google Fonts are cached at runtime on first visit and reused offline thereafter (system fallback fonts are used if the fonts were never fetched).
+`sw.js` precaches all 120+ static assets (HTML shell, CSS, 49 tool JS modules, 49 tool templates, all library files, all icons) at install time. Every subsequent load is served cache-first — no network required. Google Fonts are cached at runtime on first visit and reused offline thereafter (system fallback fonts are used if the fonts were never fetched).
