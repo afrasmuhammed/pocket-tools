@@ -121,7 +121,8 @@ export const TOOLS = [
   { id: 'random-decision',   name: 'Random Decision',      category: 'utilities', desc: 'Pick one from a list',               icon: ICONS.dice },
   { id: 'signature-png',     name: 'Signature to PNG',      category: 'utilities', desc: 'Draw transparent signature',         icon: ICONS.pen },
 
-  // DEVELOPER (12)
+  // DEVELOPER (13)
+  { id: 'meta-tags',        name: 'Meta Tag Generator',       category: 'developer', desc: 'Create SEO and social tags',          icon: ICONS.braces  },
   { id: 'slug-generator',    name: 'Slug Generator',            category: 'developer', desc: 'Create URL-friendly slugs',           icon: ICONS.trim    },
   { id: 'lorem-ipsum',       name: 'Lorem Ipsum Generator',      category: 'developer', desc: 'Generate placeholder copy',           icon: ICONS.type    },
   { id: 'markdown-previewer', name: 'Markdown Previewer',           category: 'developer', desc: 'Preview Markdown as HTML',          icon: ICONS.read    },

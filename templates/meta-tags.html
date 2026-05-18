@@ -1,0 +1,61 @@
+<div class="tool-header">
+  <h2>Meta Tag Generator</h2>
+  <p>Create SEO, Open Graph, and Twitter card tags for a page.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="meta-title">Page Title</label>
+      <input id="meta-title" placeholder="Pocket Tools - Everyday tools, done right.">
+    </div>
+    <div class="input-group">
+      <label for="meta-description">Description</label>
+      <textarea id="meta-description" class="textarea-medium" placeholder="A focused workspace for images, documents, text, dates, and everyday calculations."></textarea>
+    </div>
+    <div class="input-group">
+      <label for="meta-url">Page URL</label>
+      <input id="meta-url" type="url" placeholder="https://example.com/page">
+    </div>
+    <div class="input-group">
+      <label for="meta-image">Image URL</label>
+      <input id="meta-image" type="url" placeholder="https://example.com/og-image.png">
+    </div>
+    <div class="input-group">
+      <label for="meta-site">Site Name</label>
+      <input id="meta-site" placeholder="Pocket Tools">
+    </div>
+    <div class="input-group">
+      <label for="meta-type">Open Graph Type</label>
+      <select id="meta-type">
+        <option value="website">website</option>
+        <option value="article">article</option>
+        <option value="profile">profile</option>
+        <option value="product">product</option>
+      </select>
+    </div>
+    <div class="button-row">
+      <button id="btn-meta-generate" class="btn">Generate</button>
+      <button id="btn-meta-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-meta-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="meta-output">Generated Tags</label>
+      <textarea id="meta-output" class="textarea-tall" readonly placeholder="Meta tags will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Tags</span>
+        <strong id="meta-count">0</strong>
+      </div>
+      <div class="metric">
+        <span>Characters</span>
+        <strong id="meta-chars">0</strong>
+      </div>
+    </div>
+    <button id="btn-meta-copy" class="btn">Copy Tags</button>
+  </section>
+</div>
