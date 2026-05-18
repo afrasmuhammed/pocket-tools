@@ -1,0 +1,44 @@
+<div class="tool-header">
+  <h2>YAML to JSON Converter</h2>
+  <p>Convert common YAML config files into formatted JSON.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="yaml-input">Input YAML</label>
+      <textarea id="yaml-input" class="textarea-tall" placeholder="Paste YAML here..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    </div>
+
+    <div class="button-row">
+      <button id="btn-yaml-convert" class="btn">Convert</button>
+      <button id="btn-yaml-minify" class="btn btn-secondary">Minify JSON</button>
+      <button id="btn-yaml-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-yaml-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="yaml-output">JSON Output</label>
+      <textarea id="yaml-output" class="textarea-tall" readonly placeholder="Converted JSON will appear here..." spellcheck="false"></textarea>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span>Keys</span>
+        <strong id="yaml-keys">0</strong>
+      </div>
+      <div class="stat-card">
+        <span>Lines</span>
+        <strong id="yaml-lines">0</strong>
+      </div>
+      <div class="stat-card">
+        <span>Size</span>
+        <strong id="yaml-size">0</strong>
+      </div>
+    </div>
+
+    <button id="btn-yaml-copy" class="btn">Copy JSON</button>
+  </section>
+</div>
