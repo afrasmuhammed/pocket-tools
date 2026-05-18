@@ -6,9 +6,9 @@
 //
 // Bump CACHE_VERSION on every deploy so existing users pick up fresh assets.
 // All URL versions MUST match the query strings used in index.html and router.js:
-//   css/styles.css?v=16  |  js/app.js?v=13  |  templates/*.html?v=3  |  js/tools/*.js?v=2
+//   css/styles.css?v=16  |  js/app.js?v=14  |  templates/*.html?v=3  |  js/tools/*.js?v=2
 
-const CACHE_VERSION = 'v18';
+const CACHE_VERSION = 'v19';
 const CACHE_NAME    = `pocket-tools-${CACHE_VERSION}`;
 const FONTS_CACHE   = 'pocket-tools-fonts-v1';
 
@@ -22,9 +22,9 @@ const SHELL_URLS = [
   'index.html',
   'manifest.json',
   'css/styles.css?v=16',   // matches <link> in index.html
-  'js/app.js?v=13',        // matches <script> in index.html
-  'js/registry.js?v=5',
-  'js/router.js?v=5',
+  'js/app.js?v=14',        // matches <script> in index.html
+  'js/registry.js?v=6',
+  'js/router.js?v=6',
   'js/core/file.js',
   'js/core/lazy.js',
   'js/core/ui.js',
@@ -42,7 +42,7 @@ const SHELL_URLS = [
 // Anything missed here will be runtime-cached on first use while online.
 // ---------------------------------------------------------------------------
 const TOOL_URLS = [
-  // Tool modules (54) — router does: import(`./tools/${id}.js?v=2`)
+  // Tool modules (55) — router does: import(`./tools/${id}.js?v=2`)
   'js/tools/alphabetical-sorter.js?v=2',
   'js/tools/base64-encoder.js?v=2',
   'js/tools/bill-splitter.js?v=2',
@@ -82,6 +82,7 @@ const TOOL_URLS = [
   'js/tools/regex-tester.js?v=2',
   'js/tools/rotate-pdf.js?v=2',
   'js/tools/signature-png.js?v=2',
+  'js/tools/slug-generator.js?v=2',
   'js/tools/social-resizer.js?v=2',
   'js/tools/split-pdf.js?v=2',
   'js/tools/stopwatch.js?v=2',
@@ -98,7 +99,7 @@ const TOOL_URLS = [
   'js/tools/whatsapp-sticker.js?v=2',
   'js/tools/word-counter.js?v=2',
 
-  // Tool templates (54) — router does: fetch(`templates/${id}.html?v=3`)
+  // Tool templates (55) — router does: fetch(`templates/${id}.html?v=3`)
   'templates/alphabetical-sorter.html?v=3',
   'templates/base64-encoder.html?v=3',
   'templates/bill-splitter.html?v=3',
@@ -138,6 +139,7 @@ const TOOL_URLS = [
   'templates/regex-tester.html?v=3',
   'templates/rotate-pdf.html?v=3',
   'templates/signature-png.html?v=3',
+  'templates/slug-generator.html?v=3',
   'templates/social-resizer.html?v=3',
   'templates/split-pdf.html?v=3',
   'templates/stopwatch.html?v=3',

@@ -1,0 +1,47 @@
+<div class="tool-header">
+  <h2>Slug Generator</h2>
+  <p>Turn titles and phrases into clean URL-friendly slugs.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="slug-input">Title or Text</label>
+      <textarea id="slug-input" class="textarea-medium" placeholder="10 Tips for Better Web Design in 2026!" spellcheck="false"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="slug-separator">Separator</label>
+      <select id="slug-separator">
+        <option value="-">Hyphen (-)</option>
+        <option value="_">Underscore (_)</option>
+      </select>
+    </div>
+    <div class="checkbox-grid">
+      <label><input type="checkbox" id="slug-lowercase" checked> Lowercase</label>
+      <label><input type="checkbox" id="slug-stopwords"> Remove stop words</label>
+    </div>
+    <div class="button-row">
+      <button id="btn-slug-generate" class="btn">Generate</button>
+      <button id="btn-slug-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-slug-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="slug-output">Slug</label>
+      <input id="slug-output" readonly placeholder="your-slug-will-appear-here" spellcheck="false">
+    </div>
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Characters</span>
+        <strong id="slug-chars">0</strong>
+      </div>
+      <div class="metric">
+        <span>Words</span>
+        <strong id="slug-words">0</strong>
+      </div>
+    </div>
+    <button id="btn-slug-copy" class="btn">Copy Slug</button>
+  </section>
+</div>
