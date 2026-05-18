@@ -138,6 +138,7 @@ export const TOOLS = [
   { id: 'yaml-json',       name: 'YAML to JSON Converter',     category: 'developer', desc: 'Convert YAML config to JSON',             icon: ICONS.braces  },
   { id: 'json-yaml',       name: 'JSON to YAML Converter',     category: 'developer', desc: 'Convert JSON data to YAML',               icon: ICONS.braces  },
   { id: 'hash-generator',  name: 'Hash Generator',             category: 'developer', desc: 'Generate SHA hashes for text',             icon: ICONS.shield  },
+  { id: 'hmac-generator',  name: 'HMAC Generator',             category: 'developer', desc: 'Create keyed SHA signatures',              icon: ICONS.shield  },
   { id: 'jwt-decoder',     name: 'JWT Decoder',               category: 'developer', desc: 'Decode JWT header & payload',           icon: ICONS.jwtoken },
   { id: 'cron-explainer',  name: 'Cron Explainer',            category: 'developer', desc: 'Human-readable cron schedule',          icon: ICONS.crontab },
   { id: 'regex-tester',    name: 'Regex Tester',              category: 'developer', desc: 'Test and debug regex patterns',         icon: ICONS.regexp  },

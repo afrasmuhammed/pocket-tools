@@ -1,0 +1,67 @@
+<div class="tool-header">
+  <h2>HMAC Generator</h2>
+  <p>Create keyed SHA signatures for messages and API payloads.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="hmac-message">Message</label>
+      <textarea id="hmac-message" class="textarea-medium" placeholder="Paste the message to sign..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    </div>
+
+    <div class="input-group">
+      <label for="hmac-secret">Secret Key</label>
+      <input id="hmac-secret" type="text" placeholder="Enter secret key" autocomplete="off" spellcheck="false">
+    </div>
+
+    <div class="form-grid">
+      <div class="input-group">
+        <label for="hmac-algorithm">Algorithm</label>
+        <select id="hmac-algorithm">
+          <option value="SHA-256">SHA-256</option>
+          <option value="SHA-1">SHA-1</option>
+          <option value="SHA-384">SHA-384</option>
+          <option value="SHA-512">SHA-512</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="hmac-output-format">Output Format</label>
+        <select id="hmac-output-format">
+          <option value="hex">Hex</option>
+          <option value="base64">Base64</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button id="btn-hmac-generate" class="btn">Generate</button>
+      <button id="btn-hmac-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-hmac-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="hmac-output">HMAC Output</label>
+      <textarea id="hmac-output" class="textarea-medium" readonly placeholder="HMAC signature will appear here..." spellcheck="false"></textarea>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span>Message Bytes</span>
+        <strong id="hmac-bytes">0</strong>
+      </div>
+      <div class="stat-card">
+        <span>Output Chars</span>
+        <strong id="hmac-chars">0</strong>
+      </div>
+      <div class="stat-card">
+        <span>Algorithm</span>
+        <strong id="hmac-used">SHA-256</strong>
+      </div>
+    </div>
+
+    <button id="btn-hmac-copy" class="btn">Copy HMAC</button>
+  </section>
+</div>
