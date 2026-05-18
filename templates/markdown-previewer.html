@@ -1,0 +1,39 @@
+<div class="tool-header">
+  <h2>Markdown Previewer</h2>
+  <p>Preview Markdown as formatted HTML and copy the generated markup.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="md-input">Markdown</label>
+      <textarea id="md-input" class="textarea-tall" placeholder="# Release notes&#10;&#10;- Added a new tool&#10;- Fixed **offline cache**&#10;&#10;[Open Pocket Tools](https://afrasmuhammed.github.io/pocket-tools/)" spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-md-render" class="btn">Render</button>
+      <button id="btn-md-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-md-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="md-preview">Preview</label>
+      <div id="md-preview" class="markdown-preview" tabindex="0" aria-label="Rendered Markdown preview"></div>
+    </div>
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Words</span>
+        <strong id="md-words">0</strong>
+      </div>
+      <div class="metric">
+        <span>Characters</span>
+        <strong id="md-chars">0</strong>
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-md-copy-html" class="btn">Copy HTML</button>
+      <button id="btn-md-copy-text" class="btn btn-secondary">Copy Text</button>
+    </div>
+  </section>
+</div>
