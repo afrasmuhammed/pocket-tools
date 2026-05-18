@@ -6,9 +6,9 @@
 //
 // Bump CACHE_VERSION on every deploy so existing users pick up fresh assets.
 // All URL versions MUST match the query strings used in index.html and router.js:
-//   css/styles.css?v=15  |  js/app.js?v=9  |  templates/*.html?v=3  |  js/tools/*.js?v=2
+//   css/styles.css?v=15  |  js/app.js?v=10  |  templates/*.html?v=3  |  js/tools/*.js?v=2
 
-const CACHE_VERSION = 'v14';
+const CACHE_VERSION = 'v15';
 const CACHE_NAME    = `pocket-tools-${CACHE_VERSION}`;
 const FONTS_CACHE   = 'pocket-tools-fonts-v1';
 
@@ -22,9 +22,9 @@ const SHELL_URLS = [
   'index.html',
   'manifest.json',
   'css/styles.css?v=15',   // matches <link> in index.html
-  'js/app.js?v=9',         // matches <script> in index.html
-  'js/registry.js',
-  'js/router.js',
+  'js/app.js?v=10',        // matches <script> in index.html
+  'js/registry.js?v=2',
+  'js/router.js?v=2',
   'js/core/file.js',
   'js/core/lazy.js',
   'js/core/ui.js',
