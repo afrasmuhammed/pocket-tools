@@ -1,0 +1,54 @@
+<div class="tool-header">
+  <h2>Lorem Ipsum Generator</h2>
+  <p>Generate placeholder words, sentences, or paragraphs for layouts and mockups.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="lorem-type">Output Type</label>
+      <select id="lorem-type">
+        <option value="paragraphs">Paragraphs</option>
+        <option value="sentences">Sentences</option>
+        <option value="words">Words</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label for="lorem-count">Count</label>
+      <input type="number" id="lorem-count" min="1" max="100" value="3" inputmode="numeric">
+    </div>
+    <div class="input-group">
+      <label for="lorem-length">Paragraph Length</label>
+      <select id="lorem-length">
+        <option value="short">Short</option>
+        <option value="medium" selected>Medium</option>
+        <option value="long">Long</option>
+      </select>
+    </div>
+    <div class="checkbox-grid">
+      <label><input type="checkbox" id="lorem-start" checked> Start with “Lorem ipsum”</label>
+    </div>
+    <div class="button-row">
+      <button id="btn-lorem-generate" class="btn">Generate</button>
+      <button id="btn-lorem-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="lorem-output">Output</label>
+      <textarea id="lorem-output" class="textarea-tall" readonly placeholder="Generated text will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Words</span>
+        <strong id="lorem-words">0</strong>
+      </div>
+      <div class="metric">
+        <span>Characters</span>
+        <strong id="lorem-chars">0</strong>
+      </div>
+    </div>
+    <button id="btn-lorem-copy" class="btn">Copy Output</button>
+  </section>
+</div>
