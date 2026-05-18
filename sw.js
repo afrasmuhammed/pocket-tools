@@ -8,7 +8,7 @@
 // All URL versions MUST match the query strings used in index.html and router.js:
 //   css/styles.css?v=15  |  js/app.js?v=9  |  templates/*.html?v=3  |  js/tools/*.js?v=2
 
-const CACHE_VERSION = 'v13';
+const CACHE_VERSION = 'v14';
 const CACHE_NAME    = `pocket-tools-${CACHE_VERSION}`;
 const FONTS_CACHE   = 'pocket-tools-fonts-v1';
 
@@ -42,7 +42,7 @@ const SHELL_URLS = [
 // Anything missed here will be runtime-cached on first use while online.
 // ---------------------------------------------------------------------------
 const TOOL_URLS = [
-  // Tool modules (50) — router does: import(`./tools/${id}.js?v=2`)
+  // Tool modules (51) — router does: import(`./tools/${id}.js?v=2`)
   'js/tools/alphabetical-sorter.js?v=2',
   'js/tools/base64-encoder.js?v=2',
   'js/tools/bill-splitter.js?v=2',
@@ -87,6 +87,7 @@ const TOOL_URLS = [
   'js/tools/timezone.js?v=2',
   'js/tools/unit-converter.js?v=2',
   'js/tools/unprotect-pdf.js?v=2',
+  'js/tools/url-encoder.js?v=2',
   'js/tools/uuid-generator.js?v=2',
   'js/tools/vat-calculator.js?v=2',
   'js/tools/watermark.js?v=2',
@@ -94,7 +95,7 @@ const TOOL_URLS = [
   'js/tools/whatsapp-sticker.js?v=2',
   'js/tools/word-counter.js?v=2',
 
-  // Tool templates (50) — router does: fetch(`templates/${id}.html?v=3`)
+  // Tool templates (51) — router does: fetch(`templates/${id}.html?v=3`)
   'templates/alphabetical-sorter.html?v=3',
   'templates/base64-encoder.html?v=3',
   'templates/bill-splitter.html?v=3',
@@ -139,6 +140,7 @@ const TOOL_URLS = [
   'templates/timezone.html?v=3',
   'templates/unit-converter.html?v=3',
   'templates/unprotect-pdf.html?v=3',
+  'templates/url-encoder.html?v=3',
   'templates/uuid-generator.html?v=3',
   'templates/vat-calculator.html?v=3',
   'templates/watermark.html?v=3',
