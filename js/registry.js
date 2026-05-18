@@ -136,6 +136,7 @@ export const TOOLS = [
   { id: 'csv-json',        name: 'CSV to JSON Converter',      category: 'developer', desc: 'Turn CSV rows into JSON data',           icon: ICONS.braces  },
   { id: 'json-csv',        name: 'JSON to CSV Converter',      category: 'developer', desc: 'Turn JSON arrays into CSV text',          icon: ICONS.braces  },
   { id: 'yaml-json',       name: 'YAML to JSON Converter',     category: 'developer', desc: 'Convert YAML config to JSON',             icon: ICONS.braces  },
+  { id: 'json-yaml',       name: 'JSON to YAML Converter',     category: 'developer', desc: 'Convert JSON data to YAML',               icon: ICONS.braces  },
   { id: 'jwt-decoder',     name: 'JWT Decoder',               category: 'developer', desc: 'Decode JWT header & payload',           icon: ICONS.jwtoken },
   { id: 'cron-explainer',  name: 'Cron Explainer',            category: 'developer', desc: 'Human-readable cron schedule',          icon: ICONS.crontab },
   { id: 'regex-tester',    name: 'Regex Tester',              category: 'developer', desc: 'Test and debug regex patterns',         icon: ICONS.regexp  },

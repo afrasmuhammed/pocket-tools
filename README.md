@@ -1,6 +1,6 @@
 # Pocket Tools
 
-61 tools — free, works offline. Install as a PWA and use all 61 tools without a network connection.
+62 tools — free, works offline. Install as a PWA and use all 62 tools without a network connection.
 Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/pocket-tools/)
 
 ## Categories
@@ -13,7 +13,7 @@ Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/p
 | Money & Math | Bill Splitter, Discount Calculator, Loan Calculator, Percentage Change, Unit Converter, Grocery Calculator, VAT Calculator |
 | Time | Pomodoro Timer, Days Between Dates, Timezone Matcher, Stopwatch, Countdown Timer |
 | Utilities | Password Generator, QR Code Generator, Random Decision, Signature to PNG |
-| Developer | Base64 Encoder/Decoder, URL Encoder/Decoder, HTML Entities Encoder/Decoder, Markdown Previewer, Lorem Ipsum Generator, Slug Generator, Meta Tag Generator, Robots.txt Generator, UUID Generator, JSON Formatter, XML Formatter/Minifier, CSV to JSON Converter, JSON to CSV Converter, YAML to JSON Converter, JWT Decoder, Cron Explainer, Regex Tester, Color Palette Extractor, Timestamp Converter |
+| Developer | Base64 Encoder/Decoder, URL Encoder/Decoder, HTML Entities Encoder/Decoder, Markdown Previewer, Lorem Ipsum Generator, Slug Generator, Meta Tag Generator, Robots.txt Generator, UUID Generator, JSON Formatter, XML Formatter/Minifier, CSV to JSON Converter, JSON to CSV Converter, YAML to JSON Converter, JSON to YAML Converter, JWT Decoder, Cron Explainer, Regex Tester, Color Palette Extractor, Timestamp Converter |
 
 ## Libraries added (branch: developer-tools-category)
 
@@ -22,8 +22,8 @@ Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/p
 | cronstrue | 3.14.0 | `lib/cronstrue.min.js` | Cron Explainer |
 
 ESM shim at `lib/cronstrue-esm.js` wraps the UMD bundle for use with `import`.  
-All other tools (Base64, URL Encoder / Decoder, HTML Entities Encoder / Decoder, Markdown Previewer, Lorem Ipsum Generator, Slug Generator, Meta Tag Generator, Robots.txt Generator, UUID, JSON Formatter, XML Formatter / Minifier, CSV to JSON Converter, JSON to CSV Converter, YAML to JSON Converter, JWT Decoder, Regex Tester, Color Palette Extractor, Timestamp Converter) use only built-in browser APIs — no additional dependencies.
+All other tools (Base64, URL Encoder / Decoder, HTML Entities Encoder / Decoder, Markdown Previewer, Lorem Ipsum Generator, Slug Generator, Meta Tag Generator, Robots.txt Generator, UUID, JSON Formatter, XML Formatter / Minifier, CSV to JSON Converter, JSON to CSV Converter, YAML to JSON Converter, JSON to YAML Converter, JWT Decoder, Regex Tester, Color Palette Extractor, Timestamp Converter) use only built-in browser APIs — no additional dependencies.
 
 ## Offline support
 
-`sw.js` precaches all 130+ static assets (HTML shell, CSS, 61 tool JS modules, 61 tool templates, all library files, all icons) at install time. Every subsequent load is served cache-first — no network required. Google Fonts are cached at runtime on first visit and reused offline thereafter (system fallback fonts are used if the fonts were never fetched).
+`sw.js` precaches all 130+ static assets (HTML shell, CSS, 62 tool JS modules, 62 tool templates, all library files, all icons) at install time. Every subsequent load is served cache-first — no network required. Google Fonts are cached at runtime on first visit and reused offline thereafter (system fallback fonts are used if the fonts were never fetched).
