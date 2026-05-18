@@ -1,0 +1,45 @@
+<div class="tool-header">
+  <h2>HTML Entities Encoder / Decoder</h2>
+  <p>Escape HTML-sensitive characters or decode entities back to readable text.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="htmlent-input">Input</label>
+      <textarea id="htmlent-input" class="textarea-medium" placeholder="&lt;div class=&quot;note&quot;&gt;Tom &amp; Jerry&lt;/div&gt;" spellcheck="false"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="htmlent-mode">Encoding Mode</label>
+      <select id="htmlent-mode">
+        <option value="named">Named entities</option>
+        <option value="decimal">Decimal numeric entities</option>
+        <option value="hex">Hex numeric entities</option>
+      </select>
+    </div>
+    <div class="button-row">
+      <button id="btn-htmlent-encode" class="btn">Encode</button>
+      <button id="btn-htmlent-decode" class="btn btn-secondary">Decode</button>
+      <button id="btn-htmlent-swap" class="btn btn-secondary">Swap</button>
+      <button id="btn-htmlent-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="htmlent-output">Output</label>
+      <textarea id="htmlent-output" class="textarea-medium" readonly placeholder="Result will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Input Length</span>
+        <strong id="htmlent-input-length">0</strong>
+      </div>
+      <div class="metric">
+        <span>Output Length</span>
+        <strong id="htmlent-output-length">0</strong>
+      </div>
+    </div>
+    <button id="btn-htmlent-copy" class="btn">Copy Output</button>
+  </section>
+</div>

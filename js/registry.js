@@ -121,7 +121,8 @@ export const TOOLS = [
   { id: 'random-decision',   name: 'Random Decision',      category: 'utilities', desc: 'Pick one from a list',               icon: ICONS.dice },
   { id: 'signature-png',     name: 'Signature to PNG',      category: 'utilities', desc: 'Draw transparent signature',         icon: ICONS.pen },
 
-  // DEVELOPER (8)
+  // DEVELOPER (9)
+  { id: 'html-entities',  name: 'HTML Entities Encoder / Decoder', category: 'developer', desc: 'Escape or decode HTML entities',     icon: ICONS.braces  },
   { id: 'url-encoder',     name: 'URL Encoder / Decoder',    category: 'developer', desc: 'Encode or decode URLs and query text', icon: ICONS.encode  },
   { id: 'base64-encoder',  name: 'Base64 Encoder / Decoder', category: 'developer', desc: 'Encode or decode Base64 text',         icon: ICONS.encode  },
   { id: 'uuid-generator',  name: 'UUID Generator',            category: 'developer', desc: 'Generate random v4 UUIDs',             icon: ICONS.uid     },
