@@ -1,5 +1,5 @@
 import { UI } from './core/ui.js';
-import { getTool, isValidToolId } from './registry.js?v=13';
+import { getTool, isValidToolId } from './registry.js?v=14';
 
 function makePTLogo() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');

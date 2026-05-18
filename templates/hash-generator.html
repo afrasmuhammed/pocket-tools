@@ -1,0 +1,62 @@
+<div class="tool-header">
+  <h2>Hash Generator</h2>
+  <p>Generate SHA hashes for text using your browser.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="hash-input">Input Text</label>
+      <textarea id="hash-input" class="textarea-tall" placeholder="Paste text to hash..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    </div>
+
+    <div class="form-grid">
+      <div class="input-group">
+        <label for="hash-algorithm">Algorithm</label>
+        <select id="hash-algorithm">
+          <option value="SHA-256">SHA-256</option>
+          <option value="SHA-1">SHA-1</option>
+          <option value="SHA-384">SHA-384</option>
+          <option value="SHA-512">SHA-512</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="hash-output-format">Output Format</label>
+        <select id="hash-output-format">
+          <option value="hex">Hex</option>
+          <option value="base64">Base64</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button id="btn-hash-generate" class="btn">Generate</button>
+      <button id="btn-hash-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-hash-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="hash-output">Hash Output</label>
+      <textarea id="hash-output" class="textarea-medium" readonly placeholder="Hash will appear here..." spellcheck="false"></textarea>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span>Input Bytes</span>
+        <strong id="hash-bytes">0</strong>
+      </div>
+      <div class="stat-card">
+        <span>Output Chars</span>
+        <strong id="hash-chars">0</strong>
+      </div>
+      <div class="stat-card">
+        <span>Algorithm</span>
+        <strong id="hash-used">SHA-256</strong>
+      </div>
+    </div>
+
+    <button id="btn-hash-copy" class="btn">Copy Hash</button>
+  </section>
+</div>
