@@ -1,0 +1,61 @@
+<div class="tool-header">
+  <h2>Timestamp Converter</h2>
+  <p>Convert Unix timestamps into readable local and UTC dates.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="ts-input">Unix Timestamp</label>
+      <input type="number" id="ts-input" placeholder="1716048000" inputmode="numeric">
+    </div>
+    <div class="input-group">
+      <label for="ts-unit">Timestamp Unit</label>
+      <select id="ts-unit">
+        <option value="auto">Auto detect</option>
+        <option value="seconds">Seconds</option>
+        <option value="milliseconds">Milliseconds</option>
+      </select>
+    </div>
+    <div class="button-row">
+      <button id="btn-ts-now" class="btn btn-secondary">Use Current Time</button>
+      <button id="btn-ts-convert" class="btn">Convert Timestamp</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="ts-datetime">Date &amp; Time</label>
+      <input type="datetime-local" id="ts-datetime" step="1">
+    </div>
+    <div class="button-row">
+      <button id="btn-ts-date-convert" class="btn">Convert Date</button>
+      <button id="btn-ts-copy" class="btn btn-secondary">Copy Results</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Unix Seconds</span>
+        <strong id="ts-seconds">0</strong>
+      </div>
+      <div class="metric">
+        <span>Milliseconds</span>
+        <strong id="ts-milliseconds">0</strong>
+      </div>
+      <div class="metric">
+        <span>Local Time</span>
+        <strong id="ts-local">-</strong>
+      </div>
+      <div class="metric">
+        <span>UTC</span>
+        <strong id="ts-utc">-</strong>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>ISO 8601</label>
+      <code class="uuid-display" id="ts-iso">-</code>
+    </div>
+  </section>
+</div>

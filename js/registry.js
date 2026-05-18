@@ -129,6 +129,7 @@ export const TOOLS = [
   { id: 'cron-explainer',  name: 'Cron Explainer',            category: 'developer', desc: 'Human-readable cron schedule',          icon: ICONS.crontab },
   { id: 'regex-tester',    name: 'Regex Tester',              category: 'developer', desc: 'Test and debug regex patterns',         icon: ICONS.regexp  },
   { id: 'color-palette',   name: 'Color Palette Extractor',   category: 'developer', desc: 'Extract dominant colors from an image', icon: ICONS.swatch  },
+  { id: 'timestamp-converter', name: 'Timestamp Converter',    category: 'developer', desc: 'Unix time to readable dates',           icon: ICONS.watch   },
 ];
 
 const TOOL_MAP = new Map(TOOLS.map(t => [t.id, t]));
