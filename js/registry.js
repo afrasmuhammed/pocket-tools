@@ -133,6 +133,7 @@ export const TOOLS = [
   { id: 'uuid-generator',  name: 'UUID Generator',            category: 'developer', desc: 'Generate random v4 UUIDs',             icon: ICONS.uid     },
   { id: 'json-formatter',  name: 'JSON Formatter',            category: 'developer', desc: 'Validate, format, or minify JSON',      icon: ICONS.braces  },
   { id: 'xml-formatter',   name: 'XML Formatter / Minifier',   category: 'developer', desc: 'Validate, format, or minify XML',       icon: ICONS.braces  },
+  { id: 'csv-json',        name: 'CSV to JSON Converter',      category: 'developer', desc: 'Turn CSV rows into JSON data',           icon: ICONS.braces  },
   { id: 'jwt-decoder',     name: 'JWT Decoder',               category: 'developer', desc: 'Decode JWT header & payload',           icon: ICONS.jwtoken },
   { id: 'cron-explainer',  name: 'Cron Explainer',            category: 'developer', desc: 'Human-readable cron schedule',          icon: ICONS.crontab },
   { id: 'regex-tester',    name: 'Regex Tester',              category: 'developer', desc: 'Test and debug regex patterns',         icon: ICONS.regexp  },

@@ -1,5 +1,5 @@
-import { appRouter } from './router.js?v=9';
-import { TOOLS, getTool } from './registry.js?v=9';
+import { appRouter } from './router.js?v=10';
+import { TOOLS, getTool } from './registry.js?v=10';
 
 const CATEGORY_ORDER  = ['photos', 'documents', 'text', 'math', 'time', 'utilities', 'developer'];
 const CATEGORY_LABELS = { photos: 'Photos', documents: 'Documents', text: 'Text', math: 'Money & Math', time: 'Time', utilities: 'Utilities', developer: 'Developer' };

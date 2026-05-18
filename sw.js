@@ -6,9 +6,9 @@
 //
 // Bump CACHE_VERSION on every deploy so existing users pick up fresh assets.
 // All URL versions MUST match the query strings used in index.html and router.js:
-//   css/styles.css?v=16  |  js/app.js?v=17  |  templates/*.html?v=3  |  js/tools/*.js?v=2
+//   css/styles.css?v=16  |  js/app.js?v=18  |  templates/*.html?v=3  |  js/tools/*.js?v=2
 
-const CACHE_VERSION = 'v22';
+const CACHE_VERSION = 'v23';
 const CACHE_NAME    = `pocket-tools-${CACHE_VERSION}`;
 const FONTS_CACHE   = 'pocket-tools-fonts-v1';
 
@@ -22,9 +22,9 @@ const SHELL_URLS = [
   'index.html',
   'manifest.json',
   'css/styles.css?v=16',   // matches <link> in index.html
-  'js/app.js?v=17',        // matches <script> in index.html
-  'js/registry.js?v=9',
-  'js/router.js?v=9',
+  'js/app.js?v=18',        // matches <script> in index.html
+  'js/registry.js?v=10',
+  'js/router.js?v=10',
   'js/core/file.js',
   'js/core/lazy.js',
   'js/core/ui.js',
@@ -42,7 +42,7 @@ const SHELL_URLS = [
 // Anything missed here will be runtime-cached on first use while online.
 // ---------------------------------------------------------------------------
 const TOOL_URLS = [
-  // Tool modules (58) — router does: import(`./tools/${id}.js?v=2`)
+  // Tool modules (59) — router does: import(`./tools/${id}.js?v=2`)
   'js/tools/alphabetical-sorter.js?v=2',
   'js/tools/base64-encoder.js?v=2',
   'js/tools/bill-splitter.js?v=2',
@@ -53,6 +53,7 @@ const TOOL_URLS = [
   'js/tools/color-picker.js?v=2',
   'js/tools/countdown.js?v=2',
   'js/tools/cron-explainer.js?v=2',
+  'js/tools/csv-json.js?v=2',
   'js/tools/days-between.js?v=2',
   'js/tools/discount-calculator.js?v=2',
   'js/tools/duplicate-remover.js?v=2',
@@ -102,7 +103,7 @@ const TOOL_URLS = [
   'js/tools/word-counter.js?v=2',
   'js/tools/xml-formatter.js?v=2',
 
-  // Tool templates (58) — router does: fetch(`templates/${id}.html?v=3`)
+  // Tool templates (59) — router does: fetch(`templates/${id}.html?v=3`)
   'templates/alphabetical-sorter.html?v=3',
   'templates/base64-encoder.html?v=3',
   'templates/bill-splitter.html?v=3',
@@ -113,6 +114,7 @@ const TOOL_URLS = [
   'templates/color-picker.html?v=3',
   'templates/countdown.html?v=3',
   'templates/cron-explainer.html?v=3',
+  'templates/csv-json.html?v=3',
   'templates/days-between.html?v=3',
   'templates/discount-calculator.html?v=3',
   'templates/duplicate-remover.html?v=3',

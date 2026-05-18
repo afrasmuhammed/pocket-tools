@@ -1,0 +1,61 @@
+<div class="tool-header">
+  <h2>CSV to JSON Converter</h2>
+  <p>Convert comma-separated values into clean JSON arrays or row objects.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="csv-input">Input CSV</label>
+      <textarea id="csv-input" class="textarea-tall" placeholder="Paste CSV here..." spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    </div>
+
+    <div class="form-grid">
+      <div class="input-group">
+        <label for="csv-delimiter">Delimiter</label>
+        <select id="csv-delimiter">
+          <option value=",">Comma</option>
+          <option value=";">Semicolon</option>
+          <option value="tab">Tab</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="csv-mode">Output Mode</label>
+        <select id="csv-mode">
+          <option value="objects">First row is headers</option>
+          <option value="arrays">Array of arrays</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button id="btn-csv-convert" class="btn">Convert</button>
+      <button id="btn-csv-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-csv-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="csv-output">JSON Output</label>
+      <textarea id="csv-output" class="textarea-tall" readonly placeholder="Converted JSON will appear here..." spellcheck="false"></textarea>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span>Rows</span>
+        <strong id="csv-rows">0</strong>
+      </div>
+      <div class="stat-card">
+        <span>Columns</span>
+        <strong id="csv-columns">0</strong>
+      </div>
+      <div class="stat-card">
+        <span>Size</span>
+        <strong id="csv-size">0</strong>
+      </div>
+    </div>
+
+    <button id="btn-csv-copy" class="btn">Copy JSON</button>
+  </section>
+</div>
