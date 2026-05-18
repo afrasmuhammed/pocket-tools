@@ -1,0 +1,52 @@
+<div class="tool-header">
+  <h2>Robots.txt Generator</h2>
+  <p>Create a clean robots.txt file with crawl rules and sitemap links.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="robots-agent">User Agent</label>
+      <input id="robots-agent" value="*" placeholder="*">
+    </div>
+    <div class="input-group">
+      <label for="robots-allow">Allow Paths</label>
+      <textarea id="robots-allow" class="textarea-medium" placeholder="/&#10;/blog/"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="robots-disallow">Disallow Paths</label>
+      <textarea id="robots-disallow" class="textarea-medium" placeholder="/admin/&#10;/private/"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="robots-sitemap">Sitemap URL</label>
+      <input id="robots-sitemap" type="url" placeholder="https://example.com/sitemap.xml">
+    </div>
+    <div class="input-group">
+      <label for="robots-delay">Crawl Delay (seconds)</label>
+      <input type="number" id="robots-delay" min="0" max="120" placeholder="Optional" inputmode="numeric">
+    </div>
+    <div class="button-row">
+      <button id="btn-robots-generate" class="btn">Generate</button>
+      <button id="btn-robots-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-robots-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="robots-output">robots.txt</label>
+      <textarea id="robots-output" class="textarea-tall" readonly placeholder="Generated robots.txt will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Rules</span>
+        <strong id="robots-rules">0</strong>
+      </div>
+      <div class="metric">
+        <span>Characters</span>
+        <strong id="robots-chars">0</strong>
+      </div>
+    </div>
+    <button id="btn-robots-copy" class="btn">Copy robots.txt</button>
+  </section>
+</div>
