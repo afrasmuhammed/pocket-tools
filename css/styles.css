@@ -1549,6 +1549,12 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
   margin-bottom: 18px;
 }
 
+.pk-pocket-hero > .btn {
+  width: auto;
+  min-width: 150px;
+  flex: 0 0 auto;
+}
+
 .pk-pocket-hero .pk-mark {
   width: 44px;
   height: 44px;
