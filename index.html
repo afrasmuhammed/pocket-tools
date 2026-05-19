@@ -5,27 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#f5f2eb" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0e0e0d" media="(prefers-color-scheme: dark)">
-  <meta name="description" content="Pocket Tools — a focused workspace for images, documents, text, dates, and everyday calculations.">
+  <meta name="description" content="PocketKit — private everyday tools, installed like an app.">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://afrasmuhammed.github.io/pocket-tools/">
-  <meta property="og:title" content="Pocket Tools">
-  <meta property="og:description" content="64 tools — free, works offline. Images, PDFs, text, time & more.">
-  <meta property="og:image" content="https://afrasmuhammed.github.io/pocket-tools/assets/og-image.png">
+  <meta property="og:url" content="https://pocketkit.app/">
+  <meta property="og:title" content="PocketKit">
+  <meta property="og:description" content="Private everyday tools, installed like an app.">
+  <meta property="og:image" content="https://pocketkit.app/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Pocket Tools">
-  <meta name="twitter:description" content="64 tools — free, works offline. Images, PDFs, text, time & more.">
-  <meta name="twitter:image" content="https://afrasmuhammed.github.io/pocket-tools/assets/og-image.png">
-  <title>Pocket Tools</title>
+  <meta name="twitter:title" content="PocketKit">
+  <meta name="twitter:description" content="Private everyday tools, installed like an app.">
+  <meta name="twitter:image" content="https://pocketkit.app/assets/og-image.png">
+  <title>PocketKit</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234f46e5'/><text x='50' y='72' text-anchor='middle' font-family='Inter,system-ui,sans-serif' font-size='52' font-weight='800' fill='white'>PT</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2322221f'/><text x='50' y='68' text-anchor='middle' font-family='Inter,system-ui,sans-serif' font-size='42' font-weight='800' fill='white'>PK</text></svg>">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=16">
+  <link rel="stylesheet" href="css/styles.css?v=19">
   <script>
     (function() {
       var t = localStorage.getItem('pt-theme');
@@ -46,9 +46,9 @@
         <rect width="28" height="28" rx="7" style="fill: var(--accent)"/>
         <text x="14" y="19.5" text-anchor="middle" fill="white"
           font-family="Inter,-apple-system,BlinkMacSystemFont,sans-serif"
-          font-size="11.5" font-weight="800">PT</text>
+          font-size="11.5" font-weight="800">PK</text>
       </svg>
-      <span>Pocket Tools</span>
+      <span>PocketKit</span>
     </h1>
     <button id="btn-theme" class="btn-icon" aria-label="Toggle theme">
       <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -58,40 +58,8 @@
 
   <main>
 
-    <!-- HOME VIEW -->
-    <section id="view-home" class="view">
-      <div class="hero">
-        <div class="hero-text">
-          <p class="hero-eyebrow">64 tools &nbsp;·&nbsp; free &nbsp;·&nbsp; works offline</p>
-          <h2>Everyday tools,<br>done right.</h2>
-          <p class="hero-sub">Images, PDFs, text, time &amp; more.</p>
-        </div>
-      </div>
-
-      <div class="search-wrap">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-        </svg>
-        <input type="search" id="tool-search" class="search-input" placeholder="Search 64 tools…" autocomplete="off" spellcheck="false">
-      </div>
-
-      <nav class="categories" aria-label="Tool categories">
-        <button class="chip active" data-category="all">All</button>
-        <button class="chip" data-category="photos">Photos</button>
-        <button class="chip" data-category="documents">Documents</button>
-        <button class="chip" data-category="text">Text</button>
-        <button class="chip" data-category="math">Money &amp; Math</button>
-        <button class="chip" data-category="time">Time</button>
-        <button class="chip" data-category="utilities">Utilities</button>
-        <button class="chip" data-category="developer">Developer</button>
-      </nav>
-
-      <div id="tool-grid" class="tool-grid" role="list"></div>
-
-      <footer class="home-footer">
-        <p class="muted small">Built for quick everyday work.</p>
-      </footer>
-    </section>
+    <!-- APP VIEW -->
+    <section id="view-home" class="view"></section>
 
     <!-- TOOL VIEW -->
     <section id="view-tool" class="view hidden">
@@ -104,6 +72,12 @@
 
   <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-  <script type="module" src="js/app.js?v=23"></script>
+  <nav class="mobile-tabbar" aria-label="Primary navigation">
+    <button data-mobile-route="#/" aria-label="Home">Home</button>
+    <button data-mobile-route="#/pocket/daily" aria-label="Pockets">Pockets</button>
+    <button data-mobile-route="#/all" aria-label="All tools">All</button>
+  </nav>
+
+  <script type="module" src="js/app.js?v=29"></script>
 </body>
 </html>

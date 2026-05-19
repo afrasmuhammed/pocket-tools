@@ -1,0 +1,38 @@
+<div class="tool-header">
+  <h2>Dummy User Generator</h2>
+  <p>Create realistic test users for forms, QA notes, and mock data.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="du-count">Users</label>
+        <input id="du-count" type="number" min="1" max="50" value="5">
+      </div>
+      <div class="input-group">
+        <label for="du-locale">Style</label>
+        <select id="du-locale">
+          <option value="global">Global</option>
+          <option value="us">US</option>
+          <option value="eu">EU</option>
+        </select>
+      </div>
+    </div>
+    <div class="checkbox-grid">
+      <label><input type="checkbox" id="du-phone" checked> Include phone</label>
+      <label><input type="checkbox" id="du-company" checked> Include company</label>
+    </div>
+    <div class="button-row">
+      <button id="btn-du-generate" class="btn">Generate</button>
+      <button id="btn-du-copy" class="btn btn-secondary">Copy JSON</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="du-output">Users JSON</label>
+      <textarea id="du-output" class="textarea-tall" readonly spellcheck="false"></textarea>
+    </div>
+  </section>
+</div>

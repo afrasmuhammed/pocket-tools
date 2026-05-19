@@ -1,0 +1,35 @@
+<div class="tool-header">
+  <h2>Canonical URL Generator</h2>
+  <p>Clean a page URL and generate a canonical link tag.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="cu-url">Page URL</label>
+      <input id="cu-url" type="url" placeholder="https://www.example.com/blog/post/?utm_source=newsletter">
+    </div>
+    <div class="checkbox-grid">
+      <label><input type="checkbox" id="cu-https" checked> Force HTTPS</label>
+      <label><input type="checkbox" id="cu-www"> Remove www</label>
+      <label><input type="checkbox" id="cu-query" checked> Remove query</label>
+      <label><input type="checkbox" id="cu-slash"> Remove trailing slash</label>
+    </div>
+    <div class="button-row">
+      <button id="btn-cu-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-cu-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="cu-canonical">Canonical URL</label>
+      <input id="cu-canonical" readonly placeholder="https://example.com/page">
+    </div>
+    <div class="input-group">
+      <label for="cu-tag">Canonical Tag</label>
+      <textarea id="cu-tag" class="textarea-short" readonly placeholder="<link rel=&quot;canonical&quot; href=&quot;...&quot;>"></textarea>
+    </div>
+    <button id="btn-cu-copy" class="btn">Copy Tag</button>
+  </section>
+</div>

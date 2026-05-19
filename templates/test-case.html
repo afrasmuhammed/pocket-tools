@@ -1,0 +1,28 @@
+<div class="tool-header">
+  <h2>Test Case Formatter</h2>
+  <p>Create clear manual test cases from a feature, precondition, and steps.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group"><label for="tc-title">Test Case</label><input id="tc-title" placeholder="User can reset password"></div>
+    <div class="settings-grid">
+      <div class="input-group"><label for="tc-priority">Priority</label><select id="tc-priority"><option>High</option><option selected>Medium</option><option>Low</option></select></div>
+      <div class="input-group"><label for="tc-type">Type</label><select id="tc-type"><option>Functional</option><option>Regression</option><option>Smoke</option><option>Edge Case</option></select></div>
+    </div>
+    <div class="input-group"><label for="tc-precondition">Precondition</label><textarea id="tc-precondition" class="textarea-short"></textarea></div>
+    <div class="input-group"><label for="tc-steps">Steps</label><textarea id="tc-steps" class="textarea-medium" placeholder="One step per line"></textarea></div>
+    <div class="input-group"><label for="tc-expected">Expected Result</label><textarea id="tc-expected" class="textarea-short"></textarea></div>
+    <div class="button-row">
+      <button id="btn-tc-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-tc-copy" class="btn">Copy Test Case</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="tc-output">Formatted Test Case</label>
+      <textarea id="tc-output" class="textarea-tall" readonly spellcheck="false"></textarea>
+    </div>
+  </section>
+</div>

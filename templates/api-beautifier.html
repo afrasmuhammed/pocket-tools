@@ -1,0 +1,47 @@
+<div class="tool-header">
+  <h2>API Response Beautifier</h2>
+  <p>Format response bodies, headers, and status notes for cleaner QA handoff.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="api-status">Status</label>
+        <input id="api-status" placeholder="200 OK">
+      </div>
+      <div class="input-group">
+        <label for="api-mode">Body Type</label>
+        <select id="api-mode">
+          <option value="auto">Auto</option>
+          <option value="json">JSON</option>
+          <option value="text">Text</option>
+        </select>
+      </div>
+    </div>
+    <div class="input-group">
+      <label for="api-headers">Headers</label>
+      <textarea id="api-headers" class="textarea-short" placeholder="content-type: application/json"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="api-body">Body</label>
+      <textarea id="api-body" class="textarea-tall" placeholder="{ &quot;ok&quot;: true }" spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-api-format" class="btn">Beautify</button>
+      <button id="btn-api-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-api-copy" class="btn btn-secondary">Copy</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Status</span><strong id="api-status-type">Ready</strong></div>
+      <div class="metric"><span>Body Size</span><strong id="api-size">0 B</strong></div>
+    </div>
+    <div class="input-group">
+      <label for="api-output">Formatted Response</label>
+      <textarea id="api-output" class="textarea-tall" readonly spellcheck="false"></textarea>
+    </div>
+  </section>
+</div>

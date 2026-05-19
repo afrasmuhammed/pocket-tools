@@ -1,0 +1,51 @@
+<div class="tool-header">
+  <h2>Sitemap Formatter</h2>
+  <p>Format sitemap XML or turn a list of URLs into a valid XML sitemap.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="sf-input">Input</label>
+      <textarea id="sf-input" class="textarea-tall" placeholder="Paste XML sitemap or one URL per line..." spellcheck="false"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="sf-changefreq">Changefreq</label>
+        <select id="sf-changefreq">
+          <option value="">None</option>
+          <option value="daily">Daily</option>
+          <option value="weekly" selected>Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="sf-priority">Priority</label>
+        <input id="sf-priority" type="number" min="0" max="1" step="0.1" value="0.8">
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-sf-format" class="btn">Format</button>
+      <button id="btn-sf-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-sf-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="sf-output">Sitemap XML</label>
+      <textarea id="sf-output" class="textarea-tall" readonly placeholder="Formatted sitemap will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="metric-grid">
+      <div class="metric">
+        <span>URLs</span>
+        <strong id="sf-count">0</strong>
+      </div>
+      <div class="metric">
+        <span>Status</span>
+        <strong id="sf-status">Ready</strong>
+      </div>
+    </div>
+    <button id="btn-sf-copy" class="btn">Copy Sitemap</button>
+  </section>
+</div>

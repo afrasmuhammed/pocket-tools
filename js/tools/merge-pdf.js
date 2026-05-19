@@ -1,18 +1,9 @@
 import { UI } from '../core/ui.js';
 import { FileHelper } from '../core/file.js';
+import { loadPdfLib } from '../core/lazy.js';
 
 export default {
   async init() {
-    if (!window.PDFLib) {
-      await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = './lib/pdf-lib.min.js';
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-      });
-    }
-
     const upload = document.getElementById('mp-upload');
     const controls = document.getElementById('mp-controls');
     const countEl = document.getElementById('mp-count');
@@ -43,7 +34,7 @@ export default {
       btnGen.textContent = 'Processing...';
       
       try {
-        const { PDFDocument } = window.PDFLib;
+        const { PDFDocument } = await loadPdfLib();
         const mergedPdf = await PDFDocument.create();
         
         for (const file of files) {
@@ -54,13 +45,7 @@ export default {
         }
         
         const pdfBytes = await mergedPdf.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'merged.pdf';
-        a.click();
+        FileHelper.downloadBlob('merged.pdf', new Blob([pdfBytes], { type: 'application/pdf' }));
         
         UI.showToast('PDFs Merged!', 'success');
       } catch (err) {

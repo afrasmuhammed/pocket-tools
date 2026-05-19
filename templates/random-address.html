@@ -1,0 +1,34 @@
+<div class="tool-header">
+  <h2>Random Address Generator</h2>
+  <p>Generate offline address data for checkout, shipping, and profile tests.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="ra-count">Addresses</label>
+        <input id="ra-count" type="number" min="1" max="50" value="5">
+      </div>
+      <div class="input-group">
+        <label for="ra-region">Region</label>
+        <select id="ra-region">
+          <option value="us">United States</option>
+          <option value="eu">Europe</option>
+          <option value="global">Global</option>
+        </select>
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-ra-generate" class="btn">Generate</button>
+      <button id="btn-ra-copy" class="btn btn-secondary">Copy JSON</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="ra-output">Addresses JSON</label>
+      <textarea id="ra-output" class="textarea-tall" readonly spellcheck="false"></textarea>
+    </div>
+  </section>
+</div>

@@ -1,17 +1,9 @@
 import { UI } from '../core/ui.js';
 import { FileHelper } from '../core/file.js';
+import { loadPdfLib } from '../core/lazy.js';
 
 export default {
   async init() {
-    if (!window.PDFLib) {
-      await new Promise((resolve) => {
-        const script = document.createElement('script');
-        script.src = './lib/pdf-lib.min.js';
-        script.onload = resolve;
-        document.head.appendChild(script);
-      });
-    }
-
     const upload = document.getElementById('sp-upload');
     const controls = document.getElementById('sp-controls');
     const pagesEl = document.getElementById('sp-pages');
@@ -52,7 +44,7 @@ export default {
       btnGen.disabled = true;
       
       try {
-        const { PDFDocument } = window.PDFLib;
+        const { PDFDocument } = await loadPdfLib();
         const arrayBuffer = await currentFile.arrayBuffer();
         const pdf = await PDFDocument.load(arrayBuffer);
         const maxPages = pdf.getPageCount();
@@ -65,11 +57,7 @@ export default {
         copiedPages.forEach((page) => newPdf.addPage(page));
         
         const pdfBytes = await newPdf.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'extracted.pdf';
-        a.click();
+        FileHelper.downloadBlob('extracted.pdf', new Blob([pdfBytes], { type: 'application/pdf' }));
         
         UI.showToast('Pages Extracted!', 'success');
       } catch (err) {

@@ -1,4 +1,5 @@
 import { UI } from '../core/ui.js';
+import { FileHelper } from '../core/file.js';
 
 export default {
   init() {
@@ -85,11 +86,7 @@ export default {
       if (!canvas.width) return;
       canvas.toBlob((blob) => {
         if (!blob) return UI.showError('Could not create download.');
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `${baseName}-bw.jpg`;
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+        FileHelper.downloadBlob(`${baseName}-bw.jpg`, blob);
       }, 'image/jpeg', 0.92);
     });
   }

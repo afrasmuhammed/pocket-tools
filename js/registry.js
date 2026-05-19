@@ -1,6 +1,6 @@
 // Pocket Tools — single source of truth for all tools.
 // Each entry: { id, name, category, description, icon (inline SVG path d), needsPdfLib?, needsPdfJs? }
-// Categories: photos, documents, text, math, time, utilities
+// Categories: photos, documents, text, math, time, utilities, seo, qa, developer
 
 export const CATEGORIES = [
   { id: 'photos',    label: 'Photos' },
@@ -9,7 +9,164 @@ export const CATEGORIES = [
   { id: 'math',      label: 'Money & Math' },
   { id: 'time',      label: 'Time' },
   { id: 'utilities',  label: 'Utilities' },
+  { id: 'seo',        label: 'SEO' },
+  { id: 'qa',         label: 'QA' },
   { id: 'developer',  label: 'Developer' },
+];
+
+export const POCKETS = [
+  {
+    id: 'daily',
+    name: 'PocketKit Daily',
+    shortName: 'Daily',
+    access: 'free',
+    desc: 'Everyday tools for quick private work.',
+    accent: '#0d9488',
+    featured: ['QR code', 'Image compressor', 'Password generator', 'Merge PDF', 'Pomodoro'],
+    tools: [
+      'qr-generator',
+      'image-compressor',
+      'format-converter',
+      'merge-pdf',
+      'compress-pdf',
+      'word-counter',
+      'character-counter',
+      'pomodoro',
+      'days-between',
+      'password-generator',
+      'unit-converter',
+      'discount-calculator',
+      'bill-splitter',
+      'random-decision',
+      'signature-png',
+    ],
+  },
+  {
+    id: 'pdf',
+    name: 'PocketKit PDF',
+    shortName: 'PDF',
+    access: 'pro',
+    desc: 'Document workflows. Compress, merge, split, protect.',
+    accent: '#b45309',
+    featured: ['Compress PDF', 'Merge PDF', 'Split PDF', 'Password protect', 'Page numberer'],
+    tools: [
+      'compress-pdf',
+      'merge-pdf',
+      'split-pdf',
+      'protect-pdf',
+      'unprotect-pdf',
+      'rotate-pdf',
+      'page-numbers',
+      'extract-pdf',
+      'id-masker',
+      'invoice-generator',
+      'receipt-enhancer',
+      'photo-pdf',
+    ],
+  },
+  {
+    id: 'image',
+    name: 'PocketKit Image',
+    shortName: 'Image',
+    access: 'pro',
+    desc: 'Processing and resizing for creators and stores.',
+    accent: '#7c3aed',
+    featured: ['Compressor', 'Social resizer', 'Aspect crop', 'Watermark', 'Bulk rename'],
+    tools: [
+      'image-compressor',
+      'format-converter',
+      'bulk-renamer',
+      'social-resizer',
+      'ratio-cropper',
+      'color-picker',
+      'watermark',
+      'black-and-white',
+      'whatsapp-sticker',
+    ],
+  },
+  {
+    id: 'developer',
+    name: 'PocketKit Developer',
+    shortName: 'Developer',
+    access: 'pro',
+    desc: 'Format, encode, decode, hash, and debug in the browser.',
+    accent: '#2563eb',
+    featured: ['JSON formatter', 'Base64', 'JWT decoder', 'Hash generator', 'Cron explainer'],
+    tools: [
+      'json-formatter',
+      'xml-formatter',
+      'yaml-json',
+      'json-yaml',
+      'csv-json',
+      'json-csv',
+      'base64-encoder',
+      'url-encoder',
+      'html-entities',
+      'hash-generator',
+      'hmac-generator',
+      'jwt-decoder',
+      'cron-explainer',
+      'markdown-previewer',
+      'lorem-ipsum',
+      'color-palette',
+    ],
+  },
+  {
+    id: 'qa',
+    name: 'PocketKit QA',
+    shortName: 'QA',
+    access: 'pro',
+    desc: 'Daily testing utilities for QA people and teams.',
+    accent: '#0284c7',
+    featured: ['Dummy users', 'UUID', 'Regex tester', 'API beautifier', 'Bug reports'],
+    tools: [
+      'dummy-user',
+      'random-address',
+      'uuid-generator',
+      'password-generator',
+      'json-formatter',
+      'regex-tester',
+      'api-beautifier',
+      'timestamp-converter',
+      'bug-report',
+      'test-case',
+      'character-counter',
+    ],
+  },
+  {
+    id: 'seo',
+    name: 'PocketKit SEO',
+    shortName: 'SEO',
+    access: 'pro',
+    desc: 'Offline SEO preparation and previews for shipping content.',
+    accent: '#65a30d',
+    featured: ['Meta tags', 'OG preview', 'Slug generator', 'Robots.txt', 'Sitemap'],
+    tools: [
+      'meta-tags',
+      'og-preview',
+      'slug-generator',
+      'keyword-density',
+      'sitemap-formatter',
+      'robots-txt',
+      'canonical-url',
+    ],
+  },
+  {
+    id: 'shop',
+    name: 'PocketKit Shop',
+    shortName: 'Shop',
+    access: 'pro',
+    desc: 'Small business utilities for invoices, receipts, VAT, and QR.',
+    accent: '#ca8a04',
+    featured: ['Invoice', 'Receipt enhancer', 'VAT', 'Grocery calc', 'QR code'],
+    tools: [
+      'invoice-generator',
+      'receipt-enhancer',
+      'qr-generator',
+      'vat-calculator',
+      'grocery-calculator',
+    ],
+  },
 ];
 
 // Simple inline SVG path strokes. 24×24 viewBox, stroke="currentColor".
@@ -77,7 +234,9 @@ export const TOOLS = [
   { id: 'black-and-white',   name: 'Black & White',        category: 'photos',    desc: 'Convert image to grayscale',         icon: ICONS.sun },
   { id: 'whatsapp-sticker', name: 'WhatsApp Sticker Maker', category: 'photos',  desc: 'Make 512×512 WebP stickers',           icon: ICONS.sticker },
 
-  // DOCUMENTS (8 — bonus rotate-pdf, unprotect-pdf, receipt-enhancer)
+  // DOCUMENTS
+  { id: 'compress-pdf',      name: 'Compress PDF',         category: 'documents', desc: 'Optimize and reduce PDF size',       icon: ICONS.filePdf },
+  { id: 'invoice-generator', name: 'Invoice Generator',    category: 'documents', desc: 'Create a PDF invoice',              icon: ICONS.pen, needsPdfLib: true },
   { id: 'merge-pdf',         name: 'Merge PDF',            category: 'documents', desc: 'Combine multiple PDFs',              icon: ICONS.merge,  needsPdfLib: true },
   { id: 'split-pdf',         name: 'Split PDF',            category: 'documents', desc: 'Split into separate pages',          icon: ICONS.split,  needsPdfLib: true },
   { id: 'protect-pdf',       name: 'Password Protect PDF', category: 'documents', desc: 'AES-256 encrypt your PDF',           icon: ICONS.lock },
@@ -116,22 +275,38 @@ export const TOOLS = [
   { id: 'countdown',         name: 'Countdown Timer',      category: 'time',      desc: 'Count down to any date & time',      icon: ICONS.countdown },
 
   // UTILITIES (3)
-  { id: 'password-generator',name: 'Password Generator',   category: 'utilities', desc: 'Strong random passwords',            icon: ICONS.key },
   { id: 'qr-generator',      name: 'QR Code Generator',    category: 'utilities', desc: 'Make a QR code',                     icon: ICONS.qr },
   { id: 'random-decision',   name: 'Random Decision',      category: 'utilities', desc: 'Pick one from a list',               icon: ICONS.dice },
   { id: 'signature-png',     name: 'Signature to PNG',      category: 'utilities', desc: 'Draw transparent signature',         icon: ICONS.pen },
 
-  // DEVELOPER (14)
-  { id: 'robots-txt',       name: 'Robots.txt Generator',     category: 'developer', desc: 'Create crawler rules',              icon: ICONS.shield  },
-  { id: 'meta-tags',        name: 'Meta Tag Generator',       category: 'developer', desc: 'Create SEO and social tags',          icon: ICONS.braces  },
-  { id: 'slug-generator',    name: 'Slug Generator',            category: 'developer', desc: 'Create URL-friendly slugs',           icon: ICONS.trim    },
+  // SEO
+  { id: 'meta-tags',        name: 'Meta Tag Generator',       category: 'seo', desc: 'Create SEO and social tags',          icon: ICONS.braces  },
+  { id: 'og-preview',       name: 'OpenGraph Preview',        category: 'seo', desc: 'Preview social share cards',          icon: ICONS.image   },
+  { id: 'slug-generator',   name: 'Slug Generator',           category: 'seo', desc: 'Create URL-friendly slugs',           icon: ICONS.trim    },
+  { id: 'keyword-density',  name: 'Keyword Density Checker',  category: 'seo', desc: 'Find repeated terms and phrases',     icon: ICONS.read    },
+  { id: 'sitemap-formatter',name: 'Sitemap Formatter',        category: 'seo', desc: 'Format XML or create a sitemap',      icon: ICONS.globe   },
+  { id: 'robots-txt',       name: 'Robots.txt Generator',     category: 'seo', desc: 'Create crawler rules',                icon: ICONS.shield  },
+  { id: 'canonical-url',    name: 'Canonical URL Generator',  category: 'seo', desc: 'Clean URLs and make canonical tags',  icon: ICONS.globe   },
+
+  // QA
+  { id: 'dummy-user',       name: 'Dummy User Generator',     category: 'qa', desc: 'Create realistic test users',           icon: ICONS.uid     },
+  { id: 'random-address',   name: 'Random Address Generator', category: 'qa', desc: 'Generate checkout test addresses',      icon: ICONS.globe   },
+  { id: 'uuid-generator',   name: 'UUID Generator',           category: 'qa', desc: 'Generate random v4 UUIDs',              icon: ICONS.uid     },
+  { id: 'password-generator',name:'Password Generator',       category: 'qa', desc: 'Strong random passwords',               icon: ICONS.key     },
+  { id: 'json-formatter',   name: 'JSON Formatter',           category: 'qa', desc: 'Validate, format, or minify JSON',      icon: ICONS.braces  },
+  { id: 'regex-tester',     name: 'Regex Tester',             category: 'qa', desc: 'Test and debug regex patterns',         icon: ICONS.regexp  },
+  { id: 'api-beautifier',   name: 'API Response Beautifier',  category: 'qa', desc: 'Format API responses for QA notes',     icon: ICONS.braces  },
+  { id: 'timestamp-converter', name: 'Timestamp Converter',   category: 'qa', desc: 'Unix time to readable dates',           icon: ICONS.watch   },
+  { id: 'bug-report',       name: 'Bug Report Formatter',     category: 'qa', desc: 'Turn notes into clear bug reports',     icon: ICONS.pen     },
+  { id: 'test-case',        name: 'Test Case Formatter',      category: 'qa', desc: 'Create manual test case docs',          icon: ICONS.diff    },
+  { id: 'character-counter',name: 'Character Counter',        category: 'qa', desc: 'Check characters, bytes, and limits',   icon: ICONS.type    },
+
+  // DEVELOPER
   { id: 'lorem-ipsum',       name: 'Lorem Ipsum Generator',      category: 'developer', desc: 'Generate placeholder copy',           icon: ICONS.type    },
   { id: 'markdown-previewer', name: 'Markdown Previewer',           category: 'developer', desc: 'Preview Markdown as HTML',          icon: ICONS.read    },
   { id: 'html-entities',  name: 'HTML Entities Encoder / Decoder', category: 'developer', desc: 'Escape or decode HTML entities',     icon: ICONS.braces  },
   { id: 'url-encoder',     name: 'URL Encoder / Decoder',    category: 'developer', desc: 'Encode or decode URLs and query text', icon: ICONS.encode  },
   { id: 'base64-encoder',  name: 'Base64 Encoder / Decoder', category: 'developer', desc: 'Encode or decode Base64 text',         icon: ICONS.encode  },
-  { id: 'uuid-generator',  name: 'UUID Generator',            category: 'developer', desc: 'Generate random v4 UUIDs',             icon: ICONS.uid     },
-  { id: 'json-formatter',  name: 'JSON Formatter',            category: 'developer', desc: 'Validate, format, or minify JSON',      icon: ICONS.braces  },
   { id: 'xml-formatter',   name: 'XML Formatter / Minifier',   category: 'developer', desc: 'Validate, format, or minify XML',       icon: ICONS.braces  },
   { id: 'csv-json',        name: 'CSV to JSON Converter',      category: 'developer', desc: 'Turn CSV rows into JSON data',           icon: ICONS.braces  },
   { id: 'json-csv',        name: 'JSON to CSV Converter',      category: 'developer', desc: 'Turn JSON arrays into CSV text',          icon: ICONS.braces  },
@@ -141,11 +316,31 @@ export const TOOLS = [
   { id: 'hmac-generator',  name: 'HMAC Generator',             category: 'developer', desc: 'Create keyed SHA signatures',              icon: ICONS.shield  },
   { id: 'jwt-decoder',     name: 'JWT Decoder',               category: 'developer', desc: 'Decode JWT header & payload',           icon: ICONS.jwtoken },
   { id: 'cron-explainer',  name: 'Cron Explainer',            category: 'developer', desc: 'Human-readable cron schedule',          icon: ICONS.crontab },
-  { id: 'regex-tester',    name: 'Regex Tester',              category: 'developer', desc: 'Test and debug regex patterns',         icon: ICONS.regexp  },
   { id: 'color-palette',   name: 'Color Palette Extractor',   category: 'developer', desc: 'Extract dominant colors from an image', icon: ICONS.swatch  },
-  { id: 'timestamp-converter', name: 'Timestamp Converter',    category: 'developer', desc: 'Unix time to readable dates',           icon: ICONS.watch   },
 ];
 
 const TOOL_MAP = new Map(TOOLS.map(t => [t.id, t]));
+const POCKET_MAP = new Map(POCKETS.map(p => [p.id, p]));
+const TOOL_POCKET_MAP = new Map();
+
+POCKETS.forEach(pocket => {
+  pocket.tools.forEach(toolId => {
+    const ids = TOOL_POCKET_MAP.get(toolId) || [];
+    ids.push(pocket.id);
+    TOOL_POCKET_MAP.set(toolId, ids);
+  });
+});
+
 export const getTool = (id) => TOOL_MAP.get(id);
 export const isValidToolId = (id) => TOOL_MAP.has(id);
+export const getPocket = (id) => POCKET_MAP.get(id);
+export const isValidPocketId = (id) => POCKET_MAP.has(id);
+export const getToolPocketIds = (toolId) => TOOL_POCKET_MAP.get(toolId) || [];
+export const getToolsForPocket = (pocketId) => {
+  const pocket = getPocket(pocketId);
+  return pocket ? pocket.tools.map(id => getTool(id)).filter(Boolean) : [];
+};
+export const getPrimaryPocketForTool = (toolId) => {
+  const [primaryId] = getToolPocketIds(toolId);
+  return primaryId ? getPocket(primaryId) : null;
+};

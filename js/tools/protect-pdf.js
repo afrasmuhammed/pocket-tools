@@ -1,36 +1,6 @@
 import { UI } from '../core/ui.js';
 import { FileHelper } from '../core/file.js';
-
-let qpdfPromise = null;
-
-const loadQpdf = () => {
-  if (qpdfPromise) return qpdfPromise;
-  qpdfPromise = new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = './lib/qpdf.js';
-    script.onload = async () => {
-      try {
-        const qpdf = await window.Module({
-          locateFile: (filename) => `./lib/${filename}`,
-          noInitialRun: true,
-          preRun: [(m) => {
-            try { m.FS.mkdir('/work'); } catch (e) {}
-          }],
-        });
-        resolve(qpdf);
-      } catch (e) {
-        qpdfPromise = null;
-        reject(e);
-      }
-    };
-    script.onerror = () => {
-      qpdfPromise = null;
-      reject(new Error('Failed to load qpdf engine.'));
-    };
-    document.head.appendChild(script);
-  });
-  return qpdfPromise;
-};
+import { loadQpdf } from '../core/lazy.js';
 
 export default {
   async init() {
@@ -115,7 +85,6 @@ export default {
         UI.showSuccess('PDF protected and downloaded!');
       } catch (err) {
         console.error(err);
-        qpdfPromise = null;
         UI.showError('Failed to protect PDF. The file may already be encrypted.');
       } finally {
         btnGen.disabled = false;

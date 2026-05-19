@@ -1,5 +1,5 @@
 import { UI } from './core/ui.js';
-import { getTool, isValidToolId } from './registry.js?v=15';
+import { getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=20';
 
 function makePTLogo() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -14,7 +14,7 @@ function makePTLogo() {
   text.setAttribute('text-anchor', 'middle'); text.setAttribute('fill', 'white');
   text.setAttribute('font-family', 'Inter,-apple-system,BlinkMacSystemFont,sans-serif');
   text.setAttribute('font-size', '11.5'); text.setAttribute('font-weight', '800');
-  text.textContent = 'PT';
+  text.textContent = 'PK';
   svg.appendChild(rect); svg.appendChild(text);
   return svg;
 }
@@ -44,12 +44,12 @@ class Router {
 
     const hash = window.location.hash || '';
 
-    // Home
-    if (!hash || hash === '#' || hash === '#/') {
+    // App pages rendered by app.js
+    if (!hash || hash === '#' || hash === '#/' || hash === '#/all' || hash.startsWith('#/pocket/')) {
       viewTool.classList.add('hidden');
       viewHome.classList.remove('hidden');
       btnBack.classList.add('hidden');
-      setAppTitle(appTitle, 'Pocket Tools', true);
+      setAppTitle(appTitle, 'PocketKit', true);
       this.currentToolId = null;
 
       if (this._homeScroll) {
@@ -77,7 +77,7 @@ class Router {
       viewHome.classList.add('hidden');
       viewTool.classList.remove('hidden');
       btnBack.classList.remove('hidden');
-      btnBack.onclick = () => { window.location.hash = '#/'; };
+      btnBack.onclick = () => { window.location.hash = '#/all'; };
 
       const tool = getTool(toolId);
       setAppTitle(appTitle, tool.name, false);
@@ -90,6 +90,7 @@ class Router {
 
       try {
         await this.loadTool(toolId, toolContainer);
+        this.decorateTool(tool, toolContainer);
         window.scrollTo(0, 0);
       } catch (err) {
         console.error('[router] loadTool failed:', err);
@@ -109,7 +110,7 @@ class Router {
   async loadTool(toolId, container) {
     let html = this.templateCache.get(toolId);
     if (!html) {
-      const res = await fetch(`templates/${toolId}.html?v=3`);
+      const res = await fetch(`templates/${toolId}.html?v=5`);
       if (!res.ok) throw new Error(`Template not found: ${toolId}`);
       html = await res.text();
       this.templateCache.set(toolId, html);
@@ -118,15 +119,52 @@ class Router {
 
     let module = this.moduleCache.get(toolId);
     if (!module) {
-      module = await import(`./tools/${toolId}.js?v=2`);
+      module = await import(`./tools/${toolId}.js?v=4`);
       this.moduleCache.set(toolId, module);
     }
 
     if (module.default && typeof module.default.init === 'function') {
-      module.default.init();
+      await module.default.init();
       this.currentToolId = toolId;
       hookDropZones(container);
     }
+  }
+
+  decorateTool(tool, container) {
+    const header = container.querySelector('.tool-header');
+    if (!header || header.dataset.decorated === 'true') return;
+    header.dataset.decorated = 'true';
+    const pocket = getPrimaryPocketForTool(tool.id);
+
+    const meta = document.createElement('div');
+    meta.className = 'tool-meta-bar';
+    meta.innerHTML = `
+      <div class="pk-breadcrumb">
+        <a href="#/">Home</a><span>/</span>
+        ${pocket ? `<a href="#/pocket/${pocket.id}">${pocket.shortName}</a><span>/</span>` : ''}
+        <span>${tool.name}</span>
+      </div>
+      <div class="tool-meta-actions">
+        ${pocket ? `<span class="pk-badge ${pocket.access === 'free' ? 'pk-badge-free' : 'pk-badge-pro'}">${pocket.access === 'free' ? 'Free' : 'Pro'}</span>` : ''}
+        <span class="pk-badge">Works offline</span>
+        <button type="button" class="btn btn-secondary btn-small" id="btn-copy-tool-link">Copy link</button>
+        <button type="button" class="btn btn-secondary btn-small" id="btn-pin-tool">Pin this tool</button>
+      </div>
+    `;
+    header.prepend(meta);
+
+    const copy = container.querySelector('#btn-copy-tool-link');
+    const pin = container.querySelector('#btn-pin-tool');
+    const copyLink = () => {
+      navigator.clipboard.writeText(location.href)
+        .then(() => UI.showSuccess('Tool link copied.'))
+        .catch(() => UI.showError('Copy failed.'));
+    };
+    copy?.addEventListener('click', copyLink);
+    pin?.addEventListener('click', () => {
+      copyLink();
+      UI.showToast('Install PocketKit, then use this link to open the tool directly.');
+    });
   }
 }
 

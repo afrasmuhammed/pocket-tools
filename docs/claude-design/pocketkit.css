@@ -1,0 +1,565 @@
+/* PocketKit — calm app-like design system
+ * Used inside design-canvas artboards. Scope everything under .pk so the
+ * canvas chrome (warm gray bg, post-its) keeps its own typography. */
+
+.pk, .pk * {
+  box-sizing: border-box;
+}
+
+.pk {
+  /* color */
+  --bg:        oklch(0.985 0.003 80);
+  --surface:   #ffffff;
+  --surface-2: oklch(0.975 0.003 80);
+  --ink:       oklch(0.22 0.008 80);
+  --ink-2:     oklch(0.45 0.008 80);
+  --ink-3:     oklch(0.6  0.006 80);
+  --line:      oklch(0.92 0.004 80);
+  --line-2:    oklch(0.955 0.004 80);
+
+  --accent:        oklch(0.5  0.065 168);  /* sage */
+  --accent-ink:    #ffffff;
+  --accent-soft:   oklch(0.96 0.025 168);
+  --accent-soft-ink: oklch(0.4  0.06  168);
+
+  --pro-bg:    oklch(0.96 0.035 78);
+  --pro-ink:   oklch(0.45 0.07  60);
+  --pro-line:  oklch(0.9  0.04  75);
+
+  --free-bg:   oklch(0.96 0.03 168);
+  --free-ink:  oklch(0.4  0.06 168);
+
+  /* radii */
+  --r-1: 6px;
+  --r-2: 10px;
+  --r-3: 14px;
+  --r-4: 18px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.pk-mono {
+  font-family: "IBM Plex Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+}
+
+/* —— App chrome —————————————————————————————————— */
+
+.pk-app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.pk-topbar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.pk-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.pk-brand-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--ink);
+  position: relative;
+}
+.pk-brand-mark::before, .pk-brand-mark::after {
+  content: "";
+  position: absolute;
+  background: var(--bg);
+}
+.pk-brand-mark::before {
+  inset: 5px 5px auto 5px;
+  height: 2px;
+  border-radius: 1px;
+}
+.pk-brand-mark::after {
+  inset: 9px 5px 5px 5px;
+  border-radius: 2px;
+  border: 2px solid var(--bg);
+  background: transparent;
+}
+
+.pk-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.pk-nav a {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: var(--r-1);
+  font-size: 13px;
+  color: var(--ink-2);
+  text-decoration: none;
+  cursor: pointer;
+}
+.pk-nav a.is-active {
+  color: var(--ink);
+  background: var(--surface-2);
+}
+.pk-nav a:hover { color: var(--ink); }
+
+.pk-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pk-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 10px;
+  width: 220px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  background: var(--surface);
+  color: var(--ink-3);
+  font-size: 13px;
+}
+.pk-search kbd {
+  margin-left: auto;
+  font-family: -apple-system, system-ui, sans-serif;
+  font-size: 11px;
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink-3);
+  background: var(--surface-2);
+}
+
+/* —— Buttons —————————————————————————————————— */
+
+.pk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: var(--r-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pk-btn:hover { background: var(--surface-2); }
+.pk-btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.pk-btn-primary:hover { background: oklch(0.3 0.008 80); }
+.pk-btn-accent {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.pk-btn-sm { height: 28px; padding: 0 10px; font-size: 12px; border-radius: var(--r-1); }
+.pk-btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--ink-2);
+}
+.pk-btn-ghost:hover { background: var(--surface-2); color: var(--ink); }
+
+/* —— Badges —————————————————————————————————— */
+
+.pk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+}
+.pk-badge-free {
+  background: var(--free-bg);
+  color: var(--free-ink);
+  border-color: transparent;
+}
+.pk-badge-pro {
+  background: var(--pro-bg);
+  color: var(--pro-ink);
+  border-color: transparent;
+}
+.pk-badge-pro::before {
+  content: "";
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+.pk-badge-dot::before {
+  content: "";
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+/* —— Cards —————————————————————————————————— */
+
+.pk-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+}
+
+/* —— Pocket cards —————————————————————————————————— */
+
+.pk-pocket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 18px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+  cursor: pointer;
+  transition: border-color .15s, transform .15s;
+  text-decoration: none;
+  color: inherit;
+}
+.pk-pocket:hover {
+  border-color: oklch(0.84 0.005 80);
+}
+.pk-pocket-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pk-pocket-title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.pk-pocket-desc {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+.pk-pocket-tools {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.55;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+.pk-pocket-tools .sep { color: var(--line); }
+.pk-pocket-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-2);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.pk-pocket-foot .pk-arrow { color: var(--ink-2); }
+
+/* Pocket geometric mark */
+.pk-mark {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.pk-mark svg { display: block; }
+.pk-mark-lg {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+}
+
+/* —— Tool tiles —————————————————————————————————— */
+
+.pk-tool {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.pk-tool:hover {
+  border-color: oklch(0.86 0.005 80);
+  background: var(--surface-2);
+}
+.pk-tool-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--ink-2);
+  flex-shrink: 0;
+}
+.pk-tool-body {
+  min-width: 0;
+  flex: 1;
+}
+.pk-tool-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pk-tool-meta {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 1px;
+}
+.pk-tool-locked {
+  opacity: 0.92;
+}
+.pk-tool-locked .pk-tool-icon {
+  color: var(--ink-3);
+}
+
+/* —— Section blocks —————————————————————————————————— */
+
+.pk-section-title {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+}
+
+/* —— Hero —————————————————————————————————— */
+
+.pk-hero {
+  max-width: 620px;
+}
+.pk-hero h1 {
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 14px 0 14px;
+  text-wrap: balance;
+}
+.pk-hero p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin: 0 0 22px;
+  text-wrap: pretty;
+}
+.pk-hero-ctas {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.pk-hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.pk-hero-trust .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+}
+
+/* —— Pro banner / locked state —————————————————————————————————— */
+
+.pk-pro-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--r-2);
+  background: var(--pro-bg);
+  border: 1px solid var(--pro-line);
+  color: var(--pro-ink);
+}
+.pk-pro-banner-body {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.pk-pro-banner-body strong {
+  font-weight: 600;
+  color: oklch(0.32 0.07 55);
+}
+
+/* —— Breadcrumb —————————————————————————————————— */
+
+.pk-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.pk-crumbs a {
+  color: var(--ink-2);
+  text-decoration: none;
+}
+.pk-crumbs a:hover { color: var(--ink); }
+.pk-crumbs .sep { color: var(--line); }
+
+/* —— Chips —————————————————————————————————— */
+
+.pk-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pk-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 12px;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.pk-chip:hover { background: var(--surface-2); }
+.pk-chip.is-active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.pk-chip .count { color: var(--ink-3); font-size: 11px; }
+.pk-chip.is-active .count { color: oklch(0.7 0.005 80); }
+
+/* —— Mobile —————————————————————————————————— */
+
+.pk-mobile {
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+}
+.pk-mobile-bar {
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.pk-mobile-statusbar {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--bg);
+}
+.pk-mobile-statusbar .dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pk-mobile-statusbar .dots span {
+  width: 3px; height: 3px; border-radius: 50%; background: var(--ink);
+}
+
+.pk-tabbar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  padding-bottom: 8px;
+}
+.pk-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--ink-3);
+}
+.pk-tab.is-active { color: var(--ink); }
+
+/* —— Misc —————————————————————————————————— */
+
+.pk-divider {
+  height: 1px;
+  background: var(--line);
+}
+.pk-stack { display: flex; flex-direction: column; }
+.pk-row { display: flex; align-items: center; }
+.pk-spacer { flex: 1; }
+.pk-grid { display: grid; }
+
+.pk-tool-surface {
+  padding: 20px;
+  background: var(--surface-2);
+  border: 1px dashed var(--line);
+  border-radius: var(--r-2);
+  color: var(--ink-3);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Hide scrollbars inside artboards (canvas already does this for *) */

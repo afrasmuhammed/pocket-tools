@@ -1,0 +1,40 @@
+<div class="tool-header">
+  <h2>Character Counter</h2>
+  <p>Count characters, bytes, lines, and limits for QA validation.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="cc-text">Text</label>
+      <textarea id="cc-text" class="textarea-tall" placeholder="Paste field text, error copy, or payload values..."></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="cc-limit">Limit</label>
+        <input id="cc-limit" type="number" min="1" value="160">
+      </div>
+      <div class="input-group">
+        <label for="cc-mode">Count Mode</label>
+        <select id="cc-mode">
+          <option value="chars">Characters</option>
+          <option value="bytes">Bytes</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Characters</span><strong id="cc-chars">0</strong></div>
+      <div class="metric"><span>Bytes</span><strong id="cc-bytes">0</strong></div>
+      <div class="metric"><span>Lines</span><strong id="cc-lines">0</strong></div>
+      <div class="metric"><span>Remaining</span><strong id="cc-remaining">160</strong></div>
+    </div>
+    <div class="input-group">
+      <label for="cc-trimmed">Trimmed Text</label>
+      <textarea id="cc-trimmed" class="textarea-medium" readonly></textarea>
+    </div>
+    <button id="btn-cc-copy" class="btn">Copy Trimmed</button>
+  </section>
+</div>

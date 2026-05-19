@@ -1,0 +1,51 @@
+<div class="tool-header">
+  <h2>OpenGraph Preview</h2>
+  <p>Preview how a page title, description, URL, and image can appear when shared.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="og-title">Title</label>
+      <input id="og-title" maxlength="120" placeholder="Pocket Tools - Everyday tools, done right.">
+    </div>
+    <div class="input-group">
+      <label for="og-description">Description</label>
+      <textarea id="og-description" class="textarea-medium" maxlength="220" placeholder="A focused workspace for images, documents, text, dates, and everyday calculations."></textarea>
+    </div>
+    <div class="input-group">
+      <label for="og-url">Page URL</label>
+      <input id="og-url" type="url" placeholder="https://example.com/page">
+    </div>
+    <div class="input-group">
+      <label for="og-image">Image URL</label>
+      <input id="og-image" type="url" placeholder="https://example.com/og-image.png">
+    </div>
+    <div class="button-row">
+      <button id="btn-og-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-og-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="og-preview-card">
+      <div id="og-image-preview" class="og-preview-image">Image preview</div>
+      <div class="og-preview-body">
+        <span id="og-domain" class="og-preview-domain">example.com</span>
+        <strong id="og-title-preview" class="og-preview-title">Preview title</strong>
+        <p id="og-description-preview" class="og-preview-desc">Preview description will appear here.</p>
+      </div>
+    </div>
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Title</span>
+        <strong id="og-title-count">0</strong>
+      </div>
+      <div class="metric">
+        <span>Description</span>
+        <strong id="og-desc-count">0</strong>
+      </div>
+    </div>
+    <span class="field-hint">Common targets: title under 60 characters, description under 160 characters, image near 1200 x 630.</span>
+  </section>
+</div>

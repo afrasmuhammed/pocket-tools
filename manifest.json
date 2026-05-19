@@ -1,17 +1,61 @@
 {
-  "name": "Pocket Tools",
-  "short_name": "Pocket Tools",
-  "description": "A focused workspace for images, documents, text, dates, and everyday calculations.",
+  "name": "PocketKit",
+  "short_name": "PocketKit",
+  "description": "Private everyday tools, installed like an app.",
   "start_url": "./",
   "scope": "./",
   "id": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#f5f2eb",
+  "theme_color": "#22221f",
   "categories": [
     "productivity",
     "utilities"
+  ],
+  "shortcuts": [
+    {
+      "name": "PocketKit Daily",
+      "short_name": "Daily",
+      "description": "Open the free daily tools pocket.",
+      "url": "./#/pocket/daily",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Compress PDF",
+      "short_name": "Compress PDF",
+      "description": "Open the PDF compressor.",
+      "url": "./#/tool/compress-pdf",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Image Compressor",
+      "short_name": "Image",
+      "description": "Open the image compressor.",
+      "url": "./#/tool/image-compressor",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "QR Generator",
+      "short_name": "QR",
+      "description": "Open the QR code generator.",
+      "url": "./#/tool/qr-generator",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "JSON Formatter",
+      "short_name": "JSON",
+      "description": "Open the JSON formatter.",
+      "url": "./#/tool/json-formatter",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Bug Report Formatter",
+      "short_name": "Bug Report",
+      "description": "Open the bug report formatter.",
+      "url": "./#/tool/bug-report",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    }
   ],
   "icons": [
     {

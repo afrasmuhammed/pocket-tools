@@ -1,0 +1,41 @@
+<div class="tool-header">
+  <h2>Compress PDF</h2>
+  <p>Optimize a PDF by rebuilding it with compressed streams and compact object storage.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="drop-zone">
+      <input type="file" id="cpdf-upload" accept="application/pdf">
+      <div>
+        <strong>Select PDF</strong>
+        <span>Best for PDFs with unoptimized structure or large internal streams.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="cpdf-controls" class="tool-panel hidden">
+    <div class="checkbox-grid">
+      <label><input type="checkbox" id="cpdf-linearize"> Fast web view</label>
+      <label><input type="checkbox" id="cpdf-metadata" checked> Strip document metadata</label>
+    </div>
+    <span class="field-hint">Image-heavy scans may not shrink much because browser compression cannot lower embedded image quality safely.</span>
+
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Original</span>
+        <strong id="cpdf-original">--</strong>
+      </div>
+      <div class="metric">
+        <span>Output</span>
+        <strong id="cpdf-output">--</strong>
+      </div>
+      <div class="metric">
+        <span>Savings</span>
+        <strong id="cpdf-savings">--</strong>
+      </div>
+    </div>
+
+    <button id="cpdf-generate" class="btn">Compress PDF</button>
+  </section>
+</div>

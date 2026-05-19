@@ -1,17 +1,9 @@
 import { UI } from '../core/ui.js';
 import { FileHelper } from '../core/file.js';
+import { loadPdfLib } from '../core/lazy.js';
 
 export default {
   async init() {
-    if (!window.PDFLib) {
-      await new Promise((resolve) => {
-        const script = document.createElement('script');
-        script.src = './lib/pdf-lib.min.js';
-        script.onload = resolve;
-        document.head.appendChild(script);
-      });
-    }
-
     const upload = document.getElementById('pn-upload');
     const controls = document.getElementById('pn-controls');
     const posEl = document.getElementById('pn-pos');
@@ -45,12 +37,12 @@ export default {
       btnGen.disabled = true;
       
       try {
-        const { PDFDocument, rgb } = window.PDFLib;
+        const { PDFDocument, StandardFonts, rgb } = await loadPdfLib();
         const arrayBuffer = await currentFile.arrayBuffer();
         const pdf = await PDFDocument.load(arrayBuffer);
         
         const pages = pdf.getPages();
-        const font = await pdf.embedFont(window.PDFLib.StandardFonts.Helvetica);
+        const font = await pdf.embedFont(StandardFonts.Helvetica);
         const startNumber = Number.parseInt(startEl.value, 10) || 1;
         const fontSize = Math.min(36, Math.max(8, Number.parseInt(sizeEl.value, 10) || 12));
         
@@ -93,11 +85,7 @@ export default {
         }
         
         const pdfBytes = await pdf.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'numbered.pdf';
-        a.click();
+        FileHelper.downloadBlob('numbered.pdf', new Blob([pdfBytes], { type: 'application/pdf' }));
         
         UI.showToast('Page numbers added!', 'success');
       } catch (err) {

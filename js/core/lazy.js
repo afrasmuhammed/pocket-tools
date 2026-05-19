@@ -4,6 +4,7 @@
 let pdfLibPromise = null;
 let pdfJsPromise = null;
 let qrPromise = null;
+let qpdfPromise = null;
 
 function loadScript(src) {
   return new Promise((resolve, reject) => {
@@ -53,4 +54,20 @@ export function loadQRCode() {
     }).catch(err => { qrPromise = null; throw err; });
   }
   return qrPromise;
+}
+
+// qpdf.wasm (advanced PDF operations) -> Emscripten module instance
+export function loadQpdf() {
+  if (qpdfPromise) return qpdfPromise;
+  qpdfPromise = loadScript('lib/qpdf.js').then(async () => {
+    if (!window.Module) throw new Error('qpdf failed to register.');
+    return window.Module({
+      locateFile: (filename) => `lib/${filename}`,
+      noInitialRun: true,
+      preRun: [(m) => {
+        try { m.FS.mkdir('/work'); } catch (e) {}
+      }],
+    });
+  }).catch(err => { qpdfPromise = null; throw err; });
+  return qpdfPromise;
 }

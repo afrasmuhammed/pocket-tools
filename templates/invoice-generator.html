@@ -1,0 +1,103 @@
+<div class="tool-header">
+  <h2>Invoice Generator</h2>
+  <p>Create a clean PDF invoice with line items, tax, discount, and notes.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="settings-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="input-group">
+        <label for="inv-company">From</label>
+        <textarea id="inv-company" class="textarea-short" placeholder="Your Company&#10;hello@example.com&#10;Street, City"></textarea>
+      </div>
+      <div class="input-group">
+        <label for="inv-client">Bill To</label>
+        <textarea id="inv-client" class="textarea-short" placeholder="Client Name&#10;client@example.com&#10;Street, City"></textarea>
+      </div>
+    </div>
+
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="inv-number">Invoice Number</label>
+        <input type="text" id="inv-number" placeholder="INV-001">
+      </div>
+      <div class="input-group">
+        <label for="inv-date">Invoice Date</label>
+        <input type="date" id="inv-date">
+      </div>
+      <div class="input-group">
+        <label for="inv-due">Due Date</label>
+        <input type="date" id="inv-due">
+      </div>
+      <div class="input-group">
+        <label for="inv-currency">Currency</label>
+        <select id="inv-currency">
+          <option value="$" selected>USD $</option>
+          <option value="EUR ">EUR €</option>
+          <option value="GBP ">GBP £</option>
+          <option value="INR ">INR ₹</option>
+          <option value="AED ">AED</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="inv-item">Item</label>
+        <input type="text" id="inv-item" placeholder="Design work">
+      </div>
+      <div class="input-group">
+        <label for="inv-qty">Qty</label>
+        <input type="number" id="inv-qty" min="0" step="0.01" value="1">
+      </div>
+      <div class="input-group">
+        <label for="inv-price">Rate</label>
+        <input type="number" id="inv-price" min="0" step="0.01" placeholder="0.00">
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="inv-add" class="btn">Add Item</button>
+      <button id="inv-clear" class="btn btn-secondary">Clear Items</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="inv-tax">Tax %</label>
+        <input type="number" id="inv-tax" min="0" step="0.01" value="0">
+      </div>
+      <div class="input-group">
+        <label for="inv-discount">Discount</label>
+        <input type="number" id="inv-discount" min="0" step="0.01" value="0">
+      </div>
+    </div>
+    <div class="input-group">
+      <label for="inv-notes">Notes</label>
+      <textarea id="inv-notes" class="textarea-short" placeholder="Payment terms, bank details, or a short thank you."></textarea>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric">
+        <span>Items</span>
+        <strong id="inv-count">0</strong>
+      </div>
+      <div class="metric">
+        <span>Subtotal</span>
+        <strong id="inv-subtotal">$0.00</strong>
+      </div>
+      <div class="metric">
+        <span>Total</span>
+        <strong id="inv-total">$0.00</strong>
+      </div>
+    </div>
+
+    <div id="inv-list" class="invoice-list"></div>
+
+    <div class="button-row">
+      <button id="inv-generate" class="btn">Download Invoice PDF</button>
+    </div>
+  </section>
+</div>

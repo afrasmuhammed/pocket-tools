@@ -1,29 +1,42 @@
-# Pocket Tools
+# PocketKit
 
-64 tools — free, works offline. Install as a PWA and use all 64 tools without a network connection.
-Live at [afrasmuhammed.github.io/pocket-tools](https://afrasmuhammed.github.io/pocket-tools/)
+PocketKit is a private, installable PWA for everyday tools. Instead of opening to one giant wall of 76 tools, the app is organized into focused pockets.
 
-## Categories
+Live preview target: [pocketkit.app](https://pocketkit.app/)
 
-| Category | Tools |
-|---|---|
-| Photos | Image Compressor, Format Converter, Bulk Renamer, Social Resizer, Ratio Cropper, Photo→PDF, Color Picker, Watermark, Black & White |
-| Documents | Merge PDF, Split PDF, Protect PDF, Page Numberer, Extract Text, Rotate PDF, Unprotect PDF, ID Masker, Receipt Enhancer |
-| Text | Word Counter, Case Converter, Whitespace Remover, Alphabetical Sorter, Duplicate Remover, Reading Time, Text Diff |
-| Money & Math | Bill Splitter, Discount Calculator, Loan Calculator, Percentage Change, Unit Converter, Grocery Calculator, VAT Calculator |
-| Time | Pomodoro Timer, Days Between Dates, Timezone Matcher, Stopwatch, Countdown Timer |
-| Utilities | Password Generator, QR Code Generator, Random Decision, Signature to PNG |
-| Developer | Base64 Encoder/Decoder, URL Encoder/Decoder, HTML Entities Encoder/Decoder, Markdown Previewer, Lorem Ipsum Generator, Slug Generator, Meta Tag Generator, Robots.txt Generator, UUID Generator, JSON Formatter, XML Formatter/Minifier, CSV to JSON Converter, JSON to CSV Converter, YAML to JSON Converter, JSON to YAML Converter, Hash Generator, HMAC Generator, JWT Decoder, Cron Explainer, Regex Tester, Color Palette Extractor, Timestamp Converter |
+## Product Model
 
-## Libraries added (branch: developer-tools-category)
+| Pocket | Access | Purpose |
+|---|---:|---|
+| PocketKit Daily | Free | Common tools for quick private work |
+| PocketKit PDF | Pro | Document and PDF workflows |
+| PocketKit Image | Pro | Image processing and creator utilities |
+| PocketKit Developer | Pro | Format, encode, decode, hash, and debug |
+| PocketKit QA | Pro | Test data, API, bug report, and validation tools |
+| PocketKit SEO | Pro | Offline SEO preparation and previews |
+| PocketKit Shop | Pro | Small business utilities |
 
-| Library | Version | Vendored to | Used by |
-|---|---|---|---|
-| cronstrue | 3.14.0 | `lib/cronstrue.min.js` | Cron Explainer |
+## Current Tools
 
-ESM shim at `lib/cronstrue-esm.js` wraps the UMD bundle for use with `import`.  
-All other tools (Base64, URL Encoder / Decoder, HTML Entities Encoder / Decoder, Markdown Previewer, Lorem Ipsum Generator, Slug Generator, Meta Tag Generator, Robots.txt Generator, UUID, JSON Formatter, XML Formatter / Minifier, CSV to JSON Converter, JSON to CSV Converter, YAML to JSON Converter, JSON to YAML Converter, Hash Generator, HMAC Generator, JWT Decoder, Regex Tester, Color Palette Extractor, Timestamp Converter) use only built-in browser APIs — no additional dependencies.
+The app currently contains 76 browser-based tools across photos, documents, text, money/math, time, utilities, SEO, QA, and developer workflows.
 
-## Offline support
+PocketKit Daily is the free default experience. Pro pockets are visible as soft locked previews until auth and payments are added.
 
-`sw.js` precaches all 130+ static assets (HTML shell, CSS, 64 tool JS modules, 64 tool templates, all library files, all icons) at install time. Every subsequent load is served cache-first — no network required. Google Fonts are cached at runtime on first visit and reused offline thereafter (system fallback fonts are used if the fonts were never fetched).
+## PWA
+
+`manifest.json` uses PocketKit branding and includes shortcuts for:
+
+- PocketKit Daily
+- Compress PDF
+- Image Compressor
+- QR Generator
+- JSON Formatter
+- Bug Report Formatter
+
+## Offline Support
+
+`sw.js` precaches all 150+ static assets: app shell, CSS, 76 tool JS modules, 76 tool templates, vendored libraries, and icons. Most tools run locally in the browser and work offline whenever possible.
+
+## Planning
+
+See [docs/POCKETKIT_PRODUCT_PLAN.md](docs/POCKETKIT_PRODUCT_PLAN.md) for the detailed product/design plan and Claude Design handoff.

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>PocketKit — design exploration</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="pocketkit.css" />
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { background: #f0eee9; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif; }
+  #root { height: 100%; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="atoms.jsx"></script>
+<script type="text/babel" src="artboards-desktop.jsx"></script>
+<script type="text/babel" src="artboards-mobile.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+  const { DesignCanvas, DCSection, DCArtboard, DCPostIt } = window;
+
+  const App = () => (
+    <DesignCanvas>
+      <DCSection id="intro" title="PocketKit" subtitle="Calm, app-like PWA — organized into pockets, not 76 tools.">
+        <DCPostIt x={0} y={0} width={300}>
+          <b>Design system, locked in.</b><br/><br/>
+          Type: system-sans (SF/Segoe). It's an app, not a marketing page.<br/><br/>
+          Color: warm paper · near-black ink · sage accent · soft amber for Pro. No gradients.<br/><br/>
+          Cards: 14px radius, 1px hairlines, no shadows.<br/><br/>
+          Pro = a tiny amber pill, never a fortress.
+        </DCPostIt>
+      </DCSection>
+
+      <DCSection id="desktop" title="Desktop" subtitle="1280-wide screens — Landing through Tool page.">
+        <DCArtboard id="landing" label="01 · Landing" width={1280} height={1620}>
+          <Landing />
+        </DCArtboard>
+        <DCArtboard id="daily" label="02 · Pocket detail · Daily (free)" width={1280} height={1100}>
+          <PocketDaily />
+        </DCArtboard>
+        <DCArtboard id="dev-pro" label="03 · Pocket detail · Developer (Pro, locked)" width={1280} height={1120}>
+          <PocketDeveloperPro />
+        </DCArtboard>
+        <DCArtboard id="all" label="04 · All tools" width={1280} height={1080}>
+          <AllTools />
+        </DCArtboard>
+        <DCArtboard id="tool" label="05 · Tool page (breadcrumb + Pin this tool)" width={1280} height={820}>
+          <ToolPage />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection id="mobile" title="Mobile" subtitle="390 wide — same DNA, denser and thumb-friendly.">
+        <DCArtboard id="m-landing" label="06 · Mobile · Landing" width={390} height={900}>
+          <MLanding />
+        </DCArtboard>
+        <DCArtboard id="m-pocket" label="07 · Mobile · Pro pocket (Image)" width={390} height={900}>
+          <MPocketPro />
+        </DCArtboard>
+        <DCArtboard id="m-tool" label="08 · Mobile · Tool page (Compress PDF)" width={390} height={900}>
+          <MToolPage />
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

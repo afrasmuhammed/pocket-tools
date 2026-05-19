@@ -1,0 +1,28 @@
+<div class="tool-header">
+  <h2>Bug Report Formatter</h2>
+  <p>Turn rough notes into a clean, shareable QA bug report.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group"><label for="br-title">Title</label><input id="br-title" placeholder="Checkout fails with saved card"></div>
+    <div class="settings-grid">
+      <div class="input-group"><label for="br-severity">Severity</label><select id="br-severity"><option>Critical</option><option selected>High</option><option>Medium</option><option>Low</option></select></div>
+      <div class="input-group"><label for="br-env">Environment</label><input id="br-env" placeholder="Chrome, iPhone 15, staging"></div>
+    </div>
+    <div class="input-group"><label for="br-steps">Steps</label><textarea id="br-steps" class="textarea-medium" placeholder="One step per line"></textarea></div>
+    <div class="input-group"><label for="br-expected">Expected</label><textarea id="br-expected" class="textarea-short"></textarea></div>
+    <div class="input-group"><label for="br-actual">Actual</label><textarea id="br-actual" class="textarea-short"></textarea></div>
+    <div class="button-row">
+      <button id="btn-br-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-br-copy" class="btn">Copy Report</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="br-output">Formatted Report</label>
+      <textarea id="br-output" class="textarea-tall" readonly spellcheck="false"></textarea>
+    </div>
+  </section>
+</div>
