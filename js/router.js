@@ -1,5 +1,5 @@
 import { UI } from './core/ui.js';
-import { getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=20';
+import { getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=21';
 
 function makePTLogo() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');

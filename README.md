@@ -10,10 +10,11 @@ Live preview target: [pocketkit.app](https://pocketkit.app/)
 |---|---:|---|
 | PocketKit Daily | Free | Common tools for quick private work |
 | PocketKit PDF | Pro | Document and PDF workflows |
-| PocketKit Image | Pro | Image processing and creator utilities |
+| PocketKit Designer | Pro | Image, layout, crop, color, and creator utilities |
 | PocketKit Developer | Pro | Format, encode, decode, hash, and debug |
 | PocketKit QA | Pro | Test data, API, bug report, and validation tools |
 | PocketKit SEO | Pro | Offline SEO preparation and previews |
+| PocketKit Student | Pro | Writing, reading, notes, PDFs, and study helpers |
 | PocketKit Shop | Pro | Small business utilities |
 
 ## Current Tools
