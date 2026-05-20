@@ -1200,8 +1200,8 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
   text-wrap: balance;
 }
 .pk-hero h2 em {
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 600;
   color: var(--muted);
 }
 
@@ -1297,8 +1297,8 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
 /* ── Hero stack visual ── */
 .pk-stack {
   position: relative;
-  width: 380px;
-  height: 460px;
+  width: 400px;
+  height: 360px;
   flex-shrink: 0;
 }
 
@@ -1315,42 +1315,56 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
   transform-origin: 50% 0%;
 }
 
-/* Back peek cards — fixed height, row layout, content clipped */
-.pk-stack-card-back {
+/* Back peek cards — straight horizontal strip (no rotation) */
+.pk-stack-peek {
   display: flex;
   align-items: center;
-  gap: 12px;
-  height: 70px;
+  gap: 10px;
   overflow: hidden;
 }
-.pk-stack-card-back strong {
+.pk-stack-peek strong {
   display: block;
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.pk-stack-card-back span:not(.pk-badge):not(.pk-mark) {
+.pk-stack-peek .pk-badge { margin-left: auto; flex-shrink: 0; }
+
+/* Front card — fully rendered Daily pocket, no rotation */
+.pk-stack-front {
   display: block;
+}
+
+/* Icon chip row on Daily front card */
+.pk-stack-icon-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+.pk-icon-chip {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg) 70%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+  display: inline-grid;
+  place-items: center;
   color: var(--muted);
+  flex-shrink: 0;
+}
+.pk-icon-chip .icon { width: 15px; height: 15px; }
+.pk-chips-more {
   font-family: var(--font-mono-ui);
   font-size: 10.5px;
   font-weight: 500;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  letter-spacing: .05em;
-  margin-top: 2px;
-}
-.pk-stack-card-back .pk-badge { margin-left: auto; }
-.pk-stack-card-1 { top: 56px; transform: rotate(4deg);  z-index: 1; }
-.pk-stack-card-2 { top: 36px; transform: rotate(-3deg); z-index: 2; }
-.pk-stack-card-3 { top: 18px; transform: rotate(2deg);  z-index: 3; }
-
-/* Front card — fully rendered Daily pocket */
-.pk-stack-front {
-  top: 80px; z-index: 5;
-  display: block;
-  padding: 18px;
-  transform: rotate(-1deg);
+  color: var(--muted);
+  margin-left: 4px;
 }
 .pk-stack-daily-title {
   font-family: var(--font-display);
@@ -1848,10 +1862,130 @@ html[data-theme="dark"] .pk-mobile-pro-row {
   flex-shrink: 0;
 }
 
+/* ── Why PocketKit — 3-item inline-icon card ── */
+.pk-why-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid color-mix(in srgb, var(--border) 84%, transparent);
+  border-radius: 18px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 4%, transparent), transparent 32%),
+    var(--card);
+}
+.pk-why-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: color-mix(in srgb, var(--fg) 9%, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+.pk-value-v2 { padding: 22px 24px; }
+.pk-value-v2-sep { border-left: 1px solid var(--border); }
+.pk-value-v2-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.pk-value-v2-head svg {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.pk-value-v2-head strong {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.008em;
+  color: var(--fg);
+}
+.pk-value-v2 > span {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* Dark mode surface for why card */
+html[data-theme="dark"] .pk-why-card {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.045);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .pk-why-card {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.045);
+  }
+}
+
+/* ── Recently used — horizontal pill rail ── */
+.pk-recent-block-v2 { margin: 0 0 26px; }
+.pk-recent-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.pk-recent-header::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.pk-recent-rail {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 0 4px;
+}
+.pk-recent-rail::-webkit-scrollbar { display: none; }
+.pk-recent-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 36px;
+  padding: 0 14px 0 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--fg);
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background .15s, border-color .15s;
+  flex-shrink: 0;
+}
+.pk-recent-pill:hover {
+  background: var(--card-hover);
+  border-color: color-mix(in srgb, var(--pocket-accent, var(--accent)) 40%, var(--border));
+  opacity: 1;
+}
+.pk-recent-pill-icon {
+  display: inline-flex;
+  color: var(--pocket-accent, var(--accent));
+}
+.pk-recent-pill-icon .icon { width: 14px; height: 14px; }
+.pk-recent-pill-name {
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+.pk-recent-pill-pocket {
+  font-family: var(--font-mono-ui);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding-left: 9px;
+  margin-left: 2px;
+  border-left: 1px solid var(--border);
+}
+
 /* ── Responsive: 980px — hero stack collapses to single column ── */
 @media (max-width: 980px) {
   .pk-hero-shell { grid-template-columns: 1fr; }
-  .pk-stack { width: min(380px, 100%); margin: 0 auto; }
+  .pk-stack { width: min(400px, 100%); margin: 0 auto; }
   .pk-pocket-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pk-pocket-grid .pk-pocket-card:first-child { grid-column: auto; }
   .pk-value-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1888,6 +2022,8 @@ html[data-theme="dark"] .pk-mobile-pro-row {
   .pk-pricing-grid { grid-template-columns: 1fr; }
   .pk-pocket-grid .pk-pocket-card:first-child { grid-column: auto; }
   .pk-value-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pk-why-card { grid-template-columns: 1fr; }
+  .pk-value-v2-sep { border-left: none; border-top: 1px solid var(--border); }
 
   .pk-pocket-card { min-height: 0; }
   .pk-pocket-hero { gap: 12px; }

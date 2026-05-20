@@ -33,6 +33,31 @@ function svgPath(path, className = 'icon') {
   return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${path}"></path></svg>`;
 }
 
+function pocketMarkSvgStr(pocketId, size = 18) {
+  const sw = 1.7;
+  const a = `width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"`;
+  switch (pocketId) {
+    case 'daily':
+      return `<svg ${a}><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="4" r="1.4"/><circle cx="12" cy="20" r="1.4"/><circle cx="4" cy="12" r="1.4"/><circle cx="20" cy="12" r="1.4"/><circle cx="6" cy="6" r="1.1"/><circle cx="18" cy="6" r="1.1"/><circle cx="6" cy="18" r="1.1"/><circle cx="18" cy="18" r="1.1"/></svg>`;
+    case 'developer':
+      return `<svg ${a}><path d="M8 4 3 12l5 8M16 4l5 8-5 8"/><path d="M14 4l-4 16" stroke-opacity=".55"/></svg>`;
+    case 'designer':
+      return `<svg ${a}><circle cx="9" cy="9" r="5" fill="currentColor" fill-opacity=".22"/><circle cx="15" cy="11" r="5" fill="currentColor" fill-opacity=".22"/><circle cx="12" cy="16" r="5" fill="currentColor" fill-opacity=".22"/></svg>`;
+    case 'qa':
+      return `<svg ${a}><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 12 3 3 7-7"/></svg>`;
+    case 'student':
+      return `<svg ${a}><path d="M3 6a2 2 0 0 1 2-2h6v17H5a2 2 0 0 1-2-2zM21 6a2 2 0 0 0-2-2h-6v17h6a2 2 0 0 0 2-2z"/><path d="M6 8h2M6 11h2M16 8h2M16 11h2"/></svg>`;
+    case 'shop':
+      return `<svg ${a}><path d="M5 8h14l-1.5 12h-11zM8 8V6a4 4 0 0 1 8 0v2"/><circle cx="10" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="13" r="1" fill="currentColor" stroke="none"/></svg>`;
+    case 'seo':
+      return `<svg ${a}><circle cx="10" cy="10" r="6"/><path d="m20 20-5-5"/></svg>`;
+    case 'pdf':
+      return `<svg ${a}><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v3h3"/><path d="M9 12h6M9 16h4"/></svg>`;
+    default:
+      return `<svg ${a}><circle cx="12" cy="12" r="4"/></svg>`;
+  }
+}
+
 function badge(access) {
   return `<span class="pk-badge ${access === 'free' ? 'pk-badge-free' : 'pk-badge-pro'}">${access === 'free' ? 'Free' : 'Pro'}</span>`;
 }
@@ -108,35 +133,64 @@ function makePocketCard(pocket) {
 
 function makeHeroStack() {
   const daily = getPocket('daily');
-  // Back cards: shop (back), designer, developer (front of back stack)
-  const backPockets = ['shop', 'designer', 'developer'].map(getPocket).filter(Boolean);
+  const CONTAINER_W = 400;
+  const WIDTH_FRONT = 360;
+  const WIDTH_STEP  = 16;
+  const STAGGER_Y   = 40;
+  const CARD_H      = 46;
+
+  // Back-to-front order (shop = bottom, designer = just behind Daily)
+  const backPocketIds = ['shop', 'student', 'qa', 'designer'];
+  const backPockets = backPocketIds.map(id => getPocket(id)).filter(Boolean);
+
+  const backCards = backPockets.map((pocket, i) => {
+    const w   = WIDTH_FRONT - (backPockets.length - i) * WIDTH_STEP;
+    const x   = (CONTAINER_W - w) / 2;
+    const top = i * STAGGER_Y;
+    return `
+      <div class="pk-stack-card pk-stack-peek" style="
+        position:absolute;left:${x}px;width:${w}px;top:${top}px;height:${CARD_H}px;
+        z-index:${i + 1};--pocket-accent:${pocket.accent};
+        padding:0 14px;border-radius:12px;
+        background:linear-gradient(180deg,color-mix(in srgb,white 4%,transparent),transparent 32%),color-mix(in srgb,var(--card) 94%,var(--pocket-accent) 6%);
+        border:1px solid color-mix(in srgb,var(--pocket-accent) 28%,var(--border));
+        box-shadow:inset 0 1px 0 color-mix(in srgb,white 7%,transparent),0 6px 18px -10px rgba(0,0,0,0.45);
+      ">
+        <span class="pk-mark" style="--pocket-accent:${pocket.accent};width:22px;height:22px;border-radius:6px;flex-shrink:0">${pocketMarkSvgStr(pocket.id, 13)}</span>
+        <strong>${pocket.shortName}</strong>
+        ${badge('pro')}
+      </div>`;
+  }).join('');
+
+  const frontLeft = (CONTAINER_W - WIDTH_FRONT) / 2;
+  const frontTop  = backPockets.length * STAGGER_Y;
+  const toolChips = daily.tools.slice(0, 3).map(id => {
+    const tool = getTool(id);
+    return tool ? `<span class="pk-icon-chip">${svgPath(tool.icon)}</span>` : '';
+  }).join('');
+  const moreCount = daily.tools.length - 3;
+
   return `
     <div class="pk-stack" aria-hidden="true">
-      ${backPockets.map((pocket, index) => `
-        <div class="pk-stack-card pk-stack-card-back pk-stack-card-${index + 1}" style="--pocket-accent:${pocket.accent}">
-          ${pocketMark(pocket)}
-          <div>
-            <strong>${pocket.shortName}</strong>
-            <span>${pocket.tools.length} TOOLS · PRO</span>
-          </div>
-          ${badge('pro')}
-        </div>
-      `).join('')}
-      <div class="pk-stack-card pk-stack-front" style="--pocket-accent:${daily.accent}">
-        <div class="pk-pocket-head">
-          ${pocketMark(daily)}
+      ${backCards}
+      <div class="pk-stack-card pk-stack-front" style="
+        position:absolute;left:${frontLeft}px;width:${WIDTH_FRONT}px;top:${frontTop}px;
+        z-index:10;--pocket-accent:${daily.accent};
+        padding:18px 20px 16px;border-radius:16px;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),0 18px 36px -18px rgba(0,0,0,0.55);
+      ">
+        <div class="pk-pocket-head" style="margin-bottom:14px">
+          <span class="pk-mark" style="--pocket-accent:${daily.accent};width:32px;height:32px;border-radius:9px">${pocketMarkSvgStr('daily', 18)}</span>
           ${badge('free')}
         </div>
         <div class="pk-stack-daily-title">Daily</div>
-        <div class="pk-stack-daily-desc">Quick everyday tools. Open and use.</div>
-        <div class="pk-stack-tools">
-          ${daily.tools.slice(0, 3).map(id => {
-            const tool = getTool(id);
-            return tool ? `<span>${tool.name}</span>` : '';
-          }).join('')}
+        <div class="pk-stack-daily-desc" style="font-family:var(--font-mono-ui);font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin:2px 0 14px">${daily.tools.length} TOOLS · FREE</div>
+        <div class="pk-stack-icon-chips">
+          ${toolChips}
+          <span class="pk-chips-more">+${moreCount} MORE</span>
         </div>
-        <div class="pk-pocket-foot">
-          <span style="font-family:var(--font-mono-ui);font-size:11px;letter-spacing:.05em;text-transform:uppercase">${daily.tools.length} TOOLS</span>
+        <div class="pk-pocket-foot" style="margin-top:14px">
+          <span></span>
           <span>Open →</span>
         </div>
       </div>
@@ -229,11 +283,28 @@ function renderLanding() {
 
     <section class="pk-section">
       <p class="pk-section-title">Why PocketKit</p>
-      <div class="pk-value-grid">
-        <div class="pk-value"><span class="pk-value-icon">01</span><strong>Private by default</strong><span>Local tools never upload your files. Your work stays on your device.</span></div>
-        <div class="pk-value"><span class="pk-value-icon">02</span><strong>Installable PWA</strong><span>Add to Dock, taskbar, or home screen. Opens like any other app.</span></div>
-        <div class="pk-value"><span class="pk-value-icon">03</span><strong>Works offline</strong><span>Most tools keep working without a connection.</span></div>
-        <div class="pk-value"><span class="pk-value-icon">04</span><strong>Organized in pockets</strong><span>No wall of tools. Open the pocket for the job at hand.</span></div>
+      <div class="pk-why-card">
+        <div class="pk-value-v2">
+          <div class="pk-value-v2-head">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"></path></svg>
+            <strong>Private by default</strong>
+          </div>
+          <span>Local tools run in your browser. Nothing uploads. No account needed for Daily.</span>
+        </div>
+        <div class="pk-value-v2 pk-value-v2-sep">
+          <div class="pk-value-v2-head">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 18 0M7 16a5 5 0 0 1 10 0M11 20h2"></path></svg>
+            <strong>Works offline</strong>
+          </div>
+          <span>PocketKit is installable. Most tools keep working on planes, trains, and bad WiFi.</span>
+        </div>
+        <div class="pk-value-v2 pk-value-v2-sep">
+          <div class="pk-value-v2-head">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h6l2 3h2l2-3h6M3 12l3-8h12l3 8v8H3z"></path></svg>
+            <strong>Organized in pockets</strong>
+          </div>
+          <span>No wall of ${TOOLS.length} tools. Open the pocket that matches the work in front of you.</span>
+        </div>
       </div>
     </section>
 
@@ -397,17 +468,36 @@ function renderRecent(view) {
   const target = view.querySelector('#recent-row-target');
   const ids = getRecent().filter(id => getTool(id));
   if (!target || !ids.length) return;
-  const row = document.createElement('div');
-  row.className = 'pk-recent-block';
-  row.innerHTML = '<p class="pk-section-title">Recently used</p>';
-  const grid = document.createElement('div');
-  grid.className = 'tool-grid pk-compact-grid';
-  ids.forEach((id, index) => {
+
+  const block = document.createElement('div');
+  block.className = 'pk-recent-block-v2';
+
+  const header = document.createElement('div');
+  header.className = 'pk-recent-header';
+  header.innerHTML = '<p class="pk-section-title" style="margin:0">Recently used</p>';
+  block.appendChild(header);
+
+  const rail = document.createElement('div');
+  rail.className = 'pk-recent-rail';
+
+  ids.forEach(id => {
     const tool = getTool(id);
-    if (tool) grid.appendChild(makeToolCard(tool, index));
+    if (!tool) return;
+    const pocket = getPrimaryPocketForTool(tool.id);
+    const pill = document.createElement('a');
+    pill.className = 'pk-recent-pill';
+    pill.href = `#/tool/${encodeURIComponent(tool.id)}`;
+    if (pocket) pill.style.setProperty('--pocket-accent', pocket.accent);
+    pill.innerHTML = `
+      <span class="pk-recent-pill-icon">${svgPath(tool.icon)}</span>
+      <span class="pk-recent-pill-name">${tool.name}</span>
+      ${pocket ? `<span class="pk-recent-pill-pocket">${pocket.shortName}</span>` : ''}
+    `;
+    rail.appendChild(pill);
   });
-  row.appendChild(grid);
-  target.appendChild(row);
+
+  block.appendChild(rail);
+  target.appendChild(block);
 }
 
 function renderAllGrid() {
