@@ -131,73 +131,6 @@ function makePocketCard(pocket) {
   return card;
 }
 
-function makeHeroStack() {
-  const daily = getPocket('daily');
-  const CONTAINER_W = 400;
-  const WIDTH_FRONT = 360;
-  const WIDTH_STEP  = 16;
-  const STAGGER_Y   = 40;
-  const CARD_H      = 46;
-
-  // Back-to-front order (shop = bottom, designer = just behind Daily)
-  const backPocketIds = ['shop', 'student', 'qa', 'designer'];
-  const backPockets = backPocketIds.map(id => getPocket(id)).filter(Boolean);
-
-  const backCards = backPockets.map((pocket, i) => {
-    const w   = WIDTH_FRONT - (backPockets.length - i) * WIDTH_STEP;
-    const x   = (CONTAINER_W - w) / 2;
-    const top = i * STAGGER_Y;
-    return `
-      <div class="pk-stack-card pk-stack-peek" style="
-        position:absolute;left:${x}px;width:${w}px;top:${top}px;height:${CARD_H}px;
-        z-index:${i + 1};--pocket-accent:${pocket.accent};
-        padding:0 14px;border-radius:12px;
-        background:linear-gradient(180deg,color-mix(in srgb,white 4%,transparent),transparent 32%),color-mix(in srgb,var(--card) 94%,var(--pocket-accent) 6%);
-        border:1px solid color-mix(in srgb,var(--pocket-accent) 28%,var(--border));
-        box-shadow:inset 0 1px 0 color-mix(in srgb,white 7%,transparent),0 6px 18px -10px rgba(0,0,0,0.45);
-      ">
-        <span class="pk-mark" style="--pocket-accent:${pocket.accent};width:22px;height:22px;border-radius:6px;flex-shrink:0">${pocketMarkSvgStr(pocket.id, 13)}</span>
-        <strong>${pocket.shortName}</strong>
-        ${badge('pro')}
-      </div>`;
-  }).join('');
-
-  const frontLeft = (CONTAINER_W - WIDTH_FRONT) / 2;
-  const frontTop  = backPockets.length * STAGGER_Y;
-  const toolChips = daily.tools.slice(0, 3).map(id => {
-    const tool = getTool(id);
-    return tool ? `<span class="pk-icon-chip">${svgPath(tool.icon)}</span>` : '';
-  }).join('');
-  const moreCount = daily.tools.length - 3;
-
-  return `
-    <div class="pk-stack" aria-hidden="true">
-      ${backCards}
-      <div class="pk-stack-card pk-stack-front" style="
-        position:absolute;left:${frontLeft}px;width:${WIDTH_FRONT}px;top:${frontTop}px;
-        z-index:10;--pocket-accent:${daily.accent};
-        padding:18px 20px 16px;border-radius:16px;
-        box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),0 18px 36px -18px rgba(0,0,0,0.55);
-      ">
-        <div class="pk-pocket-head" style="margin-bottom:14px">
-          <span class="pk-mark" style="--pocket-accent:${daily.accent};width:32px;height:32px;border-radius:9px">${pocketMarkSvgStr('daily', 18)}</span>
-          ${badge('free')}
-        </div>
-        <div class="pk-stack-daily-title">Daily</div>
-        <div class="pk-stack-daily-desc" style="font-family:var(--font-mono-ui);font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin:2px 0 14px">${daily.tools.length} TOOLS · FREE</div>
-        <div class="pk-stack-icon-chips">
-          ${toolChips}
-          <span class="pk-chips-more">+${moreCount} MORE</span>
-        </div>
-        <div class="pk-pocket-foot" style="margin-top:14px">
-          <span></span>
-          <span>Open →</span>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
 function makeMobilePockets() {
   const daily = getPocket('daily');
   const proPockets = POCKETS.filter(p => p.access === 'pro');
@@ -249,22 +182,19 @@ function setHomeContent(html) {
 function renderLanding() {
   const view = setHomeContent(`
     <section class="pk-landing">
-      <div class="pk-hero-shell">
-        <div class="pk-hero">
-          <p class="pk-kicker">${POCKETS.length} pockets · ${TOOLS.length} tools · Installable app</p>
-          <h2>Small tools,<br><em>neatly packed.</em></h2>
-          <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Open a Pro pocket when the day demands one.</p>
-          <div class="pk-hero-actions">
-            <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
-            <a class="btn btn-secondary" href="#/all">Browse all tools</a>
-          </div>
-          <div class="pk-trust-row">
-            <span>Private by default</span>
-            <span>Works offline</span>
-            <span>Installs in a click</span>
-          </div>
+      <div class="pk-hero">
+        <p class="pk-kicker">${POCKETS.length} pockets · ${TOOLS.length} tools · Installable app</p>
+        <h2>Small tools,<br><em>neatly packed.</em></h2>
+        <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Open a Pro pocket when the day demands one.</p>
+        <div class="pk-hero-actions">
+          <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
+          <a class="btn btn-secondary" href="#/all">Browse all tools</a>
         </div>
-        ${makeHeroStack()}
+        <div class="pk-trust-row">
+          <span>Private by default</span>
+          <span>Works offline</span>
+          <span>Installs in a click</span>
+        </div>
       </div>
       ${makeMobilePockets()}
     </section>
@@ -274,7 +204,7 @@ function renderLanding() {
         <div>
           <p class="pk-section-title">Pockets</p>
           <h2>Open the pocket you need.</h2>
-          <p>Daily is ready for everyone. Pro pockets stay visible so people understand what they can unlock later.</p>
+          <p>Daily is ready for everyone. Pro pockets stay visible so you can see what's coming next.</p>
         </div>
         <a class="btn btn-secondary" href="#/all">Browse all tools</a>
       </div>
@@ -293,10 +223,10 @@ function renderLanding() {
         </div>
         <div class="pk-value-v2 pk-value-v2-sep">
           <div class="pk-value-v2-head">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 18 0M7 16a5 5 0 0 1 10 0M11 20h2"></path></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m9 12 2 2 4-4"/></svg>
             <strong>Works offline</strong>
           </div>
-          <span>PocketKit is installable. Most tools keep working on planes, trains, and bad WiFi.</span>
+          <span>PocketKit is installable. Most tools keep working on planes, trains, and without a connection.</span>
         </div>
         <div class="pk-value-v2 pk-value-v2-sep">
           <div class="pk-value-v2-head">
@@ -326,18 +256,25 @@ function renderLanding() {
           ${badge('free')}
           <h3>PocketKit Daily</h3>
           <strong class="pk-price">Free <span>forever</span></strong>
-          <p>Everyday tools: QR codes, image compression, passwords, PDFs, timers, and calculators. Open and use immediately.</p>
+          <p>Everyday tools available without an account. Install to your device and use offline. Always.</p>
+          <ul class="pk-feature-list">
+            <li>${POCKETS.find(p => p.id === 'daily')?.tools.length || 0} Daily tools</li>
+            <li>Install as PWA</li>
+            <li>Works offline</li>
+            <li>No uploads for local tools</li>
+          </ul>
           <a class="btn btn-secondary" href="#/pocket/daily">Open Daily</a>
         </div>
-        <div class="pk-price-card">
+        <div class="pk-price-card pk-price-card-featured">
           ${badge('pro')}
-          <h3>Pro pockets</h3>
-          <strong class="pk-price">$24 <span>/year launch idea</span></strong>
-          <p>PDF, Designer, Developer, QA, SEO, Student, and Shop workflows. Unlock when you need deeper tools for a specific kind of work.</p>
+          <h3>All Pro pockets</h3>
+          <strong class="pk-price">$24 <span>/year · launch price</span></strong>
+          <p>Unlock six specialized pockets — Developer, Designer, SEO, QA, Student, Shop. One small price, one click.</p>
           <div class="pk-pro-pocket-list">${POCKETS.filter(pocket => pocket.access === 'pro').map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
           <a class="btn btn-secondary" href="#/pocket/developer">Preview Pro</a>
         </div>
       </div>
+      <p class="pk-pricing-note">One-time and individual pocket unlocks coming with launch. No subscriptions hidden behind toggles.</p>
     </section>
   `);
 

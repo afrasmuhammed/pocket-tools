@@ -6,9 +6,9 @@
 //
 // Bump CACHE_VERSION on every deploy so existing users pick up fresh assets.
 // All URL versions MUST match the query strings used in index.html and router.js:
-//   css/styles.css?v=24  |  js/app.js?v=35  |  templates/*.html?v=5  |  js/tools/*.js?v=4
+//   css/styles.css?v=25  |  js/app.js?v=36  |  templates/*.html?v=5  |  js/tools/*.js?v=4
 
-const CACHE_VERSION = 'v43';
+const CACHE_VERSION = 'v44';
 const CACHE_NAME    = `pocketkit-${CACHE_VERSION}`;
 const FONTS_CACHE   = 'pocketkit-fonts-v1';
 
@@ -21,8 +21,8 @@ const SHELL_URLS = [
   './',
   'index.html',
   'manifest.json',
-  'css/styles.css?v=24',   // matches <link> in index.html
-  'js/app.js?v=35',        // matches <script> in index.html
+  'css/styles.css?v=25',   // matches <link> in index.html
+  'js/app.js?v=36',        // matches <script> in index.html
   'js/registry.js?v=21',
   'js/router.js?v=22',
   'js/core/file.js',
