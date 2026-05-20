@@ -97,8 +97,7 @@ function makePocketCard(pocket) {
       ${badge(pocket.access)}
     </div>
     <p>${pocket.desc}</p>
-    <div class="pk-pocket-chips">${pocket.tools.slice(0, 5).map(toolIconChip).join('')}<span>+${Math.max(0, pocket.tools.length - 5)}</span></div>
-    <div class="pk-pocket-tools">${pocket.featured.map(item => `<span>${item}</span>`).join('')}</div>
+    <div class="pk-pocket-chips">${pocket.tools.slice(0, 4).map(toolIconChip).join('')}<span>+${Math.max(0, pocket.tools.length - 4)}</span></div>
     <div class="pk-pocket-foot">
       <span>${pocket.access === 'free' ? 'Ready now' : 'Pro pocket'}</span>
       <span>Open →</span>
@@ -109,15 +108,16 @@ function makePocketCard(pocket) {
 
 function makeHeroStack() {
   const daily = getPocket('daily');
-  const stackPockets = ['shop', 'designer', 'developer'].map(getPocket).filter(Boolean);
+  // Back cards: shop (back), designer, developer (front of back stack)
+  const backPockets = ['shop', 'designer', 'developer'].map(getPocket).filter(Boolean);
   return `
     <div class="pk-stack" aria-hidden="true">
-      ${stackPockets.map((pocket, index) => `
-        <div class="pk-stack-card pk-stack-card-${index + 1}" style="--pocket-accent:${pocket.accent}">
+      ${backPockets.map((pocket, index) => `
+        <div class="pk-stack-card pk-stack-card-back pk-stack-card-${index + 1}" style="--pocket-accent:${pocket.accent}">
           ${pocketMark(pocket)}
           <div>
             <strong>${pocket.shortName}</strong>
-            <span>${pocket.tools.length} tools · Pro</span>
+            <span>${pocket.tools.length} TOOLS · PRO</span>
           </div>
           ${badge('pro')}
         </div>
@@ -127,15 +127,59 @@ function makeHeroStack() {
           ${pocketMark(daily)}
           ${badge('free')}
         </div>
-        <strong>Daily</strong>
-        <p>Quick everyday tools. Open and use.</p>
+        <div class="pk-stack-daily-title">Daily</div>
+        <div class="pk-stack-daily-desc">Quick everyday tools. Open and use.</div>
         <div class="pk-stack-tools">
           ${daily.tools.slice(0, 3).map(id => {
             const tool = getTool(id);
             return tool ? `<span>${tool.name}</span>` : '';
           }).join('')}
         </div>
-        <div class="pk-pocket-foot"><span>${daily.tools.length} tools</span><span>Open →</span></div>
+        <div class="pk-pocket-foot">
+          <span style="font-family:var(--font-mono-ui);font-size:11px;letter-spacing:.05em;text-transform:uppercase">${daily.tools.length} TOOLS</span>
+          <span>Open →</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function makeMobilePockets() {
+  const daily = getPocket('daily');
+  const proPockets = POCKETS.filter(p => p.access === 'pro');
+  return `
+    <div class="pk-mobile-pockets">
+      <a class="pk-pocket-card" href="#/pocket/daily" style="--pocket-accent:${daily.accent}">
+        <span class="pk-pocket-aura" aria-hidden="true"></span>
+        <div class="pk-pocket-head">
+          <div class="pk-pocket-identity">
+            ${pocketMark(daily)}
+            <div>
+              <h3>${daily.name}</h3>
+              <span>FREE FOREVER · NO ACCOUNT</span>
+            </div>
+          </div>
+          ${badge('free')}
+        </div>
+        <div class="pk-pocket-chips">${daily.tools.slice(0, 4).map(toolIconChip).join('')}<span>+${Math.max(0, daily.tools.length - 4)}</span></div>
+        <div class="pk-pocket-foot">
+          <span style="font-family:var(--font-mono-ui);font-size:11px;letter-spacing:.05em;text-transform:uppercase">${daily.tools.length} TOOLS</span>
+          <span>Open Daily →</span>
+        </div>
+      </a>
+      <p class="pk-section-title" style="margin-top:20px;margin-bottom:10px">Pro pockets</p>
+      <div class="pk-mobile-pro-rows">
+        ${proPockets.slice(0, 4).map(pocket => `
+          <a class="pk-mobile-pro-row" href="#/pocket/${encodeURIComponent(pocket.id)}" style="--pocket-accent:${pocket.accent}">
+            <span class="pk-pocket-aura" aria-hidden="true"></span>
+            ${pocketMark(pocket)}
+            <div class="pk-mobile-pro-row-body">
+              <div class="pk-mobile-pro-row-name">${pocket.name}</div>
+              <div class="pk-mobile-pro-row-desc">${pocket.desc}</div>
+            </div>
+            ${badge('pro')}
+          </a>
+        `).join('')}
       </div>
     </div>
   `;
@@ -154,11 +198,11 @@ function renderLanding() {
       <div class="pk-hero-shell">
         <div class="pk-hero">
           <p class="pk-kicker">${POCKETS.length} pockets · ${TOOLS.length} tools · Installable app</p>
-          <h2>Small tools, neatly packed.</h2>
-          <p>PocketKit is a private utility app organized into focused pockets. Daily tools stay free. Open a Pro pocket when the day demands deeper work.</p>
+          <h2>Small tools,<br><em>neatly packed.</em></h2>
+          <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Open a Pro pocket when the day demands one.</p>
           <div class="pk-hero-actions">
             <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
-            <a class="btn btn-secondary" href="#/all">Browse all pockets</a>
+            <a class="btn btn-secondary" href="#/all">Browse all tools</a>
           </div>
           <div class="pk-trust-row">
             <span>Private by default</span>
@@ -168,9 +212,10 @@ function renderLanding() {
         </div>
         ${makeHeroStack()}
       </div>
+      ${makeMobilePockets()}
     </section>
 
-    <section id="pockets" class="pk-section">
+    <section id="pockets" class="pk-section pk-desktop-section">
       <div class="pk-section-head">
         <div>
           <p class="pk-section-title">Pockets</p>
