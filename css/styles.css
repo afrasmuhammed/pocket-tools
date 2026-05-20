@@ -1913,14 +1913,43 @@ html[data-theme="dark"] .pk-why-card {
 
 /* ── Responsive: 820px — mobile layout ── */
 @media (max-width: 820px) {
-  main { padding-bottom: 84px; }
+  main {
+    padding-top: 22px;
+    padding-bottom: 112px;
+  }
 
-  .pk-landing { padding-top: 32px; }
-  .pk-hero h2 { font-size: 32px; letter-spacing: -0.028em; }
-  .pk-hero p { font-size: 15px; }
-  .pk-hero-actions { flex-direction: column; }
+  .pk-landing { padding-top: 22px; }
+  .pk-kicker { margin-bottom: 8px; font-size: 10.5px; letter-spacing: .12em; }
+  .pk-hero h2 { font-size: 30px; line-height: 1.05; letter-spacing: -0.03em; }
+  .pk-hero p {
+    margin-top: 18px;
+    font-size: 14.5px;
+    line-height: 1.52;
+  }
+  .pk-hero-actions {
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 28px;
+  }
+  .pk-hero-actions .btn {
+    min-height: 44px;
+    border-radius: 12px;
+  }
+  .pk-trust-row {
+    gap: 6px;
+    margin-top: 18px;
+  }
+  .pk-trust-row span {
+    min-height: 26px;
+    padding: 0 9px;
+    font-size: 11.5px;
+  }
   /* Show mobile pockets section; hide desktop pocket grid */
-  .pk-mobile-pockets { display: block; }
+  .pk-mobile-pockets {
+    display: block;
+    margin-top: 18px;
+    padding-bottom: 18px;
+  }
   .pk-desktop-section { display: none; }
   .pk-hero-actions .btn,
   .pk-section-head .btn,
@@ -1944,6 +1973,40 @@ html[data-theme="dark"] .pk-why-card {
   .pk-value-v2-sep { border-left: none; border-top: 1px solid var(--border); }
 
   .pk-pocket-card { min-height: 0; }
+  .pk-mobile-pockets .pk-pocket-card {
+    gap: 12px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+  .pk-mobile-pockets .pk-pocket-identity {
+    gap: 10px;
+  }
+  .pk-mobile-pockets .pk-pocket-identity h3 {
+    font-size: 15.5px;
+  }
+  .pk-mobile-pockets .pk-pocket-identity > div > span {
+    font-size: 9.5px;
+    letter-spacing: .075em;
+  }
+  .pk-mobile-pockets .pk-pocket-chips {
+    gap: 6px;
+    margin-top: 2px;
+  }
+  .pk-mobile-pockets .pk-tool-chip {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+  }
+  .pk-mobile-pockets .pk-tool-chip .icon {
+    width: 14px;
+    height: 14px;
+  }
+  .pk-mobile-pockets .pk-pocket-foot {
+    padding-top: 10px;
+  }
+  .pk-mobile-pockets .pk-section-title {
+    margin-top: 16px !important;
+  }
   .pk-pocket-hero { gap: 14px; padding: 18px; margin-bottom: 20px; }
   .pk-pocket-hero > .btn { margin-left: 0; }
   .pk-title-row h2 { font-size: 22px; }
@@ -1953,7 +2016,7 @@ html[data-theme="dark"] .pk-why-card {
 
   .mobile-tabbar {
     position: fixed;
-    left: 14px; right: 14px; bottom: 12px;
+    left: 14px; right: 14px; bottom: max(12px, env(safe-area-inset-bottom));
     z-index: 20;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
