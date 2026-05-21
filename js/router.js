@@ -1,5 +1,5 @@
 import { UI } from './core/ui.js';
-import { getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=21';
+import { getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=22';
 
 function makePTLogo() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -75,6 +75,7 @@ class Router {
       }
 
       viewHome.classList.add('hidden');
+      viewHome.replaceChildren();
       viewTool.classList.remove('hidden');
       btnBack.classList.remove('hidden');
       btnBack.onclick = () => { window.location.hash = '#/all'; };
@@ -110,7 +111,7 @@ class Router {
   async loadTool(toolId, container) {
     let html = this.templateCache.get(toolId);
     if (!html) {
-      const res = await fetch(`templates/${toolId}.html?v=5`);
+      const res = await fetch(`templates/${toolId}.html?v=6`);
       if (!res.ok) throw new Error(`Template not found: ${toolId}`);
       html = await res.text();
       this.templateCache.set(toolId, html);
@@ -119,7 +120,7 @@ class Router {
 
     let module = this.moduleCache.get(toolId);
     if (!module) {
-      module = await import(`./tools/${toolId}.js?v=4`);
+      module = await import(`./tools/${toolId}.js?v=5`);
       this.moduleCache.set(toolId, module);
     }
 

@@ -10,7 +10,7 @@ const SAMPLE = `# Release notes
 
 > Small tools should feel fast, focused, and predictable.
 
-[Open Pocket Tools](https://afrasmuhammed.github.io/pocket-tools/)`;
+[Open PocketKit](https://pocketkit.app/)`;
 
 function escapeHtml(text) {
   return text

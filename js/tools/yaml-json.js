@@ -1,7 +1,7 @@
 import { UI } from '../core/ui.js';
 
 const SAMPLE_YAML = `project:
-  name: Pocket Tools
+  name: PocketKit
   offline: true
   version: 60
   tags:

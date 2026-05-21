@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=22';
+import { appRouter } from './router.js?v=23';
 import {
   CATEGORIES,
   POCKETS,
@@ -7,7 +7,7 @@ import {
   getPrimaryPocketForTool,
   getTool,
   getToolsForPocket,
-} from './registry.js?v=21';
+} from './registry.js?v=22';
 
 const RECENT_KEY = 'pt-recent';
 const RECENT_MAX = 4;
@@ -156,7 +156,7 @@ function makeMobilePockets() {
       </a>
       <p class="pk-section-title" style="margin-top:20px;margin-bottom:10px">Pro pockets</p>
       <div class="pk-mobile-pro-rows">
-        ${proPockets.slice(0, 4).map(pocket => `
+        ${proPockets.map(pocket => `
           <a class="pk-mobile-pro-row" href="#/pocket/${encodeURIComponent(pocket.id)}" style="--pocket-accent:${pocket.accent}">
             <span class="pk-pocket-aura" aria-hidden="true"></span>
             ${pocketMark(pocket)}
@@ -185,7 +185,7 @@ function renderLanding() {
       <div class="pk-hero">
         <p class="pk-kicker">${POCKETS.length} pockets · ${TOOLS.length} tools · Installable app</p>
         <h2>Small tools,<br><em>neatly packed.</em></h2>
-        <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Open a Pro pocket when the day demands one.</p>
+        <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Preview Pro pockets while paid access is being prepared.</p>
         <div class="pk-hero-actions">
           <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
           <a class="btn btn-secondary" href="#/all">Browse all tools</a>
@@ -268,13 +268,13 @@ function renderLanding() {
         <div class="pk-price-card pk-price-card-featured">
           ${badge('pro')}
           <h3>All Pro pockets</h3>
-          <strong class="pk-price">$24 <span>/year · launch price</span></strong>
-          <p>Unlock six specialized pockets — Developer, Designer, SEO, QA, Student, Shop. One small price, one click.</p>
+          <strong class="pk-price">$24 <span>/year · planned launch price</span></strong>
+          <p>Preview seven specialized pockets — PDF, Designer, Student, Developer, QA, SEO, and Shop. Paid access will open when payments are ready.</p>
           <div class="pk-pro-pocket-list">${POCKETS.filter(pocket => pocket.access === 'pro').map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
           <a class="btn btn-secondary" href="#/pocket/developer">Preview Pro</a>
         </div>
       </div>
-      <p class="pk-pricing-note">One-time and individual pocket unlocks coming with launch. No subscriptions hidden behind toggles.</p>
+      <p class="pk-pricing-note">Pro pricing is a launch preview. Daily stays free while paid access is being prepared.</p>
     </section>
   `);
 
@@ -309,8 +309,8 @@ function renderPocket(pocketId) {
       ${isPro ? `
         <div class="pk-pro-banner">
           <div class="pk-mark">Pro</div>
-          <p><strong>${pocket.name} is a Pro pocket.</strong> Preview the tools below. Daily stays free; specialized pockets will unlock when payments are ready.</p>
-          <button class="btn pk-btn-primary">Unlock ${pocket.shortName}</button>
+          <p><strong>${pocket.name} is a Pro pocket.</strong> Preview the tools below. Daily stays free; paid access will open when payments are ready.</p>
+          <button class="btn pk-btn-primary" id="btn-preview-pocket">Preview tools</button>
         </div>
       ` : ''}
       <div class="pk-pocket-controls">
@@ -347,6 +347,9 @@ function renderPocket(pocketId) {
     renderTools();
   });
   view.querySelector('#btn-pin-pocket').addEventListener('click', () => copyLink(location.href, 'Pocket link copied.'));
+  view.querySelector('#btn-preview-pocket')?.addEventListener('click', () => {
+    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
   pocketSearch = '';
   renderTools();
 }
@@ -548,7 +551,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    const hadController = Boolean(navigator.serviceWorker.controller);
+    let refreshedForController = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!hadController) return;
+      if (refreshedForController) return;
+      refreshedForController = true;
+      window.location.reload();
+    });
+
     navigator.serviceWorker.register('sw.js')
+      .then(reg => reg.update())
       .catch(err => console.warn('[sw] registration failed:', err));
   }
 });

@@ -1,6 +1,6 @@
 import { UI } from '../core/ui.js';
 
-const SAMPLE_TEXT = 'Pocket Tools';
+const SAMPLE_TEXT = 'PocketKit';
 
 function toHex(buffer) {
   return Array.from(new Uint8Array(buffer))

@@ -1,6 +1,6 @@
 import { UI } from '../core/ui.js';
 
-const SAMPLE_MESSAGE = 'Pocket Tools';
+const SAMPLE_MESSAGE = 'PocketKit';
 const SAMPLE_SECRET = 'secret';
 
 function toHex(buffer) {

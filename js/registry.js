@@ -1,4 +1,4 @@
-// Pocket Tools — single source of truth for all tools.
+// PocketKit — single source of truth for all tools.
 // Each entry: { id, name, category, description, icon (inline SVG path d), needsPdfLib?, needsPdfJs? }
 // Categories: photos, documents, text, math, time, utilities, seo, qa, developer
 

@@ -1,12 +1,12 @@
 # PocketKit Product Plan
 
-PocketKit is the next version of Pocket Tools: a private, installable PWA organized into focused pockets instead of one giant wall of tools.
+PocketKit is the next version of the original toolkit: a private, installable PWA organized into focused pockets instead of one giant wall of tools.
 
 The core product decision is simple:
 
 - PocketKit Daily is free.
 - Specialized pockets are Pro.
-- The app should stay calm, simple, fast, and practical like the current Pocket Tools site.
+- The app should stay calm, simple, fast, and practical like the original toolkit.
 - The homepage should explain the product and guide users into pockets, not show all 76 tools immediately.
 
 ## Product Positioning
@@ -541,7 +541,7 @@ Avoid implementing payment before the pocket UX is strong.
 
 ### Phase 6: PWA
 
-- Update app name from Pocket Tools to PocketKit.
+- Keep the app name consistent as PocketKit.
 - Update manifest name, short name, shortcuts, theme copy.
 - Update metadata and OG tags.
 - Connect `pocketkit.app` later after deployment.
@@ -570,7 +570,7 @@ Use this prompt in Claude Design:
 ```text
 Design a simple, premium, app-like homepage and pocket system for PocketKit.
 
-Important: the current Pocket Tools website already has a calm, simple, practical style. Do not redesign it into a loud SaaS landing page. Keep the same feeling: lightweight, clean, fast, useful, friendly, and installable.
+Important: the current PocketKit website already has a calm, simple, practical style. Do not redesign it into a loud SaaS landing page. Keep the same feeling: lightweight, clean, fast, useful, friendly, and installable.
 
 Product:
 PocketKit is a private, installable PWA with useful browser-based tools. The app is organized into "pockets" instead of showing every tool at once.
@@ -617,7 +617,7 @@ Pockets:
 - PocketKit Shop Pro
 
 Visual requirements:
-- Match the current Pocket Tools feel
+- Match the current PocketKit feel
 - Simple and calm
 - No oversized marketing hero
 - No heavy gradients

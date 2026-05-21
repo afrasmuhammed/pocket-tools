@@ -1,4 +1,4 @@
-# Netlify config — Pocket Tools
+# Netlify config — PocketKit
 # Privacy-first headers + SPA fallback for hash routing.
 
 [build]

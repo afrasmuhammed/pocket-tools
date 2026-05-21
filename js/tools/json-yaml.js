@@ -2,7 +2,7 @@ import { UI } from '../core/ui.js';
 
 const SAMPLE_JSON = `{
   "project": {
-    "name": "Pocket Tools",
+    "name": "PocketKit",
     "offline": true,
     "version": 62,
     "tags": ["utilities", "developer", "pwa"],

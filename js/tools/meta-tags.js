@@ -1,11 +1,11 @@
 import { UI } from '../core/ui.js';
 
 const SAMPLE = {
-  title: 'Pocket Tools - Everyday tools, done right.',
+  title: 'PocketKit - Private everyday tools',
   description: 'A focused workspace for images, documents, text, dates, and everyday calculations.',
-  url: 'https://afrasmuhammed.github.io/pocket-tools/',
-  image: 'https://afrasmuhammed.github.io/pocket-tools/assets/og-image.png',
-  site: 'Pocket Tools',
+  url: 'https://pocketkit.app/',
+  image: 'https://pocketkit.app/assets/og-image.png',
+  site: 'PocketKit',
   type: 'website',
 };
 

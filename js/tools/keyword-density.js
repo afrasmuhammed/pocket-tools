@@ -4,7 +4,7 @@ const STOP_WORDS = new Set([
   'their', 'this', 'to', 'was', 'we', 'with', 'you', 'your',
 ]);
 
-const SAMPLE = `Pocket Tools is a fast offline toolkit for creators, shop owners, students, and developers.
+const SAMPLE = `PocketKit is a fast offline toolkit for creators, shop owners, students, and developers.
 The toolkit includes PDF tools, image tools, SEO tools, writing tools, and useful calculators.
 Offline tools are private because files and text stay inside your browser.`;
 

@@ -3,7 +3,7 @@ import { UI } from '../core/ui.js';
 const SAMPLE_XML = `<?xml version="1.0" encoding="UTF-8"?>
 <catalog>
   <book id="pt-101">
-    <title>Pocket Tools Handbook</title>
+    <title>PocketKit Handbook</title>
     <author>Afras Muhammed</author>
     <tags>
       <tag>utilities</tag>
