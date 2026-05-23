@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>PocketKit</ShortName>
+  <Description>Search PocketKit private browser tools.</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image height="192" width="192" type="image/png">https://pocketkit.app/assets/icon-192.png</Image>
+  <Url type="text/html" method="get" template="https://pocketkit.app/#/all?q={searchTerms}"/>
+</OpenSearchDescription>

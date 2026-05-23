@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=25';
+import { appRouter } from './router.js?v=26';
 import {
   CATEGORIES,
   POCKETS,
@@ -147,8 +147,10 @@ function updateRouteMeta(hash = window.location.hash || '#/') {
     setMeta(DEFAULT_META.title, DEFAULT_META.desc, '');
     return;
   }
-  if (hash === '#/all') {
-    setMeta('All PocketKit Tools', `${TOOLS.length} private browser tools across ${POCKETS.length} organized pockets.`, '#/all');
+  if (hash.startsWith('#/all')) {
+    const q = getAllRouteQuery();
+    const suffix = q ? ` matching "${q}"` : '';
+    setMeta('All PocketKit Tools', `${TOOLS.length} private browser tools${suffix} across ${POCKETS.length} organized pockets.`, hash);
     return;
   }
   if (hash.startsWith('#/pocket/')) {
@@ -531,6 +533,9 @@ function renderPocket(pocketId) {
 }
 
 function renderAllTools() {
+  const routeQuery = getAllRouteQuery();
+  if (routeQuery !== null) allSearch = routeQuery;
+
   const view = setHomeContent(`
     <section class="pk-all-page">
       <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>All tools</span></div>
@@ -656,6 +661,16 @@ function copyLink(value, message) {
       window.dispatchEvent(evt);
     })
     .catch(() => window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Copy failed.' })));
+}
+
+function getAllRouteQuery() {
+  const hash = window.location.hash || '';
+  if (!hash.startsWith('#/all?')) return null;
+  try {
+    return new URLSearchParams(hash.slice(hash.indexOf('?') + 1)).get('q') || '';
+  } catch {
+    return '';
+  }
 }
 
 function showUpdateNotice(registration) {
@@ -862,7 +877,7 @@ function renderRoute() {
     renderLanding();
     return;
   }
-  if (hash === '#/all') {
+  if (hash.startsWith('#/all')) {
     renderAllTools();
     return;
   }
@@ -914,7 +929,7 @@ function updateMobileTabs() {
     const route = btn.dataset.mobileRoute;
     const active = route === '#/'
       ? (!hash || hash === '#' || hash === '#/')
-      : hash === route || (route === '#/all' && hash.startsWith('#/tool/'));
+      : hash === route || (route === '#/all' && (hash.startsWith('#/all') || hash.startsWith('#/tool/')));
     btn.classList.toggle('active', active);
     if (active) btn.setAttribute('aria-current', 'page');
     else btn.removeAttribute('aria-current');

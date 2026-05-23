@@ -27,16 +27,22 @@ PocketKit Daily is the free default experience. Pro pockets are visible as soft 
 
 `manifest.json` uses PocketKit branding and includes shortcuts for:
 
+- All PocketKit Tools
 - PocketKit Daily
 - Compress PDF
 - Image Compressor
 - QR Generator
 - JSON Formatter
+- Password Generator
 - Bug Report Formatter
+
+## Search Discovery
+
+PocketKit exposes `opensearch.xml`, so supported browsers can add PocketKit as a searchable utility library. Search URLs land on `#/all?q=...`, prefilled with matching tool results.
 
 ## Offline Support
 
-`sw.js` precaches all 150+ static assets: app shell, CSS, 76 tool JS modules, 76 tool templates, vendored libraries, and icons. Most tools run locally in the browser and work offline whenever possible.
+`sw.js` precaches all 150+ static assets: app shell, CSS, 76 tool JS modules, 76 tool templates, vendored libraries, icons, and discovery files. Most tools run locally in the browser and work offline whenever possible.
 
 ## Planning
 

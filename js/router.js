@@ -57,7 +57,7 @@ class Router {
     const hash = window.location.hash || '';
 
     // App pages rendered by app.js
-    if (!hash || hash === '#' || hash === '#/' || hash === '#/all' || hash.startsWith('#/pocket/')) {
+    if (!hash || hash === '#' || hash === '#/' || hash.startsWith('#/all') || hash.startsWith('#/pocket/')) {
       viewTool.classList.add('hidden');
       viewHome.classList.remove('hidden');
       btnBack.classList.add('hidden');
