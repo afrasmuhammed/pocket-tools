@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Sans:ital,wght@0,500;0,600;0,700;1,500;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=30">
+  <link rel="stylesheet" href="css/styles.css?v=31">
   <script>
     (function() {
       var t = localStorage.getItem('pt-theme');
@@ -75,6 +75,7 @@
   </main>
 
   <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+  <div id="network-status" class="network-status hidden" aria-live="polite"></div>
   <div id="command-palette" class="command-palette hidden" role="dialog" aria-modal="true" aria-label="Quick open">
     <div class="command-panel">
       <div class="command-input-wrap">
@@ -94,7 +95,7 @@
     <button data-mobile-route="#/all" aria-label="All tools">All</button>
   </nav>
 
-  <script type="module" src="js/app.js?v=42"></script>
+  <script type="module" src="js/app.js?v=44"></script>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",

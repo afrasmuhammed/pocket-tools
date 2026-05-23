@@ -1,5 +1,5 @@
 import { UI } from './core/ui.js';
-import { getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=22';
+import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=22';
 
 const FAVORITE_KEY = 'pk-favorites';
 
@@ -10,6 +10,10 @@ function getFavorites() {
 
 function isFavorite(toolId) {
   return getFavorites().includes(toolId);
+}
+
+function svgPath(path, className = 'icon') {
+  return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${path}"></path></svg>`;
 }
 
 function makePTLogo() {
@@ -108,6 +112,7 @@ class Router {
       try {
         await this.loadTool(toolId, toolContainer);
         this.decorateTool(tool, toolContainer);
+        window.dispatchEvent(new CustomEvent('pk-tool-opened', { detail: { toolId } }));
         window.scrollTo(0, 0);
       } catch (err) {
         console.error('[router] loadTool failed:', err);
@@ -184,6 +189,47 @@ class Router {
       save.textContent = next ? 'Saved' : 'Save';
       save.setAttribute('aria-pressed', next ? 'true' : 'false');
     });
+
+    this.addRelatedTools(tool, container);
+  }
+
+  addRelatedTools(tool, container) {
+    if (container.querySelector('.related-tools')) return;
+    const currentPocket = getPrimaryPocketForTool(tool.id);
+    const related = TOOLS
+      .filter(candidate => candidate.id !== tool.id)
+      .map(candidate => {
+        const pocket = getPrimaryPocketForTool(candidate.id);
+        let score = 0;
+        if (candidate.category === tool.category) score += 3;
+        if (pocket?.id && pocket.id === currentPocket?.id) score += 4;
+        if (pocket?.access === currentPocket?.access) score += 1;
+        return { candidate, pocket, score };
+      })
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score || a.candidate.name.localeCompare(b.candidate.name))
+      .slice(0, 4);
+    if (!related.length) return;
+
+    const block = document.createElement('section');
+    block.className = 'related-tools';
+    block.innerHTML = `
+      <div class="related-tools-head">
+        <p class="pk-section-title">Related tools</p>
+      </div>
+      <div class="related-tools-grid">
+        ${related.map(({ candidate, pocket }) => `
+          <a class="related-tool-card" href="#/tool/${encodeURIComponent(candidate.id)}" style="${pocket ? `--pocket-accent:${pocket.accent}` : ''}">
+            <span class="related-tool-icon">${svgPath(candidate.icon)}</span>
+            <span>
+              <strong>${candidate.name}</strong>
+              <small>${pocket?.shortName || candidate.category}</small>
+            </span>
+          </a>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(block);
   }
 }
 

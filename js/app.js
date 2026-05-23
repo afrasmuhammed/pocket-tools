@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=27';
+import { appRouter } from './router.js?v=29';
 import {
   CATEGORIES,
   POCKETS,
@@ -11,6 +11,7 @@ import {
 
 const RECENT_KEY = 'pt-recent';
 const FAVORITE_KEY = 'pk-favorites';
+const USAGE_KEY = 'pk-usage';
 const RECENT_MAX = 4;
 const FAVORITE_MAX = 12;
 const CATEGORY_LABELS = Object.fromEntries(CATEGORIES.map(cat => [cat.id, cat.label]));
@@ -72,6 +73,29 @@ function saveRecent(toolId) {
   list.unshift(toolId);
   list = list.slice(0, RECENT_MAX);
   try { localStorage.setItem(RECENT_KEY, JSON.stringify(list)); } catch {}
+}
+
+function getUsage() {
+  try { return JSON.parse(localStorage.getItem(USAGE_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function recordUsage(toolId) {
+  const usage = getUsage();
+  usage[toolId] = {
+    count: (usage[toolId]?.count || 0) + 1,
+    lastUsed: Date.now(),
+  };
+  try { localStorage.setItem(USAGE_KEY, JSON.stringify(usage)); } catch {}
+}
+
+function getMostUsed(limit = 6) {
+  const usage = getUsage();
+  return Object.entries(usage)
+    .filter(([id, meta]) => getTool(id) && meta?.count > 1)
+    .sort((a, b) => (b[1].count - a[1].count) || (b[1].lastUsed - a[1].lastUsed))
+    .slice(0, limit)
+    .map(([id]) => id);
 }
 
 function getFavorites() {
@@ -350,6 +374,7 @@ function renderPersonalRows() {
   const recent = getRecent();
   target.innerHTML = [
     makeToolRail(favorites, 'Saved tools'),
+    makeToolRail(getMostUsed(), 'Most used'),
     makeToolRail(recent, 'Recently used'),
   ].filter(Boolean).join('');
 }
@@ -583,6 +608,7 @@ function renderAllTools() {
     renderAllGrid();
   });
   renderSaved(view);
+  renderMostUsed(view);
   renderRecent(view);
   renderAllGrid();
 }
@@ -592,6 +618,14 @@ function renderSaved(view) {
   if (!target) return;
   const html = makeToolRail(getFavorites(), 'Saved tools');
   if (html) target.innerHTML = html;
+}
+
+function renderMostUsed(view) {
+  const recentTarget = view.querySelector('#recent-row-target');
+  if (!recentTarget) return;
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = makeToolRail(getMostUsed(), 'Most used');
+  if (wrapper.firstElementChild) recentTarget.before(wrapper.firstElementChild);
 }
 
 function renderRecent(view) {
@@ -741,6 +775,7 @@ function scoreCommandItem(item, query) {
 function buildCommandItems() {
   const favorites = new Set(getFavorites());
   const recent = new Set(getRecent());
+  const mostUsed = new Set(getMostUsed(8));
   const actionItems = [
     {
       type: 'action',
@@ -791,7 +826,7 @@ function buildCommandItems() {
     const pocket = getPrimaryPocketForTool(tool.id);
     return {
       type: 'tool',
-      section: favorites.has(tool.id) ? 'Saved' : recent.has(tool.id) ? 'Recent' : 'Tools',
+      section: favorites.has(tool.id) ? 'Saved' : mostUsed.has(tool.id) ? 'Most Used' : recent.has(tool.id) ? 'Recent' : 'Tools',
       title: tool.name,
       subtitle: `${pocket?.shortName || CATEGORY_LABELS[tool.category]} · ${tool.desc}`,
       href: `#/tool/${encodeURIComponent(tool.id)}`,
@@ -805,7 +840,7 @@ function buildCommandItems() {
 }
 
 function groupCommandItems(items) {
-  const order = ['Actions', 'Saved', 'Recent', 'Pockets', 'Tools'];
+  const order = ['Actions', 'Saved', 'Most Used', 'Recent', 'Pockets', 'Tools'];
   return order
     .map(section => ({ section, items: items.filter(item => item.section === section) }))
     .filter(group => group.items.length);
@@ -827,6 +862,7 @@ function renderCommandResults() {
     : [
       ...allItems.filter(item => item.section === 'Actions').slice(0, 3),
       ...allItems.filter(item => item.section === 'Saved').slice(0, 3),
+      ...allItems.filter(item => item.section === 'Most Used').slice(0, 3),
       ...allItems.filter(item => item.section === 'Recent').slice(0, 3),
       ...allItems.filter(item => item.section === 'Pockets').slice(0, 4),
       ...allItems.filter(item => item.section === 'Tools').slice(0, 5),
@@ -996,6 +1032,15 @@ function initMobileTabs() {
   updateMobileTabs();
 }
 
+function updateNetworkStatus() {
+  const status = document.getElementById('network-status');
+  if (!status) return;
+  const online = navigator.onLine !== false;
+  status.textContent = online ? 'Online' : 'Offline ready';
+  status.classList.toggle('hidden', online);
+  status.classList.toggle('network-status-offline', !online);
+}
+
 function updateMobileTabs() {
   const hash = window.location.hash || '#/';
   document.querySelectorAll('[data-mobile-route]').forEach(btn => {
@@ -1017,12 +1062,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initCommandPalette();
   initMobileTabs();
   initInstallPrompt();
+  updateNetworkStatus();
 
   window.addEventListener('hashchange', () => {
     const hash = window.location.hash || '';
     if (hash.startsWith('#/tool/')) {
       const toolId = decodeURIComponent(hash.replace('#/tool/', '')).trim();
       saveRecent(toolId);
+      recordUsage(toolId);
     } else {
       renderRoute();
     }
@@ -1030,9 +1077,19 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMobileTabs();
   });
 
+  window.addEventListener('online', updateNetworkStatus);
+  window.addEventListener('offline', updateNetworkStatus);
+
   window.addEventListener('pk-toggle-favorite', (event) => {
     const toolId = event.detail?.toolId;
     if (toolId && getTool(toolId)) toggleFavorite(toolId);
+  });
+
+  window.addEventListener('pk-tool-opened', (event) => {
+    const toolId = event.detail?.toolId;
+    if (!toolId || !getTool(toolId)) return;
+    saveRecent(toolId);
+    recordUsage(toolId);
   });
 
   window.addEventListener('pt-toast', (event) => {
