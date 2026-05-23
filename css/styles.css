@@ -602,6 +602,34 @@ html[data-theme="dark"] .tool-card:hover {
   background: var(--bg); font-size: clamp(18px, 3vw, 32px); font-weight: 720;
   word-break: break-all; letter-spacing: -0.01em; line-height: 1.3; box-shadow: var(--shadow-xs);
 }
+.password-strength {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: -4px 0 16px;
+  padding: 11px 13px 13px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 12px;
+}
+.password-strength strong {
+  color: var(--fg);
+  font-size: 12.5px;
+}
+.password-strength i {
+  position: absolute;
+  left: 0;
+  right: auto;
+  bottom: 0;
+  width: var(--score, 0%);
+  height: 3px;
+  background: linear-gradient(90deg, var(--danger), #f59e0b, var(--success));
+}
 
 .timer-panel { text-align: center; padding: 32px 18px 28px; }
 .timer-display { font-size: clamp(52px, 13vw, 96px); font-weight: 780; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
@@ -2078,6 +2106,37 @@ html[data-theme="dark"] .pk-why-card {
   color: var(--muted);
   text-align: center;
   font-size: 13px;
+}
+.pk-update-notice {
+  position: fixed;
+  left: 50%;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(420px, calc(100vw - 32px));
+  padding: 11px 12px 11px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--fg);
+  color: var(--bg);
+  box-shadow: var(--shadow-lg);
+  transform: translateX(-50%);
+}
+.pk-update-notice span {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 650;
+}
+.pk-update-notice button {
+  min-height: 32px;
+  padding: 5px 11px;
+  border-radius: 9px;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 /* ── Responsive: 980px — pocket grid to 2-col ── */

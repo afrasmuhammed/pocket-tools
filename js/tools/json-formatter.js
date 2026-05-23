@@ -11,6 +11,15 @@ function process(raw, indent) {
   }
 }
 
+function sortKeys(value) {
+  if (Array.isArray(value)) return value.map(sortKeys);
+  if (!value || typeof value !== 'object') return value;
+  return Object.keys(value).sort().reduce((acc, key) => {
+    acc[key] = sortKeys(value[key]);
+    return acc;
+  }, {});
+}
+
 export default {
   init() {
     const inputEl  = document.getElementById('jf-input');
@@ -49,6 +58,27 @@ export default {
       if (!raw) return;
       const { ok, result, error } = process(raw, undefined);
       setOutput(ok ? result : error, !ok);
+    };
+
+    document.getElementById('btn-jf-sort').onclick = () => {
+      const raw = inputEl.value.trim();
+      if (!raw) return;
+      try {
+        const sorted = sortKeys(JSON.parse(raw));
+        setOutput(JSON.stringify(sorted, null, 2));
+      } catch (e) {
+        setOutput(e.message, true);
+      }
+    };
+
+    document.getElementById('btn-jf-sample').onclick = () => {
+      inputEl.value = JSON.stringify({
+        launch: 'PocketKit',
+        private: true,
+        pockets: ['Daily', 'Developer', 'PDF'],
+        stats: { tools: 76, offline: true },
+      });
+      document.getElementById('btn-jf-format').click();
     };
 
     document.getElementById('btn-jf-clear').onclick = clearAll;

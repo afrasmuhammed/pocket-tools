@@ -6,6 +6,8 @@ const WordCounter = {
   charsEl: null,
   charsNoSpacesEl: null,
   paragraphsEl: null,
+  sentencesEl: null,
+  readingTimeEl: null,
   btnCopy: null,
   btnClear: null,
 
@@ -15,6 +17,8 @@ const WordCounter = {
     this.charsEl = document.getElementById('wc-chars');
     this.charsNoSpacesEl = document.getElementById('wc-chars-no-spaces');
     this.paragraphsEl = document.getElementById('wc-paragraphs');
+    this.sentencesEl = document.getElementById('wc-sentences');
+    this.readingTimeEl = document.getElementById('wc-reading-time');
     this.btnCopy = document.getElementById('wc-copy');
     this.btnClear = document.getElementById('wc-clear');
 
@@ -57,6 +61,12 @@ const WordCounter = {
     // Paragraphs
     const paragraphs = text.trim() === '' ? 0 : text.split(/\n+/).filter(p => p.trim().length > 0).length;
     this.paragraphsEl.textContent = paragraphs;
+
+    const sentences = text.trim() === '' ? 0 : (text.match(/[^.!?]+[.!?]+(\s|$)/g) || []).length;
+    this.sentencesEl.textContent = sentences;
+
+    const minutes = Math.max(0, Math.ceil(words / 225));
+    this.readingTimeEl.textContent = minutes ? `${minutes}m` : '0m';
   }
 };
 

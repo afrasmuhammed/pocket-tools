@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=24';
+import { appRouter } from './router.js?v=25';
 import {
   CATEGORIES,
   POCKETS,
@@ -14,6 +14,45 @@ const FAVORITE_KEY = 'pk-favorites';
 const RECENT_MAX = 4;
 const FAVORITE_MAX = 12;
 const CATEGORY_LABELS = Object.fromEntries(CATEGORIES.map(cat => [cat.id, cat.label]));
+const DEFAULT_META = {
+  title: 'PocketKit',
+  desc: 'PocketKit — private everyday tools, installed like an app.',
+};
+const TOOL_ALIASES = {
+  'image-compressor': 'compress image shrink photo reduce jpg png webp optimize resize',
+  'format-converter': 'convert image jpg png webp heic format',
+  'qr-generator': 'qr code barcode wifi link url share',
+  'password-generator': 'password passphrase secure random login credential',
+  'json-formatter': 'json beautify pretty print validate minify lint developer',
+  'jwt-decoder': 'jwt token decode auth bearer claims header payload',
+  'base64-encoder': 'base64 encode decode atob btoa',
+  'url-encoder': 'url encode decode uri percent escape',
+  'hash-generator': 'hash sha md5 checksum digest',
+  'hmac-generator': 'hmac signature sha secret',
+  'regex-tester': 'regex regexp regular expression pattern match',
+  'text-diff': 'diff compare text changes',
+  'slug-generator': 'slug url title permalink seo kebab case',
+  'word-counter': 'word count character sentence paragraph writing',
+  'character-counter': 'character count letters length',
+  'reading-time': 'reading time words minutes article',
+  'merge-pdf': 'combine pdf join documents',
+  'compress-pdf': 'shrink pdf reduce size optimize',
+  'split-pdf': 'extract pages split pdf separate',
+  'protect-pdf': 'password protect encrypt lock pdf',
+  'unprotect-pdf': 'unlock decrypt remove password pdf',
+  'page-numbers': 'number pages paginate pdf footer',
+  'photo-pdf': 'images to pdf photo document scan',
+  'meta-tags': 'seo title description social tags',
+  'og-preview': 'open graph preview social share card',
+  'keyword-density': 'seo keywords content analysis',
+  'robots-txt': 'robots crawl disallow sitemap',
+  'sitemap-formatter': 'sitemap xml urls seo',
+  'canonical-url': 'canonical link seo duplicate',
+  'timestamp-converter': 'unix epoch time date',
+  'timezone': 'timezone world clock convert time',
+  'pomodoro': 'focus timer productivity work break',
+  'stopwatch': 'timer laps clock',
+};
 
 let allCategory = 'all';
 let allSearch = '';
@@ -21,6 +60,7 @@ let pocketSearch = '';
 let commandOpen = false;
 let commandActiveIndex = 0;
 let commandItems = [];
+let deferredInstallPrompt = null;
 
 function getRecent() {
   try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; }
@@ -63,6 +103,67 @@ function toggleFavorite(toolId) {
 
 function svgPath(path, className = 'icon') {
   return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${path}"></path></svg>`;
+}
+
+function toolSearchText(tool) {
+  const pocket = getPrimaryPocketForTool(tool.id);
+  return [
+    tool.name,
+    tool.desc,
+    tool.id,
+    tool.category,
+    CATEGORY_LABELS[tool.category],
+    pocket?.name,
+    pocket?.shortName,
+    TOOL_ALIASES[tool.id],
+  ].filter(Boolean).join(' ').toLowerCase();
+}
+
+function matchesTool(tool, query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  const hay = toolSearchText(tool);
+  return q.split(/\s+/).every(part => hay.includes(part));
+}
+
+function setMeta(title, desc, path = '/') {
+  document.title = title;
+  const description = document.querySelector('meta[name="description"]');
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  const twTitle = document.querySelector('meta[name="twitter:title"]');
+  const twDesc = document.querySelector('meta[name="twitter:description"]');
+  description?.setAttribute('content', desc);
+  ogTitle?.setAttribute('content', title);
+  ogDesc?.setAttribute('content', desc);
+  ogUrl?.setAttribute('content', `https://pocketkit.app/${path}`);
+  twTitle?.setAttribute('content', title);
+  twDesc?.setAttribute('content', desc);
+}
+
+function updateRouteMeta(hash = window.location.hash || '#/') {
+  if (!hash || hash === '#' || hash === '#/') {
+    setMeta(DEFAULT_META.title, DEFAULT_META.desc, '');
+    return;
+  }
+  if (hash === '#/all') {
+    setMeta('All PocketKit Tools', `${TOOLS.length} private browser tools across ${POCKETS.length} organized pockets.`, '#/all');
+    return;
+  }
+  if (hash.startsWith('#/pocket/')) {
+    const pocket = getPocket(decodeURIComponent(hash.replace('#/pocket/', '')).trim());
+    if (pocket) {
+      setMeta(pocket.name, `${pocket.desc} ${pocket.tools.length} tools in this PocketKit pocket.`, `#/pocket/${pocket.id}`);
+      return;
+    }
+  }
+  if (hash.startsWith('#/tool/')) {
+    const tool = getTool(decodeURIComponent(hash.replace('#/tool/', '')).trim());
+    if (tool) {
+      setMeta(`${tool.name} — PocketKit`, `${tool.desc}. Private, browser-based, and installable.`, `#/tool/${tool.id}`);
+    }
+  }
 }
 
 function pocketMarkSvgStr(pocketId, size = 18) {
@@ -319,7 +420,7 @@ function renderLanding() {
           <strong>Install PocketKit on this device</strong>
           <span>Add to Dock, taskbar, or home screen. Some platforms support direct pocket shortcuts.</span>
         </div>
-        <a class="btn btn-secondary" href="#/pocket/daily">Open Daily</a>
+        <button class="btn btn-secondary" type="button" id="btn-install-app">Install app</button>
       </div>
     </section>
 
@@ -407,7 +508,7 @@ function renderPocket(pocketId) {
     const q = pocketSearch.trim().toLowerCase();
     grid.replaceChildren();
     tools
-      .filter(tool => !q || tool.name.toLowerCase().includes(q) || tool.desc.toLowerCase().includes(q))
+      .filter(tool => matchesTool(tool, q))
       .forEach((tool, index) => grid.appendChild(makeToolCard(tool, index, { locked: isPro })));
     if (!grid.children.length) {
       const empty = document.createElement('p');
@@ -535,7 +636,7 @@ function renderAllGrid() {
   const q = allSearch.trim().toLowerCase();
   const results = TOOLS.filter(tool => {
     const inCat = allCategory === 'all' || tool.category === allCategory;
-    return inCat && (!q || tool.name.toLowerCase().includes(q) || tool.desc.toLowerCase().includes(q));
+    return inCat && matchesTool(tool, q);
   });
 
   if (!results.length) {
@@ -555,6 +656,55 @@ function copyLink(value, message) {
       window.dispatchEvent(evt);
     })
     .catch(() => window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Copy failed.' })));
+}
+
+function showUpdateNotice(registration) {
+  if (document.getElementById('pk-update-notice')) return;
+  const notice = document.createElement('div');
+  notice.id = 'pk-update-notice';
+  notice.className = 'pk-update-notice';
+  notice.innerHTML = `
+    <span>Fresh PocketKit is ready.</span>
+    <button type="button">Update now</button>
+  `;
+  notice.querySelector('button')?.addEventListener('click', () => {
+    if (registration?.waiting) {
+      registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+    } else {
+      window.location.reload();
+    }
+  });
+  document.body.appendChild(notice);
+}
+
+function initInstallPrompt() {
+  window.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    document.documentElement.classList.add('can-install');
+  });
+
+  document.addEventListener('click', async event => {
+    const button = event.target.closest('#btn-install-app');
+    if (!button) return;
+    if (!deferredInstallPrompt) {
+      window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Use your browser menu to install PocketKit.' }));
+      return;
+    }
+    deferredInstallPrompt.prompt();
+    const result = await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    document.documentElement.classList.remove('can-install');
+    window.dispatchEvent(new CustomEvent('pt-toast', {
+      detail: result.outcome === 'accepted' ? 'PocketKit install started.' : 'Install skipped.',
+    }));
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    document.documentElement.classList.remove('can-install');
+    window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'PocketKit installed.' }));
+  });
 }
 
 function scoreCommandItem(item, query) {
@@ -595,7 +745,7 @@ function buildCommandItems() {
       href: `#/tool/${encodeURIComponent(tool.id)}`,
       accent: pocket?.accent || 'var(--accent)',
       icon: svgPath(tool.icon),
-      keywords: `${tool.id} ${tool.category} ${pocket?.name || ''}`,
+      keywords: `${tool.id} ${tool.category} ${pocket?.name || ''} ${TOOL_ALIASES[tool.id] || ''}`,
       weight: (favorites.has(tool.id) ? 30 : 0) + (recent.has(tool.id) ? 18 : 0),
     };
   });
@@ -772,11 +922,13 @@ function updateMobileTabs() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  updateRouteMeta();
   renderRoute();
   appRouter.handleRoute();
   initTheme();
   initCommandPalette();
   initMobileTabs();
+  initInstallPrompt();
 
   window.addEventListener('hashchange', () => {
     const hash = window.location.hash || '';
@@ -786,6 +938,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       renderRoute();
     }
+    updateRouteMeta(hash);
     updateMobileTabs();
   });
 
@@ -815,7 +968,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     navigator.serviceWorker.register('sw.js')
-      .then(reg => reg.update())
+      .then(reg => {
+        reg.update();
+        reg.addEventListener('updatefound', () => {
+          const installing = reg.installing;
+          installing?.addEventListener('statechange', () => {
+            if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+              showUpdateNotice(reg);
+            }
+          });
+        });
+        if (reg.waiting && navigator.serviceWorker.controller) showUpdateNotice(reg);
+      })
       .catch(err => console.warn('[sw] registration failed:', err));
   }
 });
