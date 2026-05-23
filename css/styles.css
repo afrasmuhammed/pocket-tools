@@ -663,6 +663,12 @@ html[data-theme="dark"] .tool-card:hover {
 .qr-preset-grid .chip {
   box-shadow: none;
 }
+.qr-preset-grid .chip.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 12px var(--accent-glow);
+}
 .qr-fields {
   margin-bottom: 14px;
   padding: 14px;
@@ -2322,6 +2328,12 @@ html[data-theme="dark"] .pk-why-card {
   .mobile-tabbar button.active {
     background: var(--card-hover);
     color: var(--fg);
+  }
+  body.tool-open main {
+    padding-bottom: max(34px, env(safe-area-inset-bottom));
+  }
+  body.tool-open .mobile-tabbar {
+    display: none;
   }
   .command-palette {
     padding-top: max(58px, env(safe-area-inset-top));

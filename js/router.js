@@ -60,6 +60,7 @@ class Router {
     if (!hash || hash === '#' || hash === '#/' || hash.startsWith('#/all') || hash.startsWith('#/pocket/')) {
       viewTool.classList.add('hidden');
       viewHome.classList.remove('hidden');
+      document.body.classList.remove('tool-open');
       btnBack.classList.add('hidden');
       btnQuickOpen?.classList.remove('hidden');
       setAppTitle(appTitle, 'PocketKit', true);
@@ -90,6 +91,7 @@ class Router {
       viewHome.classList.add('hidden');
       viewHome.replaceChildren();
       viewTool.classList.remove('hidden');
+      document.body.classList.add('tool-open');
       btnBack.classList.remove('hidden');
       btnQuickOpen?.classList.add('hidden');
       btnBack.onclick = () => { window.location.hash = '#/all'; };

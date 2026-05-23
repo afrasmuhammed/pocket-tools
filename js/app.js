@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=26';
+import { appRouter } from './router.js?v=27';
 import {
   CATEGORIES,
   POCKETS,
@@ -816,12 +816,21 @@ function renderCommandResults() {
   const results = document.getElementById('command-results');
   if (!input || !results) return;
   const query = input.value.trim().toLowerCase();
-  commandItems = buildCommandItems()
-    .map(item => ({ item, score: scoreCommandItem(item, query) }))
-    .filter(entry => entry.score >= 0)
-    .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title))
-    .slice(0, 9)
-    .map(entry => entry.item);
+  const allItems = buildCommandItems();
+  commandItems = query
+    ? allItems
+      .map(item => ({ item, score: scoreCommandItem(item, query) }))
+      .filter(entry => entry.score >= 0)
+      .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title))
+      .slice(0, 9)
+      .map(entry => entry.item)
+    : [
+      ...allItems.filter(item => item.section === 'Actions').slice(0, 3),
+      ...allItems.filter(item => item.section === 'Saved').slice(0, 3),
+      ...allItems.filter(item => item.section === 'Recent').slice(0, 3),
+      ...allItems.filter(item => item.section === 'Pockets').slice(0, 4),
+      ...allItems.filter(item => item.section === 'Tools').slice(0, 5),
+    ].slice(0, 14);
   commandActiveIndex = Math.min(commandActiveIndex, Math.max(0, commandItems.length - 1));
 
   if (!commandItems.length) {
