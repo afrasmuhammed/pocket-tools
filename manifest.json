@@ -15,6 +15,13 @@
   ],
   "shortcuts": [
     {
+      "name": "All PocketKit Tools",
+      "short_name": "All Tools",
+      "description": "Search and browse every PocketKit tool.",
+      "url": "./#/all",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
       "name": "PocketKit Daily",
       "short_name": "Daily",
       "description": "Open the free daily tools pocket.",
@@ -47,6 +54,13 @@
       "short_name": "JSON",
       "description": "Open the JSON formatter.",
       "url": "./#/tool/json-formatter",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Password Generator",
+      "short_name": "Password",
+      "description": "Open the password generator.",
+      "url": "./#/tool/password-generator",
       "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
     },
     {

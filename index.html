@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Sans:ital,wght@0,500;0,600;0,700;1,500;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=26">
+  <link rel="stylesheet" href="css/styles.css?v=27">
   <script>
     (function() {
       var t = localStorage.getItem('pt-theme');
@@ -40,6 +40,9 @@
   <header class="app-header">
     <button id="btn-back" class="btn-icon hidden" aria-label="Back to home">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button id="btn-quick-open" class="btn-icon quick-open-trigger" aria-label="Quick open">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
     </button>
     <h1 id="app-title">
       <svg class="app-logo" viewBox="0 0 28 28" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -71,6 +74,18 @@
   </main>
 
   <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+  <div id="command-palette" class="command-palette hidden" role="dialog" aria-modal="true" aria-label="Quick open">
+    <div class="command-panel">
+      <div class="command-input-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input id="command-input" class="command-input" type="search" autocomplete="off" spellcheck="false" placeholder="Open a tool, pocket, or saved item">
+        <kbd>Esc</kbd>
+      </div>
+      <div id="command-results" class="command-results" role="listbox"></div>
+    </div>
+  </div>
 
   <nav class="mobile-tabbar" aria-label="Primary navigation">
     <button data-mobile-route="#/" aria-label="Home">Home</button>
@@ -78,6 +93,6 @@
     <button data-mobile-route="#/all" aria-label="All tools">All</button>
   </nav>
 
-  <script type="module" src="js/app.js?v=37"></script>
+  <script type="module" src="js/app.js?v=38"></script>
 </body>
 </html>

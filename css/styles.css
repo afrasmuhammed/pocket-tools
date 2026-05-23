@@ -185,6 +185,15 @@ html[data-theme="dark"] #btn-theme .icon-moon { display: none; }
 }
 .app-header .btn-icon { grid-column: 1; }
 .app-header .btn-icon.hidden { display: inline-flex !important; visibility: hidden; pointer-events: none; }
+.app-header .quick-open-trigger {
+  grid-column: 1;
+  grid-row: 1;
+}
+#btn-back {
+  grid-column: 1;
+  grid-row: 1;
+}
+.app-header #btn-back:not(.hidden) + .quick-open-trigger { display: none; }
 .btn-icon:hover { background: var(--card-hover); }
 
 /* ── Layout ── */
@@ -1213,6 +1222,9 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
   flex-wrap: wrap;
   margin-top: 36px;
 }
+.pk-hero-actions .btn {
+  flex: 0 1 auto;
+}
 
 /* Primary CTA — foreground color, adaptive for dark/light */
 .pk-btn-primary {
@@ -1674,6 +1686,23 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
 /* ── Tool card product extensions ── */
 .tool-card { position: relative; overflow: hidden; }
 .pk-tool-card { min-height: 132px; }
+.pk-tool-saved {
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--border));
+}
+.pk-saved-corner {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  font-family: var(--font-mono-ui);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
 
 .pk-tool-meta {
   display: flex;
@@ -1843,6 +1872,20 @@ html[data-theme="dark"] .pk-why-card {
 
 /* ── Recently used — horizontal pill rail ── */
 .pk-recent-block-v2 { margin: 0 0 32px; }
+.pk-personal-target {
+  display: grid;
+  gap: 14px;
+  margin-top: 34px;
+  max-width: 760px;
+}
+.pk-personal-block {
+  min-width: 0;
+}
+.pk-personal-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
 .pk-recent-header {
   display: flex;
   align-items: center;
@@ -1902,6 +1945,139 @@ html[data-theme="dark"] .pk-why-card {
   padding-left: 9px;
   margin-left: 2px;
   border-left: 1px solid var(--border);
+}
+
+/* ── Command palette ───────────────────────────────────── */
+.command-open { overflow: hidden; }
+.command-palette {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: start center;
+  padding: max(64px, env(safe-area-inset-top)) 16px 24px;
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.command-panel {
+  width: min(640px, 100%);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: 0 24px 70px rgba(0,0,0,.18);
+}
+.command-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.command-input-wrap .search-icon {
+  left: 18px;
+}
+.command-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 48px 10px 42px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+}
+.command-input-wrap kbd {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 30px;
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--muted);
+  font-family: var(--font-mono-ui);
+  font-size: 10px;
+  text-align: center;
+}
+.command-results {
+  display: grid;
+  gap: 4px;
+  max-height: min(520px, calc(100dvh - 180px));
+  overflow: auto;
+  padding: 8px;
+}
+.command-item {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-height: 58px;
+  padding: 9px 11px;
+  border-radius: 12px;
+  text-align: left;
+  color: var(--fg);
+}
+.command-item:hover,
+.command-item.active {
+  background: color-mix(in srgb, var(--pocket-accent, var(--accent)) 9%, var(--card-hover));
+}
+.command-item-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--pocket-accent, var(--accent)) 26%, var(--border));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--pocket-accent, var(--accent)) 10%, transparent);
+  color: var(--pocket-accent, var(--accent));
+  font-size: 11px;
+  font-weight: 800;
+}
+.command-item-icon .icon {
+  width: 18px;
+  height: 18px;
+}
+.command-item-copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.command-item-copy strong,
+.command-item-copy span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.command-item-copy strong {
+  font-size: 14px;
+  font-weight: 680;
+  letter-spacing: -0.01em;
+}
+.command-item-copy span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.command-item-type {
+  color: var(--muted);
+  font-family: var(--font-mono-ui);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.command-empty {
+  margin: 0;
+  padding: 28px 16px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
 }
 
 /* ── Responsive: 980px — pocket grid to 2-col ── */
@@ -2036,7 +2212,27 @@ html[data-theme="dark"] .pk-why-card {
     font-size: 12px;
     font-weight: 650;
   }
-  .mobile-tabbar button:hover { background: var(--card-hover); color: var(--fg); }
+  .mobile-tabbar button:hover,
+  .mobile-tabbar button.active {
+    background: var(--card-hover);
+    color: var(--fg);
+  }
+  .command-palette {
+    padding-top: max(58px, env(safe-area-inset-top));
+  }
+  .command-panel {
+    border-radius: 16px;
+  }
+  .command-item {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+  .command-item-icon {
+    width: 34px;
+    height: 34px;
+  }
+  .command-item-type {
+    display: none;
+  }
 }
 /* ── SEO tools ─────────────────────────────────────────── */
 .og-preview-card {

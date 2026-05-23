@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=23';
+import { appRouter } from './router.js?v=24';
 import {
   CATEGORIES,
   POCKETS,
@@ -10,12 +10,17 @@ import {
 } from './registry.js?v=22';
 
 const RECENT_KEY = 'pt-recent';
+const FAVORITE_KEY = 'pk-favorites';
 const RECENT_MAX = 4;
+const FAVORITE_MAX = 12;
 const CATEGORY_LABELS = Object.fromEntries(CATEGORIES.map(cat => [cat.id, cat.label]));
 
 let allCategory = 'all';
 let allSearch = '';
 let pocketSearch = '';
+let commandOpen = false;
+let commandActiveIndex = 0;
+let commandItems = [];
 
 function getRecent() {
   try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; }
@@ -27,6 +32,33 @@ function saveRecent(toolId) {
   list.unshift(toolId);
   list = list.slice(0, RECENT_MAX);
   try { localStorage.setItem(RECENT_KEY, JSON.stringify(list)); } catch {}
+}
+
+function getFavorites() {
+  try { return JSON.parse(localStorage.getItem(FAVORITE_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveFavorites(ids) {
+  const clean = [...new Set(ids)].filter(id => getTool(id)).slice(0, FAVORITE_MAX);
+  try { localStorage.setItem(FAVORITE_KEY, JSON.stringify(clean)); } catch {}
+  return clean;
+}
+
+function isFavorite(toolId) {
+  return getFavorites().includes(toolId);
+}
+
+function toggleFavorite(toolId) {
+  const list = getFavorites();
+  const next = list.includes(toolId)
+    ? list.filter(id => id !== toolId)
+    : [toolId, ...list].slice(0, FAVORITE_MAX);
+  saveFavorites(next);
+  window.dispatchEvent(new CustomEvent('pt-toast', {
+    detail: next.includes(toolId) ? 'Saved to your kit.' : 'Removed from your kit.',
+  }));
+  renderPersonalRows();
 }
 
 function svgPath(path, className = 'icon') {
@@ -84,6 +116,7 @@ function makeToolCard(tool, index = 0, options = {}) {
   const isLocked = options.locked && pocket?.access === 'pro';
   const classes = ['tool-card', 'pk-tool-card'];
   if (isLocked) classes.push('pk-tool-locked');
+  if (isFavorite(tool.id)) classes.push('pk-tool-saved');
 
   const a = document.createElement('a');
   a.className = classes.join(' ');
@@ -100,6 +133,7 @@ function makeToolCard(tool, index = 0, options = {}) {
       ${pocket ? `<span class="pk-pocket-dot" style="background:${pocket.accent}"></span>${pocket.shortName}` : CATEGORY_LABELS[tool.category] || tool.category}
       ${pocket?.access === 'pro' ? '<span class="pk-meta-pro">Pro</span>' : ''}
     </span>
+    ${isFavorite(tool.id) ? '<span class="pk-saved-corner" aria-label="Saved">Saved</span>' : ''}
   `;
   return a;
 }
@@ -179,6 +213,44 @@ function setHomeContent(html) {
   return viewHome;
 }
 
+function makeToolRail(ids, label, emptyText = '') {
+  const valid = ids.filter(id => getTool(id));
+  if (!valid.length && !emptyText) return '';
+  return `
+    <div class="pk-personal-block">
+      <div class="pk-recent-header">
+        <p class="pk-section-title" style="margin:0">${label}</p>
+      </div>
+      ${valid.length ? `
+        <div class="pk-recent-rail">
+          ${valid.map(id => {
+            const tool = getTool(id);
+            const pocket = getPrimaryPocketForTool(tool.id);
+            return `
+              <a class="pk-recent-pill" href="#/tool/${encodeURIComponent(tool.id)}" style="${pocket ? `--pocket-accent:${pocket.accent}` : ''}">
+                <span class="pk-recent-pill-icon">${svgPath(tool.icon)}</span>
+                <span class="pk-recent-pill-name">${tool.name}</span>
+                ${pocket ? `<span class="pk-recent-pill-pocket">${pocket.shortName}</span>` : ''}
+              </a>
+            `;
+          }).join('')}
+        </div>
+      ` : `<p class="pk-personal-empty">${emptyText}</p>`}
+    </div>
+  `;
+}
+
+function renderPersonalRows() {
+  const target = document.getElementById('pk-personal-target');
+  if (!target) return;
+  const favorites = getFavorites();
+  const recent = getRecent();
+  target.innerHTML = [
+    makeToolRail(favorites, 'Saved tools'),
+    makeToolRail(recent, 'Recently used'),
+  ].filter(Boolean).join('');
+}
+
 function renderLanding() {
   const view = setHomeContent(`
     <section class="pk-landing">
@@ -188,6 +260,7 @@ function renderLanding() {
         <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Preview Pro pockets while paid access is being prepared.</p>
         <div class="pk-hero-actions">
           <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
+          <button class="btn btn-secondary" type="button" data-open-command>Quick open</button>
           <a class="btn btn-secondary" href="#/all">Browse all tools</a>
         </div>
         <div class="pk-trust-row">
@@ -196,6 +269,7 @@ function renderLanding() {
           <span>Installs in a click</span>
         </div>
       </div>
+      <div id="pk-personal-target" class="pk-personal-target"></div>
       ${makeMobilePockets()}
     </section>
 
@@ -280,6 +354,7 @@ function renderLanding() {
 
   const grid = view.querySelector('#pocket-grid');
   POCKETS.forEach(pocket => grid.appendChild(makePocketCard(pocket)));
+  renderPersonalRows();
 }
 
 function renderPocket(pocketId) {
@@ -372,6 +447,7 @@ function renderAllTools() {
         <input type="search" id="tool-search" class="search-input" placeholder="Search ${TOOLS.length} tools..." autocomplete="off" spellcheck="false">
       </div>
       <nav id="all-categories" class="categories" aria-label="Tool categories"></nav>
+      <div id="saved-row-target"></div>
       <div id="recent-row-target"></div>
       <div id="tool-grid" class="tool-grid" role="list"></div>
     </section>
@@ -400,8 +476,16 @@ function renderAllTools() {
     allSearch = searchInput.value;
     renderAllGrid();
   });
+  renderSaved(view);
   renderRecent(view);
   renderAllGrid();
+}
+
+function renderSaved(view) {
+  const target = view.querySelector('#saved-row-target');
+  if (!target) return;
+  const html = makeToolRail(getFavorites(), 'Saved tools');
+  if (html) target.innerHTML = html;
 }
 
 function renderRecent(view) {
@@ -473,6 +557,155 @@ function copyLink(value, message) {
     .catch(() => window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Copy failed.' })));
 }
 
+function scoreCommandItem(item, query) {
+  if (!query) return item.weight || 0;
+  const hay = `${item.title} ${item.subtitle || ''} ${item.keywords || ''}`.toLowerCase();
+  if (hay.includes(query)) return 100 + (item.weight || 0) - hay.indexOf(query);
+  const chars = query.split('');
+  let pos = -1;
+  let score = item.weight || 0;
+  for (const ch of chars) {
+    const next = hay.indexOf(ch, pos + 1);
+    if (next === -1) return -1;
+    score += Math.max(1, 12 - (next - pos));
+    pos = next;
+  }
+  return score;
+}
+
+function buildCommandItems() {
+  const favorites = new Set(getFavorites());
+  const recent = new Set(getRecent());
+  const pocketItems = POCKETS.map(pocket => ({
+    type: 'pocket',
+    title: pocket.name,
+    subtitle: `${pocket.tools.length} tools · ${pocket.access === 'free' ? 'Free' : 'Pro preview'}`,
+    href: `#/pocket/${encodeURIComponent(pocket.id)}`,
+    accent: pocket.accent,
+    mark: pocket.shortName.slice(0, 2),
+    keywords: `${pocket.shortName} ${pocket.desc}`,
+    weight: pocket.id === 'daily' ? 18 : 8,
+  }));
+  const toolItems = TOOLS.map(tool => {
+    const pocket = getPrimaryPocketForTool(tool.id);
+    return {
+      type: 'tool',
+      title: tool.name,
+      subtitle: `${pocket?.shortName || CATEGORY_LABELS[tool.category]} · ${tool.desc}`,
+      href: `#/tool/${encodeURIComponent(tool.id)}`,
+      accent: pocket?.accent || 'var(--accent)',
+      icon: svgPath(tool.icon),
+      keywords: `${tool.id} ${tool.category} ${pocket?.name || ''}`,
+      weight: (favorites.has(tool.id) ? 30 : 0) + (recent.has(tool.id) ? 18 : 0),
+    };
+  });
+  return [...toolItems, ...pocketItems];
+}
+
+function renderCommandResults() {
+  const input = document.getElementById('command-input');
+  const results = document.getElementById('command-results');
+  if (!input || !results) return;
+  const query = input.value.trim().toLowerCase();
+  commandItems = buildCommandItems()
+    .map(item => ({ item, score: scoreCommandItem(item, query) }))
+    .filter(entry => entry.score >= 0)
+    .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title))
+    .slice(0, 9)
+    .map(entry => entry.item);
+  commandActiveIndex = Math.min(commandActiveIndex, Math.max(0, commandItems.length - 1));
+
+  if (!commandItems.length) {
+    results.innerHTML = '<p class="command-empty">No tools found.</p>';
+    return;
+  }
+
+  results.innerHTML = commandItems.map((item, index) => `
+    <button type="button" class="command-item${index === commandActiveIndex ? ' active' : ''}" data-command-index="${index}" style="--pocket-accent:${item.accent}">
+      <span class="command-item-icon">${item.icon || item.mark}</span>
+      <span class="command-item-copy">
+        <strong>${item.title}</strong>
+        <span>${item.subtitle}</span>
+      </span>
+      <span class="command-item-type">${item.type}</span>
+    </button>
+  `).join('');
+}
+
+function openCommandPalette() {
+  const palette = document.getElementById('command-palette');
+  const input = document.getElementById('command-input');
+  if (!palette || !input) return;
+  commandOpen = true;
+  commandActiveIndex = 0;
+  palette.classList.remove('hidden');
+  document.body.classList.add('command-open');
+  input.value = '';
+  renderCommandResults();
+  requestAnimationFrame(() => input.focus());
+}
+
+function closeCommandPalette() {
+  const palette = document.getElementById('command-palette');
+  if (!palette) return;
+  commandOpen = false;
+  palette.classList.add('hidden');
+  document.body.classList.remove('command-open');
+}
+
+function runCommand(index = commandActiveIndex) {
+  const item = commandItems[index];
+  if (!item) return;
+  closeCommandPalette();
+  window.location.hash = item.href;
+}
+
+function initCommandPalette() {
+  const palette = document.getElementById('command-palette');
+  const input = document.getElementById('command-input');
+  const results = document.getElementById('command-results');
+  document.getElementById('btn-quick-open')?.addEventListener('click', openCommandPalette);
+  document.addEventListener('click', event => {
+    if (event.target.closest('[data-open-command]')) openCommandPalette();
+  });
+  input?.addEventListener('input', () => {
+    commandActiveIndex = 0;
+    renderCommandResults();
+  });
+  results?.addEventListener('click', event => {
+    const button = event.target.closest('[data-command-index]');
+    if (!button) return;
+    runCommand(Number(button.dataset.commandIndex || 0));
+  });
+  palette?.addEventListener('click', event => {
+    if (event.target === palette) closeCommandPalette();
+  });
+  document.addEventListener('keydown', event => {
+    const isShortcut = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k';
+    if (isShortcut) {
+      event.preventDefault();
+      openCommandPalette();
+      return;
+    }
+    if (!commandOpen) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeCommandPalette();
+    } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      commandActiveIndex = Math.min(commandActiveIndex + 1, commandItems.length - 1);
+      renderCommandResults();
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      commandActiveIndex = Math.max(commandActiveIndex - 1, 0);
+      renderCommandResults();
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      runCommand();
+    }
+  });
+}
+
 function renderRoute() {
   const hash = window.location.hash || '#/';
   if (!hash || hash === '#' || hash === '#/') {
@@ -522,12 +755,27 @@ function initMobileTabs() {
       window.location.hash = btn.dataset.mobileRoute;
     });
   });
+  updateMobileTabs();
+}
+
+function updateMobileTabs() {
+  const hash = window.location.hash || '#/';
+  document.querySelectorAll('[data-mobile-route]').forEach(btn => {
+    const route = btn.dataset.mobileRoute;
+    const active = route === '#/'
+      ? (!hash || hash === '#' || hash === '#/')
+      : hash === route || (route === '#/all' && hash.startsWith('#/tool/'));
+    btn.classList.toggle('active', active);
+    if (active) btn.setAttribute('aria-current', 'page');
+    else btn.removeAttribute('aria-current');
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   renderRoute();
   appRouter.handleRoute();
   initTheme();
+  initCommandPalette();
   initMobileTabs();
 
   window.addEventListener('hashchange', () => {
@@ -538,6 +786,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       renderRoute();
     }
+    updateMobileTabs();
+  });
+
+  window.addEventListener('pk-toggle-favorite', (event) => {
+    const toolId = event.detail?.toolId;
+    if (toolId && getTool(toolId)) toggleFavorite(toolId);
   });
 
   window.addEventListener('pt-toast', (event) => {

@@ -1,6 +1,17 @@
 import { UI } from './core/ui.js';
 import { getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=22';
 
+const FAVORITE_KEY = 'pk-favorites';
+
+function getFavorites() {
+  try { return JSON.parse(localStorage.getItem(FAVORITE_KEY)) || []; }
+  catch { return []; }
+}
+
+function isFavorite(toolId) {
+  return getFavorites().includes(toolId);
+}
+
 function makePTLogo() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('class', 'app-logo');
@@ -40,6 +51,7 @@ class Router {
     const viewTool      = document.getElementById('view-tool');
     const toolContainer = document.getElementById('tool-container');
     const btnBack       = document.getElementById('btn-back');
+    const btnQuickOpen  = document.getElementById('btn-quick-open');
     const appTitle      = document.getElementById('app-title');
 
     const hash = window.location.hash || '';
@@ -49,6 +61,7 @@ class Router {
       viewTool.classList.add('hidden');
       viewHome.classList.remove('hidden');
       btnBack.classList.add('hidden');
+      btnQuickOpen?.classList.remove('hidden');
       setAppTitle(appTitle, 'PocketKit', true);
       this.currentToolId = null;
 
@@ -78,6 +91,7 @@ class Router {
       viewHome.replaceChildren();
       viewTool.classList.remove('hidden');
       btnBack.classList.remove('hidden');
+      btnQuickOpen?.classList.add('hidden');
       btnBack.onclick = () => { window.location.hash = '#/all'; };
 
       const tool = getTool(toolId);
@@ -149,22 +163,24 @@ class Router {
         ${pocket ? `<span class="pk-badge ${pocket.access === 'free' ? 'pk-badge-free' : 'pk-badge-pro'}">${pocket.access === 'free' ? 'Free' : 'Pro'}</span>` : ''}
         <span class="pk-badge">Works offline</span>
         <button type="button" class="btn btn-secondary btn-small" id="btn-copy-tool-link">Copy link</button>
-        <button type="button" class="btn btn-secondary btn-small" id="btn-pin-tool">Pin this tool</button>
+        <button type="button" class="btn btn-secondary btn-small" id="btn-save-tool" aria-pressed="${isFavorite(tool.id) ? 'true' : 'false'}">${isFavorite(tool.id) ? 'Saved' : 'Save'}</button>
       </div>
     `;
     header.prepend(meta);
 
     const copy = container.querySelector('#btn-copy-tool-link');
-    const pin = container.querySelector('#btn-pin-tool');
+    const save = container.querySelector('#btn-save-tool');
     const copyLink = () => {
       navigator.clipboard.writeText(location.href)
         .then(() => UI.showSuccess('Tool link copied.'))
         .catch(() => UI.showError('Copy failed.'));
     };
     copy?.addEventListener('click', copyLink);
-    pin?.addEventListener('click', () => {
-      copyLink();
-      UI.showToast('Install PocketKit, then use this link to open the tool directly.');
+    save?.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('pk-toggle-favorite', { detail: { toolId: tool.id } }));
+      const next = isFavorite(tool.id);
+      save.textContent = next ? 'Saved' : 'Save';
+      save.setAttribute('aria-pressed', next ? 'true' : 'false');
     });
   }
 }
