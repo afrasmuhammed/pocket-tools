@@ -5,10 +5,77 @@
 <div class="tool-dashboard">
   <section class="tool-panel">
     <div class="input-group">
+      <label>Preset</label>
+      <div class="qr-preset-grid" role="group" aria-label="QR presets">
+        <button class="chip active" type="button" data-qr-preset="text">Text / URL</button>
+        <button class="chip" type="button" data-qr-preset="wifi">Wi-Fi</button>
+        <button class="chip" type="button" data-qr-preset="contact">Contact</button>
+        <button class="chip" type="button" data-qr-preset="email">Email</button>
+        <button class="chip" type="button" data-qr-preset="sms">SMS</button>
+      </div>
+    </div>
+
+    <div class="input-group">
       <label for="qr-input">Text or URL</label>
       <textarea id="qr-input" class="textarea-short" placeholder="https://example.com"></textarea>
       <span class="field-hint">Works for links, contact text, Wi-Fi strings, or any short message.</span>
     </div>
+
+    <div class="qr-fields hidden" data-qr-fields="wifi">
+      <div class="row">
+        <div>
+          <label for="qr-wifi-ssid">Network name</label>
+          <input id="qr-wifi-ssid" type="text" placeholder="Cafe WiFi">
+        </div>
+        <div>
+          <label for="qr-wifi-password">Password</label>
+          <input id="qr-wifi-password" type="text" placeholder="coffee1234">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="qr-wifi-type">Security</label>
+          <select id="qr-wifi-type">
+            <option value="WPA">WPA/WPA2</option>
+            <option value="WEP">WEP</option>
+            <option value="nopass">None</option>
+          </select>
+        </div>
+        <label class="qr-inline-check"><input id="qr-wifi-hidden" type="checkbox"> Hidden network</label>
+      </div>
+    </div>
+
+    <div class="qr-fields hidden" data-qr-fields="contact">
+      <div class="row">
+        <div>
+          <label for="qr-contact-name">Name</label>
+          <input id="qr-contact-name" type="text" placeholder="Alex Morgan">
+        </div>
+        <div>
+          <label for="qr-contact-phone">Phone</label>
+          <input id="qr-contact-phone" type="text" placeholder="+1 555 0100">
+        </div>
+      </div>
+      <label for="qr-contact-email">Email</label>
+      <input id="qr-contact-email" type="email" placeholder="alex@example.com">
+    </div>
+
+    <div class="qr-fields hidden" data-qr-fields="email">
+      <label for="qr-email-to">To</label>
+      <input id="qr-email-to" type="email" placeholder="hello@example.com">
+      <label for="qr-email-subject">Subject</label>
+      <input id="qr-email-subject" type="text" placeholder="Hello from PocketKit">
+      <label for="qr-email-body">Body</label>
+      <textarea id="qr-email-body" class="textarea-short" placeholder="Write your message..."></textarea>
+    </div>
+
+    <div class="qr-fields hidden" data-qr-fields="sms">
+      <label for="qr-sms-phone">Phone</label>
+      <input id="qr-sms-phone" type="text" placeholder="+1 555 0100">
+      <label for="qr-sms-message">Message</label>
+      <textarea id="qr-sms-message" class="textarea-short" placeholder="Your message..."></textarea>
+    </div>
+
     <button id="btn-qr-generate" class="btn">Generate QR</button>
   </section>
   <section class="tool-panel hidden" id="qr-result-container">

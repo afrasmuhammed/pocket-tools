@@ -741,8 +741,44 @@ function scoreCommandItem(item, query) {
 function buildCommandItems() {
   const favorites = new Set(getFavorites());
   const recent = new Set(getRecent());
+  const actionItems = [
+    {
+      type: 'action',
+      section: 'Actions',
+      title: 'Browse all tools',
+      subtitle: `${TOOLS.length} tools in one searchable library`,
+      href: '#/all',
+      accent: 'var(--accent)',
+      mark: 'All',
+      keywords: 'all library browse search tools',
+      weight: 16,
+    },
+    {
+      type: 'action',
+      section: 'Actions',
+      title: 'Toggle theme',
+      subtitle: 'Switch light and dark mode',
+      action: 'theme',
+      accent: 'var(--accent)',
+      mark: 'UI',
+      keywords: 'dark light theme appearance',
+      weight: 10,
+    },
+    {
+      type: 'action',
+      section: 'Actions',
+      title: 'Install PocketKit',
+      subtitle: 'Add the app to this device',
+      action: 'install',
+      accent: 'var(--accent)',
+      mark: 'App',
+      keywords: 'install app pwa home screen dock',
+      weight: 9,
+    },
+  ];
   const pocketItems = POCKETS.map(pocket => ({
     type: 'pocket',
+    section: 'Pockets',
     title: pocket.name,
     subtitle: `${pocket.tools.length} tools · ${pocket.access === 'free' ? 'Free' : 'Pro preview'}`,
     href: `#/pocket/${encodeURIComponent(pocket.id)}`,
@@ -755,6 +791,7 @@ function buildCommandItems() {
     const pocket = getPrimaryPocketForTool(tool.id);
     return {
       type: 'tool',
+      section: favorites.has(tool.id) ? 'Saved' : recent.has(tool.id) ? 'Recent' : 'Tools',
       title: tool.name,
       subtitle: `${pocket?.shortName || CATEGORY_LABELS[tool.category]} · ${tool.desc}`,
       href: `#/tool/${encodeURIComponent(tool.id)}`,
@@ -764,7 +801,14 @@ function buildCommandItems() {
       weight: (favorites.has(tool.id) ? 30 : 0) + (recent.has(tool.id) ? 18 : 0),
     };
   });
-  return [...toolItems, ...pocketItems];
+  return [...actionItems, ...toolItems, ...pocketItems];
+}
+
+function groupCommandItems(items) {
+  const order = ['Actions', 'Saved', 'Recent', 'Pockets', 'Tools'];
+  return order
+    .map(section => ({ section, items: items.filter(item => item.section === section) }))
+    .filter(group => group.items.length);
 }
 
 function renderCommandResults() {
@@ -785,16 +829,28 @@ function renderCommandResults() {
     return;
   }
 
-  results.innerHTML = commandItems.map((item, index) => `
-    <button type="button" class="command-item${index === commandActiveIndex ? ' active' : ''}" data-command-index="${index}" style="--pocket-accent:${item.accent}">
-      <span class="command-item-icon">${item.icon || item.mark}</span>
-      <span class="command-item-copy">
-        <strong>${item.title}</strong>
-        <span>${item.subtitle}</span>
-      </span>
-      <span class="command-item-type">${item.type}</span>
-    </button>
-  `).join('');
+  let cursor = 0;
+  results.innerHTML = groupCommandItems(commandItems).map(group => {
+    const html = `
+      <div class="command-section">
+        <p>${group.section}</p>
+        ${group.items.map(item => {
+          const index = cursor++;
+          return `
+            <button type="button" class="command-item${index === commandActiveIndex ? ' active' : ''}" data-command-index="${index}" style="--pocket-accent:${item.accent}">
+              <span class="command-item-icon">${item.icon || item.mark}</span>
+              <span class="command-item-copy">
+                <strong>${item.title}</strong>
+                <span>${item.subtitle}</span>
+              </span>
+              <span class="command-item-type">${item.type}</span>
+            </button>
+          `;
+        }).join('')}
+      </div>
+    `;
+    return html;
+  }).join('');
 }
 
 function openCommandPalette() {
@@ -822,6 +878,14 @@ function runCommand(index = commandActiveIndex) {
   const item = commandItems[index];
   if (!item) return;
   closeCommandPalette();
+  if (item.action === 'theme') {
+    document.getElementById('btn-theme')?.click();
+    return;
+  }
+  if (item.action === 'install') {
+    document.getElementById('btn-install-app')?.click();
+    return;
+  }
   window.location.hash = item.href;
 }
 

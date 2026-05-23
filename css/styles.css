@@ -655,6 +655,41 @@ html[data-theme="dark"] .tool-card:hover {
 .lap-time  { font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 
 .qr-frame { display: flex; justify-content: center; margin: 0 auto 14px; padding: 18px; border-radius: var(--radius-sm); background: #fff; width: max-content; max-width: 100%; box-shadow: var(--shadow-sm); }
+.qr-preset-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.qr-preset-grid .chip {
+  box-shadow: none;
+}
+.qr-fields {
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+.qr-fields input,
+.qr-fields select,
+.qr-fields textarea {
+  background: var(--card);
+}
+.qr-inline-check {
+  align-self: end;
+  min-height: 42px;
+  display: flex !important;
+  align-items: center;
+  margin: 0 !important;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--fg) !important;
+  font-size: 13px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
 
 .mask-stage, .signature-pad { overflow: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #e5e5e5; }
 .mask-stage { min-height: 260px; display: grid; place-items: center; }
@@ -2036,10 +2071,22 @@ html[data-theme="dark"] .pk-why-card {
 }
 .command-results {
   display: grid;
-  gap: 4px;
+  gap: 8px;
   max-height: min(520px, calc(100dvh - 180px));
   overflow: auto;
   padding: 8px;
+}
+.command-section {
+  display: grid;
+  gap: 4px;
+}
+.command-section p {
+  margin: 7px 8px 3px;
+  color: var(--muted);
+  font-family: var(--font-mono-ui);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
 .command-item {
   display: grid;

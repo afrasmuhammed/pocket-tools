@@ -1,0 +1,861 @@
+{
+  "generatedAt": "2026-05-23T16:46:39.828Z",
+  "site": "https://pocketkit.app",
+  "counts": {
+    "pockets": 8,
+    "tools": 76
+  },
+  "pockets": [
+    {
+      "id": "daily",
+      "name": "PocketKit Daily",
+      "shortName": "Daily",
+      "access": "free",
+      "description": "Everyday tools for quick private work.",
+      "url": "https://pocketkit.app/#/pocket/daily",
+      "tools": [
+        "qr-generator",
+        "image-compressor",
+        "format-converter",
+        "merge-pdf",
+        "compress-pdf",
+        "word-counter",
+        "character-counter",
+        "pomodoro",
+        "days-between",
+        "password-generator",
+        "unit-converter",
+        "discount-calculator",
+        "bill-splitter",
+        "random-decision",
+        "signature-png"
+      ]
+    },
+    {
+      "id": "pdf",
+      "name": "PocketKit PDF",
+      "shortName": "PDF",
+      "access": "pro",
+      "description": "Document workflows. Compress, merge, split, protect.",
+      "url": "https://pocketkit.app/#/pocket/pdf",
+      "tools": [
+        "compress-pdf",
+        "merge-pdf",
+        "split-pdf",
+        "protect-pdf",
+        "unprotect-pdf",
+        "rotate-pdf",
+        "page-numbers",
+        "extract-pdf",
+        "id-masker",
+        "invoice-generator",
+        "receipt-enhancer",
+        "photo-pdf"
+      ]
+    },
+    {
+      "id": "designer",
+      "name": "PocketKit Designer",
+      "shortName": "Designer",
+      "access": "pro",
+      "description": "Image, layout, crop, color, and creator utilities.",
+      "url": "https://pocketkit.app/#/pocket/designer",
+      "tools": [
+        "image-compressor",
+        "format-converter",
+        "bulk-renamer",
+        "social-resizer",
+        "ratio-cropper",
+        "color-picker",
+        "watermark",
+        "black-and-white",
+        "whatsapp-sticker"
+      ]
+    },
+    {
+      "id": "student",
+      "name": "PocketKit Student",
+      "shortName": "Student",
+      "access": "pro",
+      "description": "Writing, reading, notes, PDFs, and study helpers.",
+      "url": "https://pocketkit.app/#/pocket/student",
+      "tools": [
+        "reading-time",
+        "word-counter",
+        "character-counter",
+        "photo-pdf",
+        "merge-pdf",
+        "compress-pdf",
+        "pomodoro",
+        "whitespace-remover",
+        "case-converter",
+        "alphabetical-sorter"
+      ]
+    },
+    {
+      "id": "developer",
+      "name": "PocketKit Developer",
+      "shortName": "Developer",
+      "access": "pro",
+      "description": "Format, encode, decode, hash, and debug in the browser.",
+      "url": "https://pocketkit.app/#/pocket/developer",
+      "tools": [
+        "json-formatter",
+        "xml-formatter",
+        "yaml-json",
+        "json-yaml",
+        "csv-json",
+        "json-csv",
+        "base64-encoder",
+        "url-encoder",
+        "html-entities",
+        "hash-generator",
+        "hmac-generator",
+        "jwt-decoder",
+        "cron-explainer",
+        "markdown-previewer",
+        "lorem-ipsum",
+        "color-palette"
+      ]
+    },
+    {
+      "id": "qa",
+      "name": "PocketKit QA",
+      "shortName": "QA",
+      "access": "pro",
+      "description": "Daily testing utilities for QA people and teams.",
+      "url": "https://pocketkit.app/#/pocket/qa",
+      "tools": [
+        "dummy-user",
+        "random-address",
+        "uuid-generator",
+        "password-generator",
+        "json-formatter",
+        "regex-tester",
+        "api-beautifier",
+        "timestamp-converter",
+        "bug-report",
+        "test-case",
+        "character-counter"
+      ]
+    },
+    {
+      "id": "seo",
+      "name": "PocketKit SEO",
+      "shortName": "SEO",
+      "access": "pro",
+      "description": "Offline SEO preparation and previews for shipping content.",
+      "url": "https://pocketkit.app/#/pocket/seo",
+      "tools": [
+        "meta-tags",
+        "og-preview",
+        "slug-generator",
+        "keyword-density",
+        "sitemap-formatter",
+        "robots-txt",
+        "canonical-url"
+      ]
+    },
+    {
+      "id": "shop",
+      "name": "PocketKit Shop",
+      "shortName": "Shop",
+      "access": "pro",
+      "description": "Small business utilities for invoices, receipts, VAT, and QR.",
+      "url": "https://pocketkit.app/#/pocket/shop",
+      "tools": [
+        "invoice-generator",
+        "receipt-enhancer",
+        "qr-generator",
+        "vat-calculator",
+        "grocery-calculator"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "id": "image-compressor",
+      "name": "Image Compressor + Converter",
+      "category": "photos",
+      "description": "Batch resize, compress, convert",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/image-compressor"
+    },
+    {
+      "id": "format-converter",
+      "name": "Image Format Converter",
+      "category": "photos",
+      "description": "Batch convert JPG, PNG, WebP",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/format-converter"
+    },
+    {
+      "id": "bulk-renamer",
+      "name": "Bulk Photo Renamer",
+      "category": "photos",
+      "description": "Rename photos into a ZIP",
+      "pocket": "designer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/bulk-renamer"
+    },
+    {
+      "id": "social-resizer",
+      "name": "Social Media Resizer",
+      "category": "photos",
+      "description": "Instagram, YouTube, etc.",
+      "pocket": "designer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/social-resizer"
+    },
+    {
+      "id": "ratio-cropper",
+      "name": "Aspect Ratio Cropper",
+      "category": "photos",
+      "description": "1:1, 4:5, 16:9, custom",
+      "pocket": "designer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/ratio-cropper"
+    },
+    {
+      "id": "photo-pdf",
+      "name": "Photo → PDF",
+      "category": "photos",
+      "description": "Combine photos into one PDF",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/photo-pdf"
+    },
+    {
+      "id": "color-picker",
+      "name": "Image Color Picker",
+      "category": "photos",
+      "description": "Pick HEX/RGB from a photo",
+      "pocket": "designer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/color-picker"
+    },
+    {
+      "id": "watermark",
+      "name": "Text Watermark",
+      "category": "photos",
+      "description": "Add a text watermark",
+      "pocket": "designer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/watermark"
+    },
+    {
+      "id": "black-and-white",
+      "name": "Black & White",
+      "category": "photos",
+      "description": "Convert image to grayscale",
+      "pocket": "designer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/black-and-white"
+    },
+    {
+      "id": "whatsapp-sticker",
+      "name": "WhatsApp Sticker Maker",
+      "category": "photos",
+      "description": "Make 512×512 WebP stickers",
+      "pocket": "designer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/whatsapp-sticker"
+    },
+    {
+      "id": "compress-pdf",
+      "name": "Compress PDF",
+      "category": "documents",
+      "description": "Optimize and reduce PDF size",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/compress-pdf"
+    },
+    {
+      "id": "invoice-generator",
+      "name": "Invoice Generator",
+      "category": "documents",
+      "description": "Create a PDF invoice",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/invoice-generator"
+    },
+    {
+      "id": "merge-pdf",
+      "name": "Merge PDF",
+      "category": "documents",
+      "description": "Combine multiple PDFs",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/merge-pdf"
+    },
+    {
+      "id": "split-pdf",
+      "name": "Split PDF",
+      "category": "documents",
+      "description": "Split into separate pages",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/split-pdf"
+    },
+    {
+      "id": "protect-pdf",
+      "name": "Password Protect PDF",
+      "category": "documents",
+      "description": "AES-256 encrypt your PDF",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/protect-pdf"
+    },
+    {
+      "id": "page-numbers",
+      "name": "PDF Page Numberer",
+      "category": "documents",
+      "description": "Add page numbers",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/page-numbers"
+    },
+    {
+      "id": "extract-pdf",
+      "name": "Extract PDF Text",
+      "category": "documents",
+      "description": "Pull all text out of a PDF",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/extract-pdf"
+    },
+    {
+      "id": "rotate-pdf",
+      "name": "Rotate PDF",
+      "category": "documents",
+      "description": "Rotate pages 90°/180°/270°",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/rotate-pdf"
+    },
+    {
+      "id": "unprotect-pdf",
+      "name": "Unprotect PDF",
+      "category": "documents",
+      "description": "Remove a known password",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/unprotect-pdf"
+    },
+    {
+      "id": "id-masker",
+      "name": "ID Masker",
+      "category": "documents",
+      "description": "Mask sensitive ID details",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/id-masker"
+    },
+    {
+      "id": "receipt-enhancer",
+      "name": "Receipt Enhancer",
+      "category": "documents",
+      "description": "B/W + contrast for receipts",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/receipt-enhancer"
+    },
+    {
+      "id": "word-counter",
+      "name": "Word & Char Counter",
+      "category": "text",
+      "description": "Live count of words & chars",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/word-counter"
+    },
+    {
+      "id": "case-converter",
+      "name": "Case Converter",
+      "category": "text",
+      "description": "UPPER, lower, Title, etc.",
+      "pocket": "student",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/case-converter"
+    },
+    {
+      "id": "whitespace-remover",
+      "name": "Whitespace Remover",
+      "category": "text",
+      "description": "Trim extra spaces & breaks",
+      "pocket": "student",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/whitespace-remover"
+    },
+    {
+      "id": "alphabetical-sorter",
+      "name": "Alphabetical Sorter",
+      "category": "text",
+      "description": "Sort lines A→Z",
+      "pocket": "student",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/alphabetical-sorter"
+    },
+    {
+      "id": "duplicate-remover",
+      "name": "Duplicate Remover",
+      "category": "text",
+      "description": "Remove duplicate lines",
+      "pocket": null,
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/duplicate-remover"
+    },
+    {
+      "id": "reading-time",
+      "name": "Reading Time",
+      "category": "text",
+      "description": "Estimate read & speak time",
+      "pocket": "student",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/reading-time"
+    },
+    {
+      "id": "bill-splitter",
+      "name": "Bill Splitter",
+      "category": "math",
+      "description": "Split a bill, with tip",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/bill-splitter"
+    },
+    {
+      "id": "discount-calculator",
+      "name": "Discount Calculator",
+      "category": "math",
+      "description": "Final price after discount",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/discount-calculator"
+    },
+    {
+      "id": "emi-calculator",
+      "name": "Loan Calculator",
+      "category": "math",
+      "description": "Monthly loan repayment",
+      "pocket": null,
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/emi-calculator"
+    },
+    {
+      "id": "percentage-change",
+      "name": "Percentage Change",
+      "category": "math",
+      "description": "Increase / decrease %",
+      "pocket": null,
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/percentage-change"
+    },
+    {
+      "id": "unit-converter",
+      "name": "Unit Converter",
+      "category": "math",
+      "description": "Length, weight, temperature",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/unit-converter"
+    },
+    {
+      "id": "grocery-calculator",
+      "name": "Grocery Calculator",
+      "category": "math",
+      "description": "List items and total prices",
+      "pocket": "shop",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/grocery-calculator"
+    },
+    {
+      "id": "vat-calculator",
+      "name": "VAT Calculator",
+      "category": "math",
+      "description": "Add or remove VAT (19 % / 7 %)",
+      "pocket": "shop",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/vat-calculator"
+    },
+    {
+      "id": "text-diff",
+      "name": "Text Diff",
+      "category": "text",
+      "description": "Compare two texts line by line",
+      "pocket": null,
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/text-diff"
+    },
+    {
+      "id": "pomodoro",
+      "name": "Pomodoro Timer",
+      "category": "time",
+      "description": "Focus 25/5 timer",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/pomodoro"
+    },
+    {
+      "id": "days-between",
+      "name": "Days Between Dates",
+      "category": "time",
+      "description": "Days between two dates",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/days-between"
+    },
+    {
+      "id": "timezone",
+      "name": "Timezone Matcher",
+      "category": "time",
+      "description": "Compare timezones",
+      "pocket": null,
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/timezone"
+    },
+    {
+      "id": "stopwatch",
+      "name": "Stopwatch",
+      "category": "time",
+      "description": "Lap stopwatch",
+      "pocket": null,
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/stopwatch"
+    },
+    {
+      "id": "countdown",
+      "name": "Countdown Timer",
+      "category": "time",
+      "description": "Count down to any date & time",
+      "pocket": null,
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/countdown"
+    },
+    {
+      "id": "qr-generator",
+      "name": "QR Code Generator",
+      "category": "utilities",
+      "description": "Make a QR code",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/qr-generator"
+    },
+    {
+      "id": "random-decision",
+      "name": "Random Decision",
+      "category": "utilities",
+      "description": "Pick one from a list",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/random-decision"
+    },
+    {
+      "id": "signature-png",
+      "name": "Signature to PNG",
+      "category": "utilities",
+      "description": "Draw transparent signature",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/signature-png"
+    },
+    {
+      "id": "meta-tags",
+      "name": "Meta Tag Generator",
+      "category": "seo",
+      "description": "Create SEO and social tags",
+      "pocket": "seo",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/meta-tags"
+    },
+    {
+      "id": "og-preview",
+      "name": "OpenGraph Preview",
+      "category": "seo",
+      "description": "Preview social share cards",
+      "pocket": "seo",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/og-preview"
+    },
+    {
+      "id": "slug-generator",
+      "name": "Slug Generator",
+      "category": "seo",
+      "description": "Create URL-friendly slugs",
+      "pocket": "seo",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/slug-generator"
+    },
+    {
+      "id": "keyword-density",
+      "name": "Keyword Density Checker",
+      "category": "seo",
+      "description": "Find repeated terms and phrases",
+      "pocket": "seo",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/keyword-density"
+    },
+    {
+      "id": "sitemap-formatter",
+      "name": "Sitemap Formatter",
+      "category": "seo",
+      "description": "Format XML or create a sitemap",
+      "pocket": "seo",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/sitemap-formatter"
+    },
+    {
+      "id": "robots-txt",
+      "name": "Robots.txt Generator",
+      "category": "seo",
+      "description": "Create crawler rules",
+      "pocket": "seo",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/robots-txt"
+    },
+    {
+      "id": "canonical-url",
+      "name": "Canonical URL Generator",
+      "category": "seo",
+      "description": "Clean URLs and make canonical tags",
+      "pocket": "seo",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/canonical-url"
+    },
+    {
+      "id": "dummy-user",
+      "name": "Dummy User Generator",
+      "category": "qa",
+      "description": "Create realistic test users",
+      "pocket": "qa",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/dummy-user"
+    },
+    {
+      "id": "random-address",
+      "name": "Random Address Generator",
+      "category": "qa",
+      "description": "Generate checkout test addresses",
+      "pocket": "qa",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/random-address"
+    },
+    {
+      "id": "uuid-generator",
+      "name": "UUID Generator",
+      "category": "qa",
+      "description": "Generate random v4 UUIDs",
+      "pocket": "qa",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/uuid-generator"
+    },
+    {
+      "id": "password-generator",
+      "name": "Password Generator",
+      "category": "qa",
+      "description": "Strong random passwords",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/password-generator"
+    },
+    {
+      "id": "json-formatter",
+      "name": "JSON Formatter",
+      "category": "qa",
+      "description": "Validate, format, or minify JSON",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/json-formatter"
+    },
+    {
+      "id": "regex-tester",
+      "name": "Regex Tester",
+      "category": "qa",
+      "description": "Test and debug regex patterns",
+      "pocket": "qa",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/regex-tester"
+    },
+    {
+      "id": "api-beautifier",
+      "name": "API Response Beautifier",
+      "category": "qa",
+      "description": "Format API responses for QA notes",
+      "pocket": "qa",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/api-beautifier"
+    },
+    {
+      "id": "timestamp-converter",
+      "name": "Timestamp Converter",
+      "category": "qa",
+      "description": "Unix time to readable dates",
+      "pocket": "qa",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/timestamp-converter"
+    },
+    {
+      "id": "bug-report",
+      "name": "Bug Report Formatter",
+      "category": "qa",
+      "description": "Turn notes into clear bug reports",
+      "pocket": "qa",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/bug-report"
+    },
+    {
+      "id": "test-case",
+      "name": "Test Case Formatter",
+      "category": "qa",
+      "description": "Create manual test case docs",
+      "pocket": "qa",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/test-case"
+    },
+    {
+      "id": "character-counter",
+      "name": "Character Counter",
+      "category": "qa",
+      "description": "Check characters, bytes, and limits",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/character-counter"
+    },
+    {
+      "id": "lorem-ipsum",
+      "name": "Lorem Ipsum Generator",
+      "category": "developer",
+      "description": "Generate placeholder copy",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/lorem-ipsum"
+    },
+    {
+      "id": "markdown-previewer",
+      "name": "Markdown Previewer",
+      "category": "developer",
+      "description": "Preview Markdown as HTML",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/markdown-previewer"
+    },
+    {
+      "id": "html-entities",
+      "name": "HTML Entities Encoder / Decoder",
+      "category": "developer",
+      "description": "Escape or decode HTML entities",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/html-entities"
+    },
+    {
+      "id": "url-encoder",
+      "name": "URL Encoder / Decoder",
+      "category": "developer",
+      "description": "Encode or decode URLs and query text",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/url-encoder"
+    },
+    {
+      "id": "base64-encoder",
+      "name": "Base64 Encoder / Decoder",
+      "category": "developer",
+      "description": "Encode or decode Base64 text",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/base64-encoder"
+    },
+    {
+      "id": "xml-formatter",
+      "name": "XML Formatter / Minifier",
+      "category": "developer",
+      "description": "Validate, format, or minify XML",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/xml-formatter"
+    },
+    {
+      "id": "csv-json",
+      "name": "CSV to JSON Converter",
+      "category": "developer",
+      "description": "Turn CSV rows into JSON data",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/csv-json"
+    },
+    {
+      "id": "json-csv",
+      "name": "JSON to CSV Converter",
+      "category": "developer",
+      "description": "Turn JSON arrays into CSV text",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/json-csv"
+    },
+    {
+      "id": "yaml-json",
+      "name": "YAML to JSON Converter",
+      "category": "developer",
+      "description": "Convert YAML config to JSON",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/yaml-json"
+    },
+    {
+      "id": "json-yaml",
+      "name": "JSON to YAML Converter",
+      "category": "developer",
+      "description": "Convert JSON data to YAML",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/json-yaml"
+    },
+    {
+      "id": "hash-generator",
+      "name": "Hash Generator",
+      "category": "developer",
+      "description": "Generate SHA hashes for text",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/hash-generator"
+    },
+    {
+      "id": "hmac-generator",
+      "name": "HMAC Generator",
+      "category": "developer",
+      "description": "Create keyed SHA signatures",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/hmac-generator"
+    },
+    {
+      "id": "jwt-decoder",
+      "name": "JWT Decoder",
+      "category": "developer",
+      "description": "Decode JWT header & payload",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/jwt-decoder"
+    },
+    {
+      "id": "cron-explainer",
+      "name": "Cron Explainer",
+      "category": "developer",
+      "description": "Human-readable cron schedule",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/cron-explainer"
+    },
+    {
+      "id": "color-palette",
+      "name": "Color Palette Extractor",
+      "category": "developer",
+      "description": "Extract dominant colors from an image",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/color-palette"
+    }
+  ]
+}

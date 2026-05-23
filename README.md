@@ -38,7 +38,13 @@ PocketKit Daily is the free default experience. Pro pockets are visible as soft 
 
 ## Search Discovery
 
-PocketKit exposes `opensearch.xml`, so supported browsers can add PocketKit as a searchable utility library. Search URLs land on `#/all?q=...`, prefilled with matching tool results.
+PocketKit exposes `opensearch.xml`, `sitemap.xml`, and `tools.json`, so supported browsers and crawlers can understand the tool library. Search URLs land on `#/all?q=...`, prefilled with matching tool results.
+
+Run `node scripts/sync-metadata.mjs` after registry changes to regenerate `sitemap.xml` and `tools.json`.
+
+## QA
+
+Run `node scripts/check-pocketkit.mjs` before shipping larger changes. It checks registry IDs, pocket references, template/module files, service-worker cache entries, sitemap entries, and `tools.json` counts.
 
 ## Offline Support
 
