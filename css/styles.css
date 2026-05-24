@@ -471,6 +471,8 @@ html[data-theme="dark"] .tool-card:hover {
 #tool-container[data-category="time"]      .tool-header { border-left-color: var(--cat-time); }
 #tool-container[data-category="utilities"] .tool-header { border-left-color: var(--cat-utilities); }
 #tool-container[data-category="developer"] .tool-header { border-left-color: var(--cat-developer); }
+#tool-container[data-category="seo"]       .tool-header { border-left-color: var(--cat-seo); }
+#tool-container[data-category="qa"]        .tool-header { border-left-color: var(--cat-qa); }
 
 .input-group { margin-bottom: 16px; }
 .input-group textarea { min-height: 140px; }
@@ -2658,6 +2660,53 @@ html[data-theme="dark"] .pk-why-card {
   .pk-pocket-search { width: 100%; }
   .pk-compact-grid { grid-template-columns: 1fr; }
   .tool-meta-actions { justify-content: flex-start; }
+  .tool-container {
+    padding-top: 2px;
+  }
+  .tool-header {
+    margin-bottom: 28px;
+    padding-left: 13px;
+  }
+  .tool-header h2 {
+    font-size: 23px;
+    line-height: 1.15;
+  }
+  .tool-header p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .tool-panel,
+  .image-panel {
+    padding: 18px;
+  }
+  .tool-container .textarea-tall {
+    min-height: 210px;
+  }
+  .metric-grid,
+  .image-summary {
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  }
+  .metric {
+    padding: 15px 14px;
+  }
+  .metric strong {
+    font-size: 22px;
+  }
+  .button-row {
+    gap: 8px;
+  }
+  .button-row .btn {
+    flex-basis: 140px;
+    min-height: 44px;
+    padding-inline: 14px;
+  }
+  .drop-zone {
+    min-height: 104px;
+    padding: 16px;
+  }
+  .drop-zone strong {
+    font-size: 15.5px;
+  }
 
   .mobile-tabbar {
     position: fixed;
@@ -2824,6 +2873,33 @@ html[data-theme="dark"] .pk-why-card {
 }
 
 @media (max-width: 520px) {
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .tool-card {
+    min-height: 124px;
+    padding: 14px 12px 12px;
+    border-radius: 14px;
+  }
+  .icon-wrap {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 11px;
+    border-radius: 11px;
+  }
+  .tool-card .name {
+    font-size: 12.5px;
+  }
+  .tool-card .desc {
+    font-size: 11px;
+  }
+  .tool-meta-actions .btn-small {
+    flex: 1 1 calc(50% - 6px);
+  }
+  .pk-breadcrumb {
+    font-size: 11.5px;
+  }
   .seo-result-row {
     grid-template-columns: 1fr;
     align-items: start;
@@ -2837,6 +2913,9 @@ html[data-theme="dark"] .pk-why-card {
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

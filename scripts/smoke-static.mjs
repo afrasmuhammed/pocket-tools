@@ -9,7 +9,7 @@ const required = [
   '/robots.txt',
   '/sitemap.xml',
   '/tools.json',
-  '/css/styles.css?v=35',
+  '/css/styles.css?v=36',
   '/js/app.js?v=57',
   '/js/router.js?v=41',
 ];
