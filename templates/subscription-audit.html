@@ -1,0 +1,32 @@
+<div class="tool-header">
+  <h2>Subscription Audit</h2>
+  <p>Paste recurring charges and see monthly cost, yearly cost, and cancellation targets.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="sa-input">Subscriptions or Statement Lines</label>
+      <textarea id="sa-input" class="textarea-tall" placeholder="Netflix 15.49 monthly&#10;Adobe 59.99/mo&#10;Domain renewal 18 yearly" spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-sa-run" class="btn">Audit Spend</button>
+      <button id="btn-sa-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-sa-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Monthly</span><strong id="sa-monthly">$0</strong></div>
+      <div class="metric"><span>Yearly</span><strong id="sa-yearly">$0</strong></div>
+      <div class="metric"><span>Items</span><strong id="sa-count">0</strong></div>
+    </div>
+    <div id="sa-list" class="seo-result-list"></div>
+    <div class="input-group">
+      <label for="sa-output">Audit Summary</label>
+      <textarea id="sa-output" class="textarea-medium" readonly placeholder="Subscription summary will appear here..." spellcheck="false"></textarea>
+    </div>
+    <button id="btn-sa-copy" class="btn">Copy Audit</button>
+  </section>
+</div>

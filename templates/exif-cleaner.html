@@ -1,0 +1,30 @@
+<div class="tool-header">
+  <h2>EXIF Inspector & Remover</h2>
+  <p>Check image metadata and export a clean copy without embedded camera details.</p>
+</div>
+
+<div class="image-workbench">
+  <section class="image-panel image-panel-primary">
+    <div class="drop-zone">
+      <input type="file" id="exif-upload" accept="image/*,.jpg,.jpeg,.png,.webp">
+      <div>
+        <strong>Select Image</strong>
+        <span>JPG, PNG, or WebP. Clean export is re-rendered in your browser.</span>
+      </div>
+    </div>
+    <div class="image-summary">
+      <div><span class="summary-label">File</span><strong id="exif-file-type">None</strong></div>
+      <div><span class="summary-label">Size</span><strong id="exif-file-size">0 KB</strong></div>
+      <div><span class="summary-label">Metadata</span><strong id="exif-meta-count">0</strong></div>
+    </div>
+  </section>
+
+  <section class="image-panel">
+    <div class="panel-title">
+      <h3>Detected Metadata</h3>
+      <button id="btn-exif-download" class="btn btn-secondary" disabled>Download Clean Copy</button>
+    </div>
+    <div id="exif-list" class="seo-result-list"></div>
+    <canvas id="exif-canvas" class="hidden"></canvas>
+  </section>
+</div>

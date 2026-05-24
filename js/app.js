@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=37';
+import { appRouter } from './router.js?v=39';
 import {
   CATEGORIES,
   POCKETS,
@@ -7,7 +7,7 @@ import {
   getPrimaryPocketForTool,
   getTool,
   getToolsForPocket,
-} from './registry.js?v=23';
+} from './registry.js?v=24';
 
 const RECENT_KEY = 'pt-recent';
 const FAVORITE_KEY = 'pk-favorites';
@@ -31,6 +31,10 @@ const TOOL_ALIASES = {
   'text-redactor': 'redact hide mask pii email phone card ip privacy',
   'color-contrast': 'wcag contrast checker accessibility colors aa aaa',
   'pdf-metadata': 'pdf metadata title author pages size created modified',
+  'safe-share-link': 'clean url link tracking remove safe share privacy utm fbclid gclid',
+  'exif-cleaner': 'exif metadata remove photo image privacy camera location clean',
+  'meeting-actions': 'meeting notes action items decisions owners due dates summary',
+  'subscription-audit': 'subscriptions recurring charges monthly yearly spend audit cancel',
   'jwt-decoder': 'jwt token decode auth bearer claims header payload',
   'base64-encoder': 'base64 encode decode atob btoa',
   'url-encoder': 'url encode decode uri percent escape',

@@ -37,6 +37,8 @@ export const POCKETS = [
       'unit-converter',
       'discount-calculator',
       'bill-splitter',
+      'subscription-audit',
+      'safe-share-link',
       'random-decision',
       'signature-png',
     ],
@@ -81,6 +83,7 @@ export const POCKETS = [
       'ratio-cropper',
       'color-picker',
       'watermark',
+      'exif-cleaner',
       'black-and-white',
       'whatsapp-sticker',
     ],
@@ -103,6 +106,7 @@ export const POCKETS = [
       'pomodoro',
       'whitespace-remover',
       'text-redactor',
+      'meeting-actions',
       'case-converter',
       'alphabetical-sorter',
     ],
@@ -172,6 +176,7 @@ export const POCKETS = [
       'og-preview',
       'slug-generator',
       'utm-builder',
+      'safe-share-link',
       'keyword-density',
       'sitemap-formatter',
       'robots-txt',
@@ -190,6 +195,7 @@ export const POCKETS = [
       'invoice-generator',
       'receipt-enhancer',
       'qr-generator',
+      'subscription-audit',
       'vat-calculator',
       'grocery-calculator',
     ],
@@ -258,6 +264,7 @@ export const TOOLS = [
   { id: 'photo-pdf',         name: 'Photo → PDF',          category: 'photos',    desc: 'Combine photos into one PDF',        icon: ICONS.filePdf, needsPdfLib: true },
   { id: 'color-picker',      name: 'Image Color Picker',   category: 'photos',    desc: 'Pick HEX/RGB from a photo',          icon: ICONS.drop },
   { id: 'watermark',         name: 'Text Watermark',       category: 'photos',    desc: 'Add a text watermark',               icon: ICONS.watermark },
+  { id: 'exif-cleaner',      name: 'EXIF Inspector & Remover', category: 'photos', desc: 'Inspect and strip image metadata',  icon: ICONS.shield },
   { id: 'black-and-white',   name: 'Black & White',        category: 'photos',    desc: 'Convert image to grayscale',         icon: ICONS.sun },
   { id: 'whatsapp-sticker', name: 'WhatsApp Sticker Maker', category: 'photos',  desc: 'Make 512×512 WebP stickers',           icon: ICONS.sticker },
 
@@ -291,10 +298,12 @@ export const TOOLS = [
   { id: 'unit-converter',    name: 'Unit Converter',       category: 'math',      desc: 'Length, weight, temperature',        icon: ICONS.ruler },
   { id: 'grocery-calculator',name: 'Grocery Calculator',    category: 'math',      desc: 'List items and total prices',        icon: ICONS.cart },
   { id: 'vat-calculator',    name: 'VAT Calculator',        category: 'math',      desc: 'Add or remove VAT (19 % / 7 %)',     icon: ICONS.vat },
+  { id: 'subscription-audit', name: 'Subscription Audit',    category: 'math',      desc: 'Find recurring spend and yearly cost', icon: ICONS.cart },
 
   // TEXT additions
   { id: 'text-diff',         name: 'Text Diff',             category: 'text',      desc: 'Compare two texts line by line',     icon: ICONS.diff },
   { id: 'text-redactor',     name: 'Text Redactor',         category: 'text',      desc: 'Hide emails, phones, IDs, and cards', icon: ICONS.shield },
+  { id: 'meeting-actions',   name: 'Meeting Actions Extractor', category: 'text',  desc: 'Turn notes into decisions and tasks', icon: ICONS.pen },
 
   // TIME (4)
   { id: 'pomodoro',          name: 'Pomodoro Timer',       category: 'time',      desc: 'Focus 25/5 timer',                   icon: ICONS.timer },
@@ -307,6 +316,7 @@ export const TOOLS = [
   { id: 'qr-generator',      name: 'QR Code Generator',    category: 'utilities', desc: 'Make a QR code',                     icon: ICONS.qr },
   { id: 'random-decision',   name: 'Random Decision',      category: 'utilities', desc: 'Pick one from a list',               icon: ICONS.dice },
   { id: 'signature-png',     name: 'Signature to PNG',      category: 'utilities', desc: 'Draw transparent signature',         icon: ICONS.pen },
+  { id: 'safe-share-link',   name: 'Safe Share Link Cleaner', category: 'utilities', desc: 'Remove tracking from share links', icon: ICONS.globe },
 
   // SEO
   { id: 'meta-tags',        name: 'Meta Tag Generator',       category: 'seo', desc: 'Create SEO and social tags',          icon: ICONS.braces  },

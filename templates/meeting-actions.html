@@ -1,0 +1,31 @@
+<div class="tool-header">
+  <h2>Meeting Actions Extractor</h2>
+  <p>Turn rough meeting notes into decisions, owners, due dates, and follow-ups.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="ma-input">Meeting Notes</label>
+      <textarea id="ma-input" class="textarea-tall" placeholder="Paste notes, transcript snippets, or bullet points..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-ma-run" class="btn">Extract Actions</button>
+      <button id="btn-ma-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-ma-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Actions</span><strong id="ma-action-count">0</strong></div>
+      <div class="metric"><span>Decisions</span><strong id="ma-decision-count">0</strong></div>
+      <div class="metric"><span>Risks</span><strong id="ma-risk-count">0</strong></div>
+    </div>
+    <div class="input-group">
+      <label for="ma-output">Structured Summary</label>
+      <textarea id="ma-output" class="textarea-tall" readonly placeholder="Extracted meeting summary will appear here..." spellcheck="false"></textarea>
+    </div>
+    <button id="btn-ma-copy" class="btn">Copy Summary</button>
+  </section>
+</div>

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-24T12:39:21.398Z",
+  "generatedAt": "2026-05-24T16:16:39.165Z",
   "site": "https://pocketkit.app",
   "counts": {
     "pockets": 8,
-    "tools": 82
+    "tools": 86
   },
   "pockets": [
     {
@@ -27,6 +27,8 @@
         "unit-converter",
         "discount-calculator",
         "bill-splitter",
+        "subscription-audit",
+        "safe-share-link",
         "random-decision",
         "signature-png"
       ]
@@ -69,6 +71,7 @@
         "ratio-cropper",
         "color-picker",
         "watermark",
+        "exif-cleaner",
         "black-and-white",
         "whatsapp-sticker"
       ]
@@ -90,6 +93,7 @@
         "pomodoro",
         "whitespace-remover",
         "text-redactor",
+        "meeting-actions",
         "case-converter",
         "alphabetical-sorter"
       ]
@@ -156,6 +160,7 @@
         "og-preview",
         "slug-generator",
         "utm-builder",
+        "safe-share-link",
         "keyword-density",
         "sitemap-formatter",
         "robots-txt",
@@ -173,6 +178,7 @@
         "invoice-generator",
         "receipt-enhancer",
         "qr-generator",
+        "subscription-audit",
         "vat-calculator",
         "grocery-calculator"
       ]
@@ -250,6 +256,15 @@
       "pocket": "designer",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/watermark"
+    },
+    {
+      "id": "exif-cleaner",
+      "name": "EXIF Inspector & Remover",
+      "category": "photos",
+      "description": "Inspect and strip image metadata",
+      "pocket": "designer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/exif-cleaner"
     },
     {
       "id": "black-and-white",
@@ -495,6 +510,15 @@
       "url": "https://pocketkit.app/#/tool/vat-calculator"
     },
     {
+      "id": "subscription-audit",
+      "name": "Subscription Audit",
+      "category": "math",
+      "description": "Find recurring spend and yearly cost",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/subscription-audit"
+    },
+    {
       "id": "text-diff",
       "name": "Text Diff",
       "category": "text",
@@ -511,6 +535,15 @@
       "pocket": "student",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/text-redactor"
+    },
+    {
+      "id": "meeting-actions",
+      "name": "Meeting Actions Extractor",
+      "category": "text",
+      "description": "Turn notes into decisions and tasks",
+      "pocket": "student",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/meeting-actions"
     },
     {
       "id": "pomodoro",
@@ -583,6 +616,15 @@
       "pocket": "daily",
       "access": "free",
       "url": "https://pocketkit.app/#/tool/signature-png"
+    },
+    {
+      "id": "safe-share-link",
+      "name": "Safe Share Link Cleaner",
+      "category": "utilities",
+      "description": "Remove tracking from share links",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/safe-share-link"
     },
     {
       "id": "meta-tags",

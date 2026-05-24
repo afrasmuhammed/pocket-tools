@@ -1,0 +1,39 @@
+<div class="tool-header">
+  <h2>Safe Share Link Cleaner</h2>
+  <p>Remove tracking parameters from links before sending them to someone else.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="ssl-input">Link</label>
+      <textarea id="ssl-input" class="textarea-medium" placeholder="Paste a shopping, video, social, or article URL..." spellcheck="false"></textarea>
+    </div>
+    <div class="checkbox-grid">
+      <label><input type="checkbox" id="ssl-keep-commerce"> Keep commerce tags</label>
+      <label><input type="checkbox" id="ssl-force-https" checked> Prefer HTTPS</label>
+      <label><input type="checkbox" id="ssl-drop-fragment"> Remove page fragment</label>
+    </div>
+    <div class="button-row">
+      <button id="btn-ssl-clean" class="btn">Clean Link</button>
+      <button id="btn-ssl-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-ssl-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="ssl-output">Safe Link</label>
+      <textarea id="ssl-output" class="textarea-medium" readonly placeholder="Cleaned link will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="metric-grid">
+      <div class="metric"><span>Removed</span><strong id="ssl-removed-count">0</strong></div>
+      <div class="metric"><span>Length Saved</span><strong id="ssl-saved-count">0</strong></div>
+    </div>
+    <div id="ssl-removed-list" class="seo-result-list"></div>
+    <div class="button-row">
+      <button id="btn-ssl-copy" class="btn">Copy Link</button>
+      <button id="btn-ssl-qr" class="btn btn-secondary">Send to QR</button>
+    </div>
+  </section>
+</div>

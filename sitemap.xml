@@ -91,6 +91,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://pocketkit.app/#/tool/exif-cleaner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://pocketkit.app/#/tool/black-and-white</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -226,12 +231,22 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://pocketkit.app/#/tool/subscription-audit</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://pocketkit.app/#/tool/text-diff</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://pocketkit.app/#/tool/text-redactor</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pocketkit.app/#/tool/meeting-actions</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -272,6 +287,11 @@
   </url>
   <url>
     <loc>https://pocketkit.app/#/tool/signature-png</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pocketkit.app/#/tool/safe-share-link</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
