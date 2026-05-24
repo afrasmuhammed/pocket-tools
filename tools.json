@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-24T16:47:52.582Z",
+  "generatedAt": "2026-05-24T18:55:21.398Z",
   "site": "https://pocketkit.app",
   "counts": {
     "pockets": 8,
-    "tools": 87
+    "tools": 88
   },
   "pockets": [
     {
@@ -29,6 +29,7 @@
         "bill-splitter",
         "subscription-audit",
         "safe-share-link",
+        "screenshot-privacy-blur",
         "random-decision",
         "signature-png"
       ]
@@ -73,6 +74,7 @@
         "color-picker",
         "watermark",
         "exif-cleaner",
+        "screenshot-privacy-blur",
         "black-and-white",
         "whatsapp-sticker"
       ]
@@ -266,6 +268,15 @@
       "pocket": "designer",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/exif-cleaner"
+    },
+    {
+      "id": "screenshot-privacy-blur",
+      "name": "Screenshot Privacy Blur",
+      "category": "photos",
+      "description": "Blur sensitive screenshot details",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/screenshot-privacy-blur"
     },
     {
       "id": "black-and-white",

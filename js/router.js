@@ -1,5 +1,5 @@
 import { UI } from './core/ui.js';
-import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=25';
+import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=26';
 
 const FAVORITE_KEY = 'pk-favorites';
 const DRAFT_PREFIX = 'pk-draft:';
@@ -153,6 +153,7 @@ const SAMPLE_ACTIONS = {
   'text-redactor': container => container.querySelector('#btn-redact-sample')?.click(),
   'color-contrast': container => container.querySelector('#btn-contrast-sample')?.click(),
   'safe-share-link': container => container.querySelector('#btn-ssl-sample')?.click(),
+  'screenshot-privacy-blur': container => container.querySelector('#btn-spb-sample')?.click(),
   'meeting-actions': container => container.querySelector('#btn-ma-sample')?.click(),
   'subscription-audit': container => container.querySelector('#btn-sa-sample')?.click(),
   'regex-tester': container => container.querySelector('[data-pattern]')?.click(),
@@ -300,7 +301,7 @@ class Router {
   async loadTool(toolId, container) {
     let html = this.templateCache.get(toolId);
     if (!html) {
-      const res = await fetch(`templates/${toolId}.html?v=13`);
+      const res = await fetch(`templates/${toolId}.html?v=14`);
       if (!res.ok) throw new Error(`Template not found: ${toolId}`);
       html = await res.text();
       this.templateCache.set(toolId, html);
@@ -309,7 +310,7 @@ class Router {
 
     let module = this.moduleCache.get(toolId);
     if (!module) {
-      module = await import(`./tools/${toolId}.js?v=16`);
+      module = await import(`./tools/${toolId}.js?v=17`);
       this.moduleCache.set(toolId, module);
     }
 

@@ -39,6 +39,7 @@ export const POCKETS = [
       'bill-splitter',
       'subscription-audit',
       'safe-share-link',
+      'screenshot-privacy-blur',
       'random-decision',
       'signature-png',
     ],
@@ -85,6 +86,7 @@ export const POCKETS = [
       'color-picker',
       'watermark',
       'exif-cleaner',
+      'screenshot-privacy-blur',
       'black-and-white',
       'whatsapp-sticker',
     ],
@@ -266,6 +268,7 @@ export const TOOLS = [
   { id: 'color-picker',      name: 'Image Color Picker',   category: 'photos',    desc: 'Pick HEX/RGB from a photo',          icon: ICONS.drop },
   { id: 'watermark',         name: 'Text Watermark',       category: 'photos',    desc: 'Add a text watermark',               icon: ICONS.watermark },
   { id: 'exif-cleaner',      name: 'EXIF Inspector & Remover', category: 'photos', desc: 'Inspect and strip image metadata',  icon: ICONS.shield },
+  { id: 'screenshot-privacy-blur', name: 'Screenshot Privacy Blur', category: 'photos', desc: 'Blur sensitive screenshot details', icon: ICONS.shield },
   { id: 'black-and-white',   name: 'Black & White',        category: 'photos',    desc: 'Convert image to grayscale',         icon: ICONS.sun },
   { id: 'whatsapp-sticker', name: 'WhatsApp Sticker Maker', category: 'photos',  desc: 'Make 512×512 WebP stickers',           icon: ICONS.sticker },
 

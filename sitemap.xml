@@ -96,6 +96,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://pocketkit.app/#/tool/screenshot-privacy-blur</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://pocketkit.app/#/tool/black-and-white</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

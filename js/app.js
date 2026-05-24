@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=40';
+import { appRouter } from './router.js?v=41';
 import {
   CATEGORIES,
   POCKETS,
@@ -7,7 +7,7 @@ import {
   getPrimaryPocketForTool,
   getTool,
   getToolsForPocket,
-} from './registry.js?v=25';
+} from './registry.js?v=26';
 
 const RECENT_KEY = 'pt-recent';
 const FAVORITE_KEY = 'pk-favorites';
@@ -34,6 +34,7 @@ const TOOL_ALIASES = {
   'pdf-table-extractor': 'pdf table extract csv spreadsheet statement invoice rows columns',
   'safe-share-link': 'clean url link tracking remove safe share privacy utm fbclid gclid',
   'exif-cleaner': 'exif metadata remove photo image privacy camera location clean',
+  'screenshot-privacy-blur': 'screenshot privacy blur redact pixelate hide image phone email address token',
   'meeting-actions': 'meeting notes action items decisions owners due dates summary',
   'subscription-audit': 'subscriptions recurring charges monthly yearly spend audit cancel',
   'jwt-decoder': 'jwt token decode auth bearer claims header payload',

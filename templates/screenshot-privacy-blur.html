@@ -1,0 +1,55 @@
+<div class="tool-header">
+  <h2>Screenshot Privacy Blur</h2>
+  <p>Hide sensitive screenshot details with draggable blur, pixel, or blackout boxes.</p>
+</div>
+
+<div class="image-workbench">
+  <section class="image-panel image-panel-primary">
+    <div class="drop-zone">
+      <input type="file" id="spb-upload" accept="image/*,.jpg,.jpeg,.png,.webp">
+      <div>
+        <strong>Select Screenshot</strong>
+        <span>Upload a screenshot or photo. Everything is edited locally in your browser.</span>
+      </div>
+    </div>
+    <div class="image-summary">
+      <div><span class="summary-label">Boxes</span><strong id="spb-box-count">0</strong></div>
+      <div><span class="summary-label">Mode</span><strong id="spb-mode-label">Blur</strong></div>
+      <div><span class="summary-label">Output</span><strong id="spb-output-size">PNG</strong></div>
+    </div>
+  </section>
+
+  <section id="spb-controls" class="image-panel hidden">
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="spb-style">Redaction Style</label>
+        <select id="spb-style">
+          <option value="blur">Blur</option>
+          <option value="pixel">Pixelate</option>
+          <option value="black">Black box</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="spb-strength">Strength: <span id="spb-strength-label">14</span></label>
+        <input type="range" id="spb-strength" min="6" max="30" step="2" value="14">
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-spb-auto" class="btn btn-secondary">Auto Find Text</button>
+      <button id="btn-spb-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-spb-undo" class="btn btn-secondary">Undo</button>
+      <button id="btn-spb-clear" class="btn btn-secondary">Clear Boxes</button>
+      <button id="btn-spb-download" class="btn">Download Clean PNG</button>
+    </div>
+    <span class="field-hint" style="margin-top:10px;display:block">Drag over any area to hide it. Auto detection is a helper, not a guarantee.</span>
+  </section>
+
+  <section id="spb-preview" class="image-panel hidden">
+    <div class="panel-title">
+      <h3>Preview</h3>
+    </div>
+    <div class="mask-canvas-wrap privacy-canvas-wrap">
+      <canvas id="spb-canvas"></canvas>
+    </div>
+  </section>
+</div>
