@@ -1,5 +1,5 @@
 import { UI } from './core/ui.js';
-import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=24';
+import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=25';
 
 const FAVORITE_KEY = 'pk-favorites';
 const DRAFT_PREFIX = 'pk-draft:';
@@ -300,7 +300,7 @@ class Router {
   async loadTool(toolId, container) {
     let html = this.templateCache.get(toolId);
     if (!html) {
-      const res = await fetch(`templates/${toolId}.html?v=12`);
+      const res = await fetch(`templates/${toolId}.html?v=13`);
       if (!res.ok) throw new Error(`Template not found: ${toolId}`);
       html = await res.text();
       this.templateCache.set(toolId, html);
@@ -309,7 +309,7 @@ class Router {
 
     let module = this.moduleCache.get(toolId);
     if (!module) {
-      module = await import(`./tools/${toolId}.js?v=15`);
+      module = await import(`./tools/${toolId}.js?v=16`);
       this.moduleCache.set(toolId, module);
     }
 

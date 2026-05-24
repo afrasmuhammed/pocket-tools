@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-24T16:16:39.165Z",
+  "generatedAt": "2026-05-24T16:47:52.582Z",
   "site": "https://pocketkit.app",
   "counts": {
     "pockets": 8,
-    "tools": 86
+    "tools": 87
   },
   "pockets": [
     {
@@ -49,6 +49,7 @@
         "rotate-pdf",
         "page-numbers",
         "extract-pdf",
+        "pdf-table-extractor",
         "pdf-metadata",
         "id-masker",
         "invoice-generator",
@@ -346,6 +347,15 @@
       "pocket": "pdf",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/extract-pdf"
+    },
+    {
+      "id": "pdf-table-extractor",
+      "name": "PDF Table Extractor",
+      "category": "documents",
+      "description": "Extract table-like PDF text to CSV",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/pdf-table-extractor"
     },
     {
       "id": "pdf-metadata",
