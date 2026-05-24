@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=31';
+import { appRouter } from './router.js?v=32';
 import {
   CATEGORIES,
   POCKETS,
@@ -367,6 +367,21 @@ function makeToolRail(ids, label, emptyText = '') {
   `;
 }
 
+function makeQuickStart(toolId, title, desc) {
+  const tool = getTool(toolId);
+  const pocket = tool ? getPrimaryPocketForTool(tool.id) : null;
+  if (!tool) return '';
+  return `
+    <a class="pk-quick-start" href="#/tool/${encodeURIComponent(tool.id)}" style="${pocket ? `--pocket-accent:${pocket.accent}` : ''}">
+      <span class="pk-quick-icon">${svgPath(tool.icon)}</span>
+      <span>
+        <strong>${title}</strong>
+        <small>${desc}</small>
+      </span>
+    </a>
+  `;
+}
+
 function renderPersonalRows() {
   const target = document.getElementById('pk-personal-target');
   if (!target) return;
@@ -395,6 +410,19 @@ function renderLanding() {
           <span>Private by default</span>
           <span>Works offline</span>
           <span>Installs in a click</span>
+        </div>
+      </div>
+      <div class="pk-launch-board" aria-label="Fast starts">
+        <div class="pk-launch-board-head">
+          <p class="pk-section-title">Fast starts</p>
+          <span>Jump straight into the most common jobs.</span>
+        </div>
+        <div class="pk-quick-grid">
+          ${makeQuickStart('json-formatter', 'Clean data', 'Format JSON instantly')}
+          ${makeQuickStart('image-compressor', 'Shrink images', 'Compress before sharing')}
+          ${makeQuickStart('merge-pdf', 'Work with PDFs', 'Merge, split, protect')}
+          ${makeQuickStart('word-counter', 'Check text', 'Count words and reading time')}
+          ${makeQuickStart('qr-generator', 'Share something', 'Make QR codes fast')}
         </div>
       </div>
       <div id="pk-personal-target" class="pk-personal-target"></div>

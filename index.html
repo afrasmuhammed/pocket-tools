@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Sans:ital,wght@0,500;0,600;0,700;1,500;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=32">
+  <link rel="stylesheet" href="css/styles.css?v=33">
   <script>
     (function() {
       var t = localStorage.getItem('pt-theme');
@@ -90,12 +90,21 @@
   </div>
 
   <nav class="mobile-tabbar" aria-label="Primary navigation">
-    <button data-mobile-route="#/" aria-label="Home">Home</button>
-    <button data-mobile-route="#/pocket/daily" aria-label="Pockets">Pockets</button>
-    <button data-mobile-route="#/all" aria-label="All tools">All</button>
+    <button data-mobile-route="#/" aria-label="Home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/></svg>
+      <span>Home</span>
+    </button>
+    <button data-mobile-route="#/pocket/daily" aria-label="Pockets">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5z"/><path d="M8 9h8M8 13h5"/></svg>
+      <span>Pockets</span>
+    </button>
+    <button data-mobile-route="#/all" aria-label="All tools">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h7v7H4zM13 5h7v7h-7zM4 14h7v5H4zM13 14h7v5h-7z"/></svg>
+      <span>All</span>
+    </button>
   </nav>
 
-  <script type="module" src="js/app.js?v=47"></script>
+  <script type="module" src="js/app.js?v=48"></script>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",

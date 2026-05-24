@@ -207,6 +207,15 @@ class Router {
     `;
     header.prepend(meta);
 
+    const assurance = document.createElement('div');
+    assurance.className = 'tool-assurance';
+    assurance.innerHTML = `
+      <span>${svgPath('M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z')}Private on this device</span>
+      <span>${svgPath('M7 17 17 7M8 7h9v9')}Works offline after load</span>
+      <span>${svgPath('m9 12 2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0')}Runs in your browser</span>
+    `;
+    header.after(assurance);
+
     const copy = container.querySelector('#btn-copy-tool-link');
     const save = container.querySelector('#btn-save-tool');
     const sample = container.querySelector('#btn-try-sample');

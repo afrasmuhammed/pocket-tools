@@ -10,6 +10,8 @@
   --border:       #e4dfd5;
   --card:         #ffffff;
   --card-hover:   #fdfcfa;
+  --panel:        #f8f6f1;
+  --surface:      #f8f6f1;
   --accent:       #4f46e5;
   --accent-hover: #3730a3;
   --accent-fg:    #ffffff;
@@ -55,6 +57,8 @@
     --border:       #2a2928;
     --card:         #1a1917;
     --card-hover:   #232220;
+    --panel:        #12110f;
+    --surface:      #12110f;
     --accent:       #818cf8;
     --accent-hover: #6366f1;
     --accent-fg:    #060606;
@@ -84,6 +88,8 @@ html[data-theme="dark"] {
   --border:       #2a2928;
   --card:         #1a1917;
   --card-hover:   #232220;
+  --panel:        #12110f;
+  --surface:      #12110f;
   --accent:       #818cf8;
   --accent-hover: #6366f1;
   --accent-fg:    #060606;
@@ -571,6 +577,18 @@ html[data-theme="dark"] .tool-card:hover {
 
 .tool-dashboard { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
 .tool-panel { padding: 24px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-xs); }
+.tool-panel {
+  position: relative;
+  overflow: hidden;
+}
+.tool-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: color-mix(in srgb, var(--fg) 8%, transparent);
+  pointer-events: none;
+}
 .tool-panel h3 { margin: 0 0 10px; font-size: 15px; font-weight: 650; letter-spacing: -0.01em; }
 .panel-copy { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
 
@@ -844,7 +862,6 @@ input[type="file"].btn:hover, input[type="file"].btn-secondary:hover { border-co
   border: 1px solid var(--border); border-radius: var(--radius-sm);
   background: var(--bg); overflow: hidden;
   transition: border-color .18s;
-  focus-within: border-color var(--accent);
 }
 .regex-pattern-wrap:focus-within { border-color: var(--accent); }
 .regex-delimiter {
@@ -1348,6 +1365,86 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
   opacity: .75;
 }
 
+/* Fast-start launcher */
+.pk-launch-board {
+  max-width: 880px;
+  margin-top: 34px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--border) 84%, transparent);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 4%, transparent), transparent 36%),
+    color-mix(in srgb, var(--card) 92%, var(--accent-subtle));
+}
+.pk-launch-board-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.pk-launch-board-head .pk-section-title {
+  margin: 0;
+}
+.pk-launch-board-head span {
+  color: var(--muted);
+  font-size: 12.5px;
+  text-align: right;
+}
+.pk-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+.pk-quick-start {
+  display: grid;
+  gap: 12px;
+  min-height: 132px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--card) 82%, transparent);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color .15s, background .15s, transform .15s;
+}
+.pk-quick-start:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--pocket-accent, var(--accent)) 42%, var(--border));
+  background: color-mix(in srgb, var(--card-hover) 84%, var(--pocket-accent, var(--accent)) 5%);
+}
+.pk-quick-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--pocket-accent, var(--accent)) 28%, var(--border));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--pocket-accent, var(--accent)) 10%, transparent);
+  color: var(--pocket-accent, var(--accent));
+}
+.pk-quick-icon .icon {
+  width: 17px;
+  height: 17px;
+}
+.pk-quick-start strong,
+.pk-quick-start small {
+  display: block;
+}
+.pk-quick-start strong {
+  color: var(--fg);
+  font-size: 13px;
+  font-weight: 680;
+  line-height: 1.25;
+}
+.pk-quick-start small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
 /* ── Sections ── */
 .pk-section {
   padding: 52px 0 24px;
@@ -1846,6 +1943,30 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
 .tool-meta-bar .pk-breadcrumb { margin: 0; }
 .tool-meta-actions { flex-wrap: wrap; justify-content: flex-end; }
 .btn-small { width: auto; min-height: 32px; padding: 6px 10px; font-size: 12px; }
+.tool-assurance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -18px 0 22px;
+}
+.tool-assurance span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card) 78%, transparent);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 620;
+}
+.tool-assurance .icon {
+  width: 14px;
+  height: 14px;
+  color: var(--accent);
+}
 
 /* ── Dark mode card surfaces ── */
 html[data-theme="dark"] .pk-pocket-card,
@@ -2373,6 +2494,33 @@ html[data-theme="dark"] .pk-why-card {
     padding: 0 9px;
     font-size: 11.5px;
   }
+  .pk-launch-board {
+    margin-top: 22px;
+    padding: 14px;
+    border-radius: 16px;
+  }
+  .pk-launch-board-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .pk-launch-board-head span {
+    text-align: left;
+  }
+  .pk-quick-grid {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+  .pk-quick-grid::-webkit-scrollbar { display: none; }
+  .pk-quick-start {
+    flex: 0 0 148px;
+    min-height: 122px;
+    scroll-snap-align: start;
+  }
   /* Show mobile pockets section; hide desktop pocket grid */
   .pk-mobile-pockets {
     display: block;
@@ -2469,8 +2617,21 @@ html[data-theme="dark"] .pk-why-card {
     min-height: 38px;
     border-radius: 10px;
     color: var(--muted);
-    font-size: 12px;
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    gap: 2px;
+    font-size: 11.5px;
     font-weight: 650;
+  }
+  .mobile-tabbar svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
   .mobile-tabbar button:hover,
   .mobile-tabbar button.active {
@@ -2489,6 +2650,9 @@ html[data-theme="dark"] .pk-why-card {
   .network-status {
     right: 14px;
     bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .tool-assurance {
+    margin-top: -10px;
   }
   .command-palette {
     padding-top: max(58px, env(safe-area-inset-top));
