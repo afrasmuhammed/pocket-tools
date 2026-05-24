@@ -1,4 +1,5 @@
 import { UI } from '../core/ui.js';
+import { consumeHandoff, setHandoff } from '../core/handoff.js';
 
 // Attempt to parse and re-serialize JSON.
 // Returns { ok: true, result } or { ok: false, error: string }.
@@ -25,6 +26,8 @@ export default {
     const inputEl  = document.getElementById('jf-input');
     const outputEl = document.getElementById('jf-output');
     const statsEl  = document.getElementById('jf-stats');
+    const handoff = consumeHandoff('json-formatter');
+    if (handoff?.value) inputEl.value = handoff.value;
 
     function setOutput(text, isError = false) {
       outputEl.textContent = text;
@@ -92,5 +95,14 @@ export default {
         .then(() => UI.showToast('Copied!', 'success'))
         .catch(() => UI.showError('Copy failed.'));
     };
+
+    document.getElementById('btn-jf-to-csv').onclick = () => {
+      const text = outputEl.textContent || inputEl.value;
+      if (!text || outputEl.classList.contains('json-error')) return UI.showError('Nothing valid to send.');
+      setHandoff('json-csv', text, 'JSON from formatter');
+      window.location.hash = '#/tool/json-csv';
+    };
+
+    if (handoff?.value) document.getElementById('btn-jf-format').click();
   }
 };

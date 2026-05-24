@@ -1,4 +1,5 @@
 import { UI } from '../core/ui.js';
+import { consumeHandoff, setHandoff } from '../core/handoff.js';
 
 const SAMPLE_CSV = `name,email,role,active
 Afras,afras@example.com,Owner,true
@@ -101,6 +102,8 @@ export default {
     const rowsEl = document.getElementById('csv-rows');
     const columnsEl = document.getElementById('csv-columns');
     const sizeEl = document.getElementById('csv-size');
+    const handoff = consumeHandoff('csv-json');
+    if (handoff?.value) inputEl.value = handoff.value;
 
     function getDelimiter() {
       return delimiterEl.value === 'tab' ? '\t' : delimiterEl.value;
@@ -167,5 +170,13 @@ export default {
         .then(() => UI.showToast('Copied!', 'success'))
         .catch(() => UI.showError('Copy failed.'));
     };
+
+    document.getElementById('btn-csv-to-json').onclick = () => {
+      if (!outputEl.value || outputEl.classList.contains('json-error')) return UI.showError('Nothing valid to send.');
+      setHandoff('json-formatter', outputEl.value, 'JSON from CSV');
+      window.location.hash = '#/tool/json-formatter';
+    };
+
+    if (handoff?.value) convert();
   },
 };

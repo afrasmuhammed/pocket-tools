@@ -1,4 +1,5 @@
 import { UI } from '../core/ui.js';
+import { consumeHandoff, setHandoff } from '../core/handoff.js';
 
 function encodeValue(text, mode) {
   if (mode === 'full') return encodeURI(text);
@@ -18,6 +19,8 @@ export default {
     const mode = document.getElementById('url-mode');
     const inputLength = document.getElementById('url-input-length');
     const outputLength = document.getElementById('url-output-length');
+    const handoff = consumeHandoff('url-encoder');
+    if (handoff?.value) input.value = handoff.value;
 
     const updateCounts = () => {
       inputLength.textContent = input.value.length.toLocaleString();
@@ -61,6 +64,13 @@ export default {
       navigator.clipboard.writeText(output.value)
         .then(() => UI.showToast('Copied!', 'success'))
         .catch(() => UI.showError('Copy failed.'));
+    };
+
+    document.getElementById('btn-url-to-qr').onclick = () => {
+      const text = output.value || input.value;
+      if (!text) return UI.showError('Nothing to send yet.');
+      setHandoff('qr-generator', text, 'URL encoder output');
+      window.location.hash = '#/tool/qr-generator';
     };
 
     input.addEventListener('input', updateCounts);

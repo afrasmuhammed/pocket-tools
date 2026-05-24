@@ -1,4 +1,5 @@
 import { UI } from '../core/ui.js';
+import { consumeHandoff, setHandoff } from '../core/handoff.js';
 
 const WordCounter = {
   inputEl: null,
@@ -10,6 +11,7 @@ const WordCounter = {
   readingTimeEl: null,
   btnCopy: null,
   btnClear: null,
+  btnReading: null,
 
   init() {
     this.inputEl = document.getElementById('wc-input');
@@ -21,8 +23,11 @@ const WordCounter = {
     this.readingTimeEl = document.getElementById('wc-reading-time');
     this.btnCopy = document.getElementById('wc-copy');
     this.btnClear = document.getElementById('wc-clear');
+    this.btnReading = document.getElementById('wc-reading');
 
     if (!this.inputEl) return;
+    const handoff = consumeHandoff('word-counter');
+    if (handoff?.value) this.inputEl.value = handoff.value;
 
     // Attach Event Listeners
     this.inputEl.addEventListener('input', () => this.analyzeText());
@@ -41,6 +46,17 @@ const WordCounter = {
         .then(() => UI.showToast('Copied to clipboard!', 'success'))
         .catch(() => UI.showError('Failed to copy'));
     });
+
+    this.btnReading.addEventListener('click', () => {
+      if (!this.inputEl.value) {
+        UI.showError('No text to send');
+        return;
+      }
+      setHandoff('reading-time', this.inputEl.value, 'Text from word counter');
+      window.location.hash = '#/tool/reading-time';
+    });
+
+    this.analyzeText();
   },
 
   analyzeText() {

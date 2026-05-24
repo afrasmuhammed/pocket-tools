@@ -1,4 +1,5 @@
 import { UI } from '../core/ui.js';
+import { consumeHandoff } from '../core/handoff.js';
 
 export default {
   async init() {
@@ -22,6 +23,7 @@ export default {
     const btnDownload = document.getElementById('btn-qr-download');
     const presetButtons = Array.from(document.querySelectorAll('[data-qr-preset]'));
     const fieldSets = Array.from(document.querySelectorAll('[data-qr-fields]'));
+    const handoff = consumeHandoff('qr-generator');
 
     let qrcode = null;
     let activePreset = 'text';
@@ -96,6 +98,7 @@ export default {
     };
 
     setPreset('text');
+    if (handoff?.value) input.value = handoff.value;
 
     btnDownload.onclick = () => {
       const img = qrDiv.querySelector('img');

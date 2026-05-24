@@ -1,4 +1,5 @@
 import { UI } from '../core/ui.js';
+import { consumeHandoff, setHandoff } from '../core/handoff.js';
 
 const SAMPLE_JSON = `[
   {
@@ -99,6 +100,8 @@ export default {
     const rowsEl = document.getElementById('jcsv-rows');
     const columnsEl = document.getElementById('jcsv-columns');
     const sizeEl = document.getElementById('jcsv-size');
+    const handoff = consumeHandoff('json-csv');
+    if (handoff?.value) inputEl.value = handoff.value;
 
     function getDelimiter() {
       return delimiterEl.value === 'tab' ? '\t' : delimiterEl.value;
@@ -165,5 +168,13 @@ export default {
         .then(() => UI.showToast('Copied!', 'success'))
         .catch(() => UI.showError('Copy failed.'));
     };
+
+    document.getElementById('btn-jcsv-to-json').onclick = () => {
+      if (!outputEl.value || outputEl.classList.contains('json-error')) return UI.showError('Nothing valid to send.');
+      setHandoff('csv-json', outputEl.value, 'CSV from JSON');
+      window.location.hash = '#/tool/csv-json';
+    };
+
+    if (handoff?.value) convert();
   },
 };

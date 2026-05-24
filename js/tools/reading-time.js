@@ -1,9 +1,13 @@
+import { consumeHandoff } from '../core/handoff.js';
+
 export default {
   init() {
     const input   = document.getElementById('rt-input');
     const timeEl  = document.getElementById('rt-time');
     const wordsEl = document.getElementById('rt-words');
     const speakEl = document.getElementById('rt-speak');
+    const handoff = consumeHandoff('reading-time');
+    if (handoff?.value) input.value = handoff.value;
 
     const fmtMin = (mins) => {
       if (mins < 1)  return '< 1 min';
@@ -34,5 +38,6 @@ export default {
     };
 
     input.addEventListener('input', calculate);
+    calculate();
   }
 };
