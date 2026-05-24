@@ -4,7 +4,7 @@ const SAMPLE_XML = `<?xml version="1.0" encoding="UTF-8"?>
 <catalog>
   <book id="pt-101">
     <title>PocketKit Handbook</title>
-    <author>Afras Muhammed</author>
+    <author>Taylor Brooks</author>
     <tags>
       <tag>utilities</tag>
       <tag>offline</tag>

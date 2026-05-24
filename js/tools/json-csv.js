@@ -3,21 +3,21 @@ import { consumeHandoff, setHandoff } from '../core/handoff.js';
 
 const SAMPLE_JSON = `[
   {
-    "name": "Afras",
-    "email": "afras@example.com",
+    "name": "Alex Carter",
+    "email": "alex.carter@example.com",
     "role": "Owner",
     "active": true
   },
   {
-    "name": "Maya",
-    "email": "maya@example.com",
+    "name": "Emma Reed",
+    "email": "emma.reed@example.com",
     "role": "Editor",
     "active": true
   },
   {
-    "name": "Jon",
-    "email": "jon, qa@example.com",
-    "role": "Reviewer",
+    "name": "Noah Brooks",
+    "email": "noah.brooks@example.com",
+    "role": "Reviewer, QA",
     "active": false
   }
 ]`;

@@ -2,9 +2,9 @@ import { UI } from '../core/ui.js';
 import { consumeHandoff, setHandoff } from '../core/handoff.js';
 
 const SAMPLE_CSV = `name,email,role,active
-Afras,afras@example.com,Owner,true
-Maya,maya@example.com,Editor,true
-Jon,"jon, qa@example.com",Reviewer,false`;
+Alex Carter,alex.carter@example.com,Owner,true
+Emma Reed,emma.reed@example.com,Editor,true
+Noah Brooks,noah.brooks@example.com,"Reviewer, QA",false`;
 
 function normalizeHeader(header, index) {
   const cleaned = header.trim()
