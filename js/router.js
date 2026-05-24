@@ -16,6 +16,37 @@ function svgPath(path, className = 'icon') {
   return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${path}"></path></svg>`;
 }
 
+const SAMPLE_ACTIONS = {
+  'json-formatter': container => container.querySelector('#btn-jf-sample')?.click(),
+  'regex-tester': container => container.querySelector('[data-pattern]')?.click(),
+  'qr-generator': container => {
+    const input = container.querySelector('#qr-input');
+    if (input) input.value = 'https://pocketkit.app/#/all?q=private%20tools';
+    container.querySelector('#btn-qr-generate')?.click();
+  },
+  'word-counter': container => {
+    const input = container.querySelector('#wc-input');
+    if (input) {
+      input.value = 'PocketKit keeps useful tools close, private, and ready offline. Paste text here to count words, characters, paragraphs, sentences, and reading time.';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  },
+  'slug-generator': container => container.querySelector('#btn-slug-sample')?.click(),
+  'meta-tags': container => container.querySelector('#btn-meta-sample')?.click(),
+  'og-preview': container => container.querySelector('#btn-og-sample')?.click(),
+  'csv-json': container => container.querySelector('#btn-csv-sample')?.click(),
+  'json-csv': container => container.querySelector('#btn-jcsv-sample')?.click(),
+  'markdown-previewer': container => container.querySelector('#btn-md-sample')?.click(),
+  'text-diff': container => {
+    const original = container.querySelector('#diff-original');
+    const modified = container.querySelector('#diff-modified');
+    if (original) original.value = 'PocketKit Daily is free.\nTools run locally.\nSearch opens every utility.';
+    if (modified) modified.value = 'PocketKit Daily stays free.\nTools run locally in your browser.\nQuick open finds every utility.';
+    container.querySelector('#btn-diff')?.click();
+  },
+  'keyword-density': container => container.querySelector('#btn-kd-sample')?.click(),
+};
+
 function makePTLogo() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('class', 'app-logo');
@@ -169,6 +200,7 @@ class Router {
       <div class="tool-meta-actions">
         ${pocket ? `<span class="pk-badge ${pocket.access === 'free' ? 'pk-badge-free' : 'pk-badge-pro'}">${pocket.access === 'free' ? 'Free' : 'Pro'}</span>` : ''}
         <span class="pk-badge">Works offline</span>
+        ${SAMPLE_ACTIONS[tool.id] ? '<button type="button" class="btn btn-secondary btn-small" id="btn-try-sample">Try sample</button>' : ''}
         <button type="button" class="btn btn-secondary btn-small" id="btn-copy-tool-link">Copy link</button>
         <button type="button" class="btn btn-secondary btn-small" id="btn-save-tool" aria-pressed="${isFavorite(tool.id) ? 'true' : 'false'}">${isFavorite(tool.id) ? 'Saved' : 'Save'}</button>
       </div>
@@ -177,12 +209,17 @@ class Router {
 
     const copy = container.querySelector('#btn-copy-tool-link');
     const save = container.querySelector('#btn-save-tool');
+    const sample = container.querySelector('#btn-try-sample');
     const copyLink = () => {
       navigator.clipboard.writeText(location.href)
         .then(() => UI.showSuccess('Tool link copied.'))
         .catch(() => UI.showError('Copy failed.'));
     };
     copy?.addEventListener('click', copyLink);
+    sample?.addEventListener('click', () => {
+      SAMPLE_ACTIONS[tool.id]?.(container);
+      UI.showSuccess('Sample loaded.');
+    });
     save?.addEventListener('click', () => {
       window.dispatchEvent(new CustomEvent('pk-toggle-favorite', { detail: { toolId: tool.id } }));
       const next = isFavorite(tool.id);

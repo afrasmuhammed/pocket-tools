@@ -752,6 +752,16 @@ input[type="file"].btn:hover, input[type="file"].btn-secondary:hover { border-co
 /* ── UUID Generator ── */
 .uuid-display { display: block; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 13px; letter-spacing: 0.02em; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; word-break: break-all; color: var(--fg); line-height: 1.6; }
 .markdown-preview { min-height: 250px; max-height: 420px; overflow: auto; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); line-height: 1.6; color: var(--fg); }
+.markdown-preview:empty::before,
+.seo-result-list:empty::before,
+.diff-output:empty::before,
+.regex-matches:empty::before {
+  content: "Try a sample or add input to see results here.";
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
 .markdown-preview > :first-child { margin-top: 0; }
 .markdown-preview > :last-child { margin-bottom: 0; }
 .markdown-preview h1, .markdown-preview h2, .markdown-preview h3 { margin: 0 0 10px; line-height: 1.25; letter-spacing: 0; }
@@ -1737,6 +1747,45 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
 .pk-pro-banner p { flex: 1; margin: 0; font-size: 13px; line-height: 1.5; }
 .pk-pro-banner .btn { width: auto; min-height: 34px; padding: 7px 12px; font-size: 12px; flex-shrink: 0; }
 
+.pk-starting-points {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+}
+.pk-starting-points .pk-section-title {
+  margin-bottom: 3px;
+}
+.pk-starting-points span {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.pk-starting-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.pk-starting-links a {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 650;
+}
+.pk-starting-links a:hover {
+  border-color: var(--accent);
+  opacity: 1;
+}
+
 /* Pocket search + controls row */
 .pk-pocket-controls {
   display: flex;
@@ -2389,6 +2438,13 @@ html[data-theme="dark"] .pk-why-card {
   }
   .pk-pocket-hero { gap: 14px; padding: 18px; margin-bottom: 20px; }
   .pk-pocket-hero > .btn { margin-left: 0; }
+  .pk-starting-points {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .pk-starting-links {
+    justify-content: flex-start;
+  }
   .pk-title-row h2 { font-size: 22px; }
   .pk-pocket-search { width: 100%; }
   .pk-compact-grid { grid-template-columns: 1fr; }

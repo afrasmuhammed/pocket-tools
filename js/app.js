@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=29';
+import { appRouter } from './router.js?v=30';
 import {
   CATEGORIES,
   POCKETS,
@@ -516,6 +516,15 @@ function renderPocket(pocketId) {
           <button class="btn pk-btn-primary" id="btn-preview-pocket">Preview tools</button>
         </div>
       ` : ''}
+      <div class="pk-starting-points">
+        <div>
+          <p class="pk-section-title">Good starting points</p>
+          <span>${pocket.access === 'free' ? 'Fast daily picks' : 'Useful preview tools'} from this pocket.</span>
+        </div>
+        <div class="pk-starting-links">
+          ${tools.slice(0, 4).map(tool => `<a href="#/tool/${encodeURIComponent(tool.id)}">${tool.name}</a>`).join('')}
+        </div>
+      </div>
       <div class="pk-pocket-controls">
         <div class="search-wrap pk-pocket-search">
           <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
