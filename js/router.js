@@ -2,6 +2,16 @@ import { UI } from './core/ui.js';
 import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=22';
 
 const FAVORITE_KEY = 'pk-favorites';
+const DRAFT_PREFIX = 'pk-draft:';
+const DRAFT_DEBOUNCE_MS = 350;
+
+const ACTION_ICONS = {
+  sample: 'M4 4v16l14-8z',
+  copy: 'M8 8h10v12H8z M6 16H4V4h10v2',
+  save: 'M5 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16l-7-4-7 4z',
+  saved: 'M5 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16l-7-4-7 4z M9 10l2 2 4-4',
+  clear: 'M4 7h16 M10 11v6 M14 11v6 M6 7l1 14h10l1-14 M9 7V4h6v3',
+};
 
 function getFavorites() {
   try { return JSON.parse(localStorage.getItem(FAVORITE_KEY)) || []; }
@@ -14,6 +24,125 @@ function isFavorite(toolId) {
 
 function svgPath(path, className = 'icon') {
   return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${path}"></path></svg>`;
+}
+
+function actionButton(icon, label, id, extra = '') {
+  return `<button type="button" class="btn btn-secondary btn-small" id="${id}" ${extra}>${svgPath(ACTION_ICONS[icon], 'icon')}<span>${label}</span></button>`;
+}
+
+function draftKey(toolId) {
+  return `${DRAFT_PREFIX}${toolId}`;
+}
+
+function getToolDraft(toolId) {
+  try {
+    const raw = localStorage.getItem(draftKey(toolId));
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function clearToolDraft(toolId) {
+  try { localStorage.removeItem(draftKey(toolId)); } catch {}
+}
+
+function getDraftFields(container) {
+  return [...container.querySelectorAll('input, select, textarea')]
+    .filter(el => {
+      const type = (el.getAttribute('type') || '').toLowerCase();
+      return !el.readOnly && !el.disabled && !['file', 'button', 'submit', 'reset', 'hidden'].includes(type);
+    })
+    .filter(el => el.id || el.name);
+}
+
+function fieldKey(el) {
+  return el.id || el.name;
+}
+
+function fieldValue(el) {
+  const type = (el.getAttribute('type') || '').toLowerCase();
+  if (type === 'checkbox') return el.checked;
+  if (type === 'radio') return el.checked ? el.value : null;
+  return el.value;
+}
+
+function setFieldValue(el, value) {
+  const type = (el.getAttribute('type') || '').toLowerCase();
+  if (type === 'checkbox') {
+    el.checked = Boolean(value);
+  } else if (type === 'radio') {
+    el.checked = value === el.value;
+  } else if (value !== null && value !== undefined) {
+    el.value = value;
+  }
+}
+
+function attachDraftMemory(toolId, container) {
+  const fields = getDraftFields(container);
+  if (!fields.length) return false;
+  const draft = getToolDraft(toolId);
+
+  if (draft?.fields) {
+    fields.forEach(el => {
+      const key = fieldKey(el);
+      if (!(key in draft.fields)) return;
+      const type = (el.getAttribute('type') || '').toLowerCase();
+      const hasValue = type === 'checkbox' || type === 'radio' ? false : Boolean(el.value);
+      if (!hasValue) {
+        setFieldValue(el, draft.fields[key]);
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+  }
+
+  let timer = null;
+  const save = () => {
+    const values = {};
+    fields.forEach(el => {
+      const key = fieldKey(el);
+      const value = fieldValue(el);
+      if (value !== null) values[key] = value;
+    });
+    try {
+      localStorage.setItem(draftKey(toolId), JSON.stringify({
+        fields: values,
+        updatedAt: Date.now(),
+      }));
+    } catch {}
+  };
+  const schedule = () => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(save, DRAFT_DEBOUNCE_MS);
+  };
+  fields.forEach(el => {
+    el.addEventListener('input', schedule);
+    el.addEventListener('change', schedule);
+  });
+  return true;
+}
+
+function getToolCapabilities(tool, container, hasDraftFields) {
+  const capabilities = [
+    { icon: 'M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z', label: 'Private local tool' },
+  ];
+  if (container.querySelector('input[type="file"]')) {
+    capabilities.push({ icon: 'M6 3h8l4 4v14H6z M14 3v5h5', label: 'Uses files' });
+  }
+  if (container.querySelector('[id*="download"], button[download], a[download]')) {
+    capabilities.push({ icon: 'M12 3v12 M7 10l5 5 5-5 M5 21h14', label: 'Downloads result' });
+  }
+  if (container.querySelector('textarea[readonly], [data-output], .output, .result, pre, canvas')) {
+    capabilities.push({ icon: ACTION_ICONS.copy, label: 'Copyable output' });
+  }
+  if (SAMPLE_ACTIONS[tool.id]) {
+    capabilities.push({ icon: ACTION_ICONS.sample, label: 'Sample ready' });
+  }
+  if (hasDraftFields) {
+    capabilities.push({ icon: 'M5 5h14v14H5z M8 9h8 M8 13h5', label: 'Draft autosaves' });
+  }
+  return capabilities.slice(0, 5);
 }
 
 const SAMPLE_ACTIONS = {
@@ -180,6 +309,7 @@ class Router {
       await module.default.init();
       this.currentToolId = toolId;
       hookDropZones(container);
+      attachDraftMemory(toolId, container);
     }
   }
 
@@ -200,13 +330,15 @@ class Router {
       <div class="tool-meta-actions">
         ${pocket ? `<span class="pk-badge ${pocket.access === 'free' ? 'pk-badge-free' : 'pk-badge-pro'}">${pocket.access === 'free' ? 'Free' : 'Pro'}</span>` : ''}
         <span class="pk-badge">Works offline</span>
-        ${SAMPLE_ACTIONS[tool.id] ? '<button type="button" class="btn btn-secondary btn-small" id="btn-try-sample">Try sample</button>' : ''}
-        <button type="button" class="btn btn-secondary btn-small" id="btn-copy-tool-link">Copy link</button>
-        <button type="button" class="btn btn-secondary btn-small" id="btn-save-tool" aria-pressed="${isFavorite(tool.id) ? 'true' : 'false'}">${isFavorite(tool.id) ? 'Saved' : 'Save'}</button>
+        ${SAMPLE_ACTIONS[tool.id] ? actionButton('sample', 'Try sample', 'btn-try-sample') : ''}
+        ${getToolDraft(tool.id) ? actionButton('clear', 'Clear draft', 'btn-clear-tool-draft') : ''}
+        ${actionButton('copy', 'Copy link', 'btn-copy-tool-link')}
+        ${actionButton(isFavorite(tool.id) ? 'saved' : 'save', isFavorite(tool.id) ? 'Saved' : 'Save', 'btn-save-tool', `aria-pressed="${isFavorite(tool.id) ? 'true' : 'false'}"`)}
       </div>
     `;
     header.prepend(meta);
 
+    const hasDraftFields = Boolean(getDraftFields(container).length);
     const assurance = document.createElement('div');
     assurance.className = 'tool-assurance';
     assurance.innerHTML = `
@@ -216,9 +348,17 @@ class Router {
     `;
     header.after(assurance);
 
+    const capabilities = document.createElement('div');
+    capabilities.className = 'tool-capabilities';
+    capabilities.innerHTML = getToolCapabilities(tool, container, hasDraftFields)
+      .map(item => `<span>${svgPath(item.icon)}${item.label}</span>`)
+      .join('');
+    assurance.after(capabilities);
+
     const copy = container.querySelector('#btn-copy-tool-link');
     const save = container.querySelector('#btn-save-tool');
     const sample = container.querySelector('#btn-try-sample');
+    const clearDraft = container.querySelector('#btn-clear-tool-draft');
     const copyLink = () => {
       navigator.clipboard.writeText(location.href)
         .then(() => UI.showSuccess('Tool link copied.'))
@@ -229,10 +369,15 @@ class Router {
       SAMPLE_ACTIONS[tool.id]?.(container);
       UI.showSuccess('Sample loaded.');
     });
+    clearDraft?.addEventListener('click', () => {
+      clearToolDraft(tool.id);
+      UI.showSuccess('Draft cleared.');
+      clearDraft.remove();
+    });
     save?.addEventListener('click', () => {
       window.dispatchEvent(new CustomEvent('pk-toggle-favorite', { detail: { toolId: tool.id } }));
       const next = isFavorite(tool.id);
-      save.textContent = next ? 'Saved' : 'Save';
+      save.innerHTML = `${svgPath(ACTION_ICONS[next ? 'saved' : 'save'], 'icon')}<span>${next ? 'Saved' : 'Save'}</span>`;
       save.setAttribute('aria-pressed', next ? 'true' : 'false');
     });
 

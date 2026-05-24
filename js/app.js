@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=32';
+import { appRouter } from './router.js?v=33';
 import {
   CATEGORIES,
   POCKETS,
@@ -340,13 +340,14 @@ function setHomeContent(html) {
   return viewHome;
 }
 
-function makeToolRail(ids, label, emptyText = '') {
+function makeToolRail(ids, label, emptyText = '', options = {}) {
   const valid = ids.filter(id => getTool(id));
   if (!valid.length && !emptyText) return '';
   return `
     <div class="pk-personal-block">
       <div class="pk-recent-header">
         <p class="pk-section-title" style="margin:0">${label}</p>
+        ${valid.length && options.action ? `<button type="button" class="pk-rail-action" data-pk-action="${options.action}">${options.actionLabel || 'Clear'}</button>` : ''}
       </div>
       ${valid.length ? `
         <div class="pk-recent-rail">
@@ -388,9 +389,9 @@ function renderPersonalRows() {
   const favorites = getFavorites();
   const recent = getRecent();
   target.innerHTML = [
-    makeToolRail(favorites, 'Saved tools'),
-    makeToolRail(getMostUsed(), 'Most used'),
-    makeToolRail(recent, 'Recently used'),
+    makeToolRail(favorites, 'Saved tools', '', { action: 'clear-saved', actionLabel: 'Clear saved' }),
+    makeToolRail(getMostUsed(), 'Most used', '', { action: 'clear-usage', actionLabel: 'Reset usage' }),
+    makeToolRail(recent, 'Recently used', '', { action: 'clear-recent', actionLabel: 'Clear recent' }),
   ].filter(Boolean).join('');
 }
 
@@ -653,7 +654,7 @@ function renderAllTools() {
 function renderSaved(view) {
   const target = view.querySelector('#saved-row-target');
   if (!target) return;
-  const html = makeToolRail(getFavorites(), 'Saved tools');
+  const html = makeToolRail(getFavorites(), 'Saved tools', '', { action: 'clear-saved', actionLabel: 'Clear saved' });
   if (html) target.innerHTML = html;
 }
 
@@ -661,7 +662,7 @@ function renderMostUsed(view) {
   const recentTarget = view.querySelector('#recent-row-target');
   if (!recentTarget) return;
   const wrapper = document.createElement('div');
-  wrapper.innerHTML = makeToolRail(getMostUsed(), 'Most used');
+  wrapper.innerHTML = makeToolRail(getMostUsed(), 'Most used', '', { action: 'clear-usage', actionLabel: 'Reset usage' });
   if (wrapper.firstElementChild) recentTarget.before(wrapper.firstElementChild);
 }
 
@@ -675,7 +676,7 @@ function renderRecent(view) {
 
   const header = document.createElement('div');
   header.className = 'pk-recent-header';
-  header.innerHTML = '<p class="pk-section-title" style="margin:0">Recently used</p>';
+  header.innerHTML = '<p class="pk-section-title" style="margin:0">Recently used</p><button type="button" class="pk-rail-action" data-pk-action="clear-recent">Clear recent</button>';
   block.appendChild(header);
 
   const rail = document.createElement('div');
@@ -732,6 +733,33 @@ function copyLink(value, message) {
       window.dispatchEvent(evt);
     })
     .catch(() => window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Copy failed.' })));
+}
+
+function refreshActivePage() {
+  const hash = window.location.hash || '#/';
+  if (hash.startsWith('#/tool/')) return;
+  renderRoute();
+}
+
+function initPersonalActions() {
+  document.addEventListener('click', event => {
+    const button = event.target.closest('[data-pk-action]');
+    if (!button) return;
+    const action = button.dataset.pkAction;
+    if (action === 'clear-saved') {
+      localStorage.removeItem(FAVORITE_KEY);
+      window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Saved tools cleared.' }));
+      refreshActivePage();
+    } else if (action === 'clear-recent') {
+      localStorage.removeItem(RECENT_KEY);
+      window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Recent tools cleared.' }));
+      refreshActivePage();
+    } else if (action === 'clear-usage') {
+      localStorage.removeItem(USAGE_KEY);
+      window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Usage stats reset.' }));
+      refreshActivePage();
+    }
+  });
 }
 
 function getAllRouteQuery() {
@@ -1099,6 +1127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCommandPalette();
   initMobileTabs();
   initInstallPrompt();
+  initPersonalActions();
   updateNetworkStatus();
 
   window.addEventListener('hashchange', () => {
