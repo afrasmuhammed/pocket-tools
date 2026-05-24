@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=33';
+import { appRouter } from './router.js?v=37';
 import {
   CATEGORIES,
   POCKETS,
@@ -7,7 +7,7 @@ import {
   getPrimaryPocketForTool,
   getTool,
   getToolsForPocket,
-} from './registry.js?v=22';
+} from './registry.js?v=23';
 
 const RECENT_KEY = 'pt-recent';
 const FAVORITE_KEY = 'pk-favorites';
@@ -25,6 +25,12 @@ const TOOL_ALIASES = {
   'qr-generator': 'qr code barcode wifi link url share',
   'password-generator': 'password passphrase secure random login credential',
   'json-formatter': 'json beautify pretty print validate minify lint developer',
+  'json-schema-validator': 'schema validate ajv required properties types json',
+  'csv-cleaner': 'csv clean trim normalize headers rows columns spreadsheet',
+  'utm-builder': 'utm campaign url builder marketing qr source medium campaign',
+  'text-redactor': 'redact hide mask pii email phone card ip privacy',
+  'color-contrast': 'wcag contrast checker accessibility colors aa aaa',
+  'pdf-metadata': 'pdf metadata title author pages size created modified',
   'jwt-decoder': 'jwt token decode auth bearer claims header payload',
   'base64-encoder': 'base64 encode decode atob btoa',
   'url-encoder': 'url encode decode uri percent escape',

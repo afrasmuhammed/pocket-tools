@@ -1,0 +1,37 @@
+<div class="tool-header">
+  <h2>Color Contrast Checker</h2>
+  <p>Check WCAG contrast between foreground and background colors.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="contrast-fg">Foreground</label>
+        <input id="contrast-fg" class="color-input" type="color" value="#18181b">
+      </div>
+      <div class="input-group">
+        <label for="contrast-bg">Background</label>
+        <input id="contrast-bg" class="color-input" type="color" value="#ffffff">
+      </div>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group"><label for="contrast-fg-text">Foreground HEX</label><input id="contrast-fg-text" value="#18181b"></div>
+      <div class="input-group"><label for="contrast-bg-text">Background HEX</label><input id="contrast-bg-text" value="#ffffff"></div>
+    </div>
+    <div class="button-row">
+      <button id="btn-contrast-swap" class="btn btn-secondary">Swap</button>
+      <button id="btn-contrast-sample" class="btn btn-secondary">Sample</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div id="contrast-preview" class="contrast-preview">PocketKit sample text</div>
+    <div class="metric-grid">
+      <div class="metric"><span>Ratio</span><strong id="contrast-ratio">0:1</strong></div>
+      <div class="metric"><span>Normal Text</span><strong id="contrast-aa">--</strong></div>
+      <div class="metric"><span>Large Text</span><strong id="contrast-large">--</strong></div>
+    </div>
+    <button id="btn-contrast-copy" class="btn">Copy CSS</button>
+  </section>
+</div>

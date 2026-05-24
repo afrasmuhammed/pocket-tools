@@ -58,6 +58,7 @@ export const POCKETS = [
       'rotate-pdf',
       'page-numbers',
       'extract-pdf',
+      'pdf-metadata',
       'id-masker',
       'invoice-generator',
       'receipt-enhancer',
@@ -101,6 +102,7 @@ export const POCKETS = [
       'compress-pdf',
       'pomodoro',
       'whitespace-remover',
+      'text-redactor',
       'case-converter',
       'alphabetical-sorter',
     ],
@@ -115,11 +117,13 @@ export const POCKETS = [
     featured: ['JSON formatter', 'Base64', 'JWT decoder', 'Hash generator', 'Cron explainer'],
     tools: [
       'json-formatter',
+      'json-schema-validator',
       'xml-formatter',
       'yaml-json',
       'json-yaml',
       'csv-json',
       'json-csv',
+      'csv-cleaner',
       'base64-encoder',
       'url-encoder',
       'html-entities',
@@ -130,6 +134,7 @@ export const POCKETS = [
       'markdown-previewer',
       'lorem-ipsum',
       'color-palette',
+      'color-contrast',
     ],
   },
   {
@@ -166,6 +171,7 @@ export const POCKETS = [
       'meta-tags',
       'og-preview',
       'slug-generator',
+      'utm-builder',
       'keyword-density',
       'sitemap-formatter',
       'robots-txt',
@@ -263,6 +269,7 @@ export const TOOLS = [
   { id: 'protect-pdf',       name: 'Password Protect PDF', category: 'documents', desc: 'AES-256 encrypt your PDF',           icon: ICONS.lock },
   { id: 'page-numbers',      name: 'PDF Page Numberer',    category: 'documents', desc: 'Add page numbers',                   icon: ICONS.hash,   needsPdfLib: true },
   { id: 'extract-pdf',       name: 'Extract PDF Text',     category: 'documents', desc: 'Pull all text out of a PDF',         icon: ICONS.read,   needsPdfJs: true },
+  { id: 'pdf-metadata',      name: 'PDF Metadata Viewer',  category: 'documents', desc: 'Inspect PDF title, author, pages, size', icon: ICONS.filePdf, needsPdfJs: true },
   { id: 'rotate-pdf',        name: 'Rotate PDF',           category: 'documents', desc: 'Rotate pages 90°/180°/270°',         icon: ICONS.rotate, needsPdfLib: true },
   { id: 'unprotect-pdf',     name: 'Unprotect PDF',        category: 'documents', desc: 'Remove a known password',            icon: ICONS.unlock, needsPdfLib: true },
   { id: 'id-masker',         name: 'ID Masker',             category: 'documents', desc: 'Mask sensitive ID details',          icon: ICONS.shield, needsPdfJs: true },
@@ -287,6 +294,7 @@ export const TOOLS = [
 
   // TEXT additions
   { id: 'text-diff',         name: 'Text Diff',             category: 'text',      desc: 'Compare two texts line by line',     icon: ICONS.diff },
+  { id: 'text-redactor',     name: 'Text Redactor',         category: 'text',      desc: 'Hide emails, phones, IDs, and cards', icon: ICONS.shield },
 
   // TIME (4)
   { id: 'pomodoro',          name: 'Pomodoro Timer',       category: 'time',      desc: 'Focus 25/5 timer',                   icon: ICONS.timer },
@@ -308,6 +316,7 @@ export const TOOLS = [
   { id: 'sitemap-formatter',name: 'Sitemap Formatter',        category: 'seo', desc: 'Format XML or create a sitemap',      icon: ICONS.globe   },
   { id: 'robots-txt',       name: 'Robots.txt Generator',     category: 'seo', desc: 'Create crawler rules',                icon: ICONS.shield  },
   { id: 'canonical-url',    name: 'Canonical URL Generator',  category: 'seo', desc: 'Clean URLs and make canonical tags',  icon: ICONS.globe   },
+  { id: 'utm-builder',      name: 'UTM Builder',              category: 'seo', desc: 'Build campaign URLs and QR-ready links', icon: ICONS.globe   },
 
   // QA
   { id: 'dummy-user',       name: 'Dummy User Generator',     category: 'qa', desc: 'Create realistic test users',           icon: ICONS.uid     },
@@ -315,6 +324,7 @@ export const TOOLS = [
   { id: 'uuid-generator',   name: 'UUID Generator',           category: 'qa', desc: 'Generate random v4 UUIDs',              icon: ICONS.uid     },
   { id: 'password-generator',name:'Password Generator',       category: 'qa', desc: 'Strong random passwords',               icon: ICONS.key     },
   { id: 'json-formatter',   name: 'JSON Formatter',           category: 'qa', desc: 'Validate, format, or minify JSON',      icon: ICONS.braces  },
+  { id: 'json-schema-validator', name: 'JSON Schema Validator', category: 'qa', desc: 'Validate JSON against a schema',       icon: ICONS.braces  },
   { id: 'regex-tester',     name: 'Regex Tester',             category: 'qa', desc: 'Test and debug regex patterns',         icon: ICONS.regexp  },
   { id: 'api-beautifier',   name: 'API Response Beautifier',  category: 'qa', desc: 'Format API responses for QA notes',     icon: ICONS.braces  },
   { id: 'timestamp-converter', name: 'Timestamp Converter',   category: 'qa', desc: 'Unix time to readable dates',           icon: ICONS.watch   },
@@ -331,6 +341,7 @@ export const TOOLS = [
   { id: 'xml-formatter',   name: 'XML Formatter / Minifier',   category: 'developer', desc: 'Validate, format, or minify XML',       icon: ICONS.braces  },
   { id: 'csv-json',        name: 'CSV to JSON Converter',      category: 'developer', desc: 'Turn CSV rows into JSON data',           icon: ICONS.braces  },
   { id: 'json-csv',        name: 'JSON to CSV Converter',      category: 'developer', desc: 'Turn JSON arrays into CSV text',          icon: ICONS.braces  },
+  { id: 'csv-cleaner',     name: 'CSV Cleaner',                category: 'developer', desc: 'Trim, normalize, and clean CSV rows',     icon: ICONS.braces  },
   { id: 'yaml-json',       name: 'YAML to JSON Converter',     category: 'developer', desc: 'Convert YAML config to JSON',             icon: ICONS.braces  },
   { id: 'json-yaml',       name: 'JSON to YAML Converter',     category: 'developer', desc: 'Convert JSON data to YAML',               icon: ICONS.braces  },
   { id: 'hash-generator',  name: 'Hash Generator',             category: 'developer', desc: 'Generate SHA hashes for text',             icon: ICONS.shield  },
@@ -338,6 +349,7 @@ export const TOOLS = [
   { id: 'jwt-decoder',     name: 'JWT Decoder',               category: 'developer', desc: 'Decode JWT header & payload',           icon: ICONS.jwtoken },
   { id: 'cron-explainer',  name: 'Cron Explainer',            category: 'developer', desc: 'Human-readable cron schedule',          icon: ICONS.crontab },
   { id: 'color-palette',   name: 'Color Palette Extractor',   category: 'developer', desc: 'Extract dominant colors from an image', icon: ICONS.swatch  },
+  { id: 'color-contrast',  name: 'Color Contrast Checker',    category: 'developer', desc: 'Check WCAG contrast between colors',    icon: ICONS.swatch  },
 ];
 
 const TOOL_MAP = new Map(TOOLS.map(t => [t.id, t]));

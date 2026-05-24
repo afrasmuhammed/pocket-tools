@@ -1,0 +1,36 @@
+<div class="tool-header">
+  <h2>UTM Builder</h2>
+  <p>Build campaign URLs, copy them, or send them straight to QR Generator.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="utm-url">Landing URL</label>
+      <input id="utm-url" type="url" placeholder="https://example.com/landing">
+    </div>
+    <div class="settings-grid">
+      <div class="input-group"><label for="utm-source">Source</label><input id="utm-source" placeholder="newsletter"></div>
+      <div class="input-group"><label for="utm-medium">Medium</label><input id="utm-medium" placeholder="email"></div>
+      <div class="input-group"><label for="utm-campaign">Campaign</label><input id="utm-campaign" placeholder="spring-launch"></div>
+      <div class="input-group"><label for="utm-content">Content</label><input id="utm-content" placeholder="hero-button"></div>
+      <div class="input-group"><label for="utm-term">Term</label><input id="utm-term" placeholder="optional keyword"></div>
+    </div>
+    <div class="button-row">
+      <button id="btn-utm-build" class="btn">Build URL</button>
+      <button id="btn-utm-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-utm-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="utm-output">Campaign URL</label>
+      <textarea id="utm-output" class="textarea-medium" readonly placeholder="UTM URL will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-utm-copy" class="btn">Copy URL</button>
+      <button id="btn-utm-qr" class="btn btn-secondary">Send to QR</button>
+    </div>
+  </section>
+</div>

@@ -103,6 +103,13 @@ export default {
       window.location.hash = '#/tool/json-csv';
     };
 
+    document.getElementById('btn-jf-to-schema').onclick = () => {
+      const text = outputEl.textContent || inputEl.value;
+      if (!text || outputEl.classList.contains('json-error')) return UI.showError('Nothing valid to validate.');
+      setHandoff('json-schema-validator', text, 'JSON from formatter');
+      window.location.hash = '#/tool/json-schema-validator';
+    };
+
     if (handoff?.value) document.getElementById('btn-jf-format').click();
   }
 };

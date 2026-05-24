@@ -1,0 +1,45 @@
+<div class="tool-header">
+  <h2>CSV Cleaner</h2>
+  <p>Trim cells, normalize headers, remove empty rows, and export clean CSV.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="csvc-input">Input CSV</label>
+      <textarea id="csvc-input" class="textarea-tall" placeholder=" Name , Email , Role&#10; Alex Carter , alex@example.com , Owner " spellcheck="false"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="csvc-delimiter">Delimiter</label>
+        <select id="csvc-delimiter">
+          <option value=",">Comma</option>
+          <option value=";">Semicolon</option>
+          <option value="tab">Tab</option>
+        </select>
+      </div>
+      <label class="qr-inline-check"><input type="checkbox" id="csvc-headers" checked> Normalize headers</label>
+      <label class="qr-inline-check"><input type="checkbox" id="csvc-empty" checked> Remove empty rows</label>
+    </div>
+    <div class="button-row">
+      <button id="btn-csvc-clean" class="btn">Clean CSV</button>
+      <button id="btn-csvc-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-csvc-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="csvc-output">Clean CSV</label>
+      <textarea id="csvc-output" class="textarea-tall" readonly placeholder="Clean CSV will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="metric-grid">
+      <div class="metric"><span>Rows</span><strong id="csvc-rows">0</strong></div>
+      <div class="metric"><span>Columns</span><strong id="csvc-cols">0</strong></div>
+    </div>
+    <div class="button-row">
+      <button id="btn-csvc-copy" class="btn">Copy CSV</button>
+      <button id="btn-csvc-json" class="btn btn-secondary">Send to JSON</button>
+    </div>
+  </section>
+</div>

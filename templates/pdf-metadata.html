@@ -1,0 +1,25 @@
+<div class="tool-header">
+  <h2>PDF Metadata Viewer</h2>
+  <p>Inspect PDF page count, size, title, author, dates, and basic document metadata.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="drop-zone">
+      <div>
+        <strong>Select PDF</strong>
+        <span>Metadata is read locally in your browser.</span>
+      </div>
+      <input id="pdfmeta-upload" type="file" accept="application/pdf">
+    </div>
+    <button id="btn-pdfmeta-read" class="btn" disabled>Read Metadata</button>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Pages</span><strong id="pdfmeta-pages">0</strong></div>
+      <div class="metric"><span>Size</span><strong id="pdfmeta-size">--</strong></div>
+    </div>
+    <div id="pdfmeta-results" class="seo-result-list"></div>
+  </section>
+</div>

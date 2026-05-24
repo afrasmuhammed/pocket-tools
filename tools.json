@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-23T16:46:39.828Z",
+  "generatedAt": "2026-05-24T12:39:21.398Z",
   "site": "https://pocketkit.app",
   "counts": {
     "pockets": 8,
-    "tools": 76
+    "tools": 82
   },
   "pockets": [
     {
@@ -47,6 +47,7 @@
         "rotate-pdf",
         "page-numbers",
         "extract-pdf",
+        "pdf-metadata",
         "id-masker",
         "invoice-generator",
         "receipt-enhancer",
@@ -88,6 +89,7 @@
         "compress-pdf",
         "pomodoro",
         "whitespace-remover",
+        "text-redactor",
         "case-converter",
         "alphabetical-sorter"
       ]
@@ -101,11 +103,13 @@
       "url": "https://pocketkit.app/#/pocket/developer",
       "tools": [
         "json-formatter",
+        "json-schema-validator",
         "xml-formatter",
         "yaml-json",
         "json-yaml",
         "csv-json",
         "json-csv",
+        "csv-cleaner",
         "base64-encoder",
         "url-encoder",
         "html-entities",
@@ -115,7 +119,8 @@
         "cron-explainer",
         "markdown-previewer",
         "lorem-ipsum",
-        "color-palette"
+        "color-palette",
+        "color-contrast"
       ]
     },
     {
@@ -150,6 +155,7 @@
         "meta-tags",
         "og-preview",
         "slug-generator",
+        "utm-builder",
         "keyword-density",
         "sitemap-formatter",
         "robots-txt",
@@ -327,6 +333,15 @@
       "url": "https://pocketkit.app/#/tool/extract-pdf"
     },
     {
+      "id": "pdf-metadata",
+      "name": "PDF Metadata Viewer",
+      "category": "documents",
+      "description": "Inspect PDF title, author, pages, size",
+      "pocket": "pdf",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/pdf-metadata"
+    },
+    {
       "id": "rotate-pdf",
       "name": "Rotate PDF",
       "category": "documents",
@@ -489,6 +504,15 @@
       "url": "https://pocketkit.app/#/tool/text-diff"
     },
     {
+      "id": "text-redactor",
+      "name": "Text Redactor",
+      "category": "text",
+      "description": "Hide emails, phones, IDs, and cards",
+      "pocket": "student",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/text-redactor"
+    },
+    {
       "id": "pomodoro",
       "name": "Pomodoro Timer",
       "category": "time",
@@ -624,6 +648,15 @@
       "url": "https://pocketkit.app/#/tool/canonical-url"
     },
     {
+      "id": "utm-builder",
+      "name": "UTM Builder",
+      "category": "seo",
+      "description": "Build campaign URLs and QR-ready links",
+      "pocket": "seo",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/utm-builder"
+    },
+    {
       "id": "dummy-user",
       "name": "Dummy User Generator",
       "category": "qa",
@@ -667,6 +700,15 @@
       "pocket": "developer",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/json-formatter"
+    },
+    {
+      "id": "json-schema-validator",
+      "name": "JSON Schema Validator",
+      "category": "qa",
+      "description": "Validate JSON against a schema",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/json-schema-validator"
     },
     {
       "id": "regex-tester",
@@ -795,6 +837,15 @@
       "url": "https://pocketkit.app/#/tool/json-csv"
     },
     {
+      "id": "csv-cleaner",
+      "name": "CSV Cleaner",
+      "category": "developer",
+      "description": "Trim, normalize, and clean CSV rows",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/csv-cleaner"
+    },
+    {
       "id": "yaml-json",
       "name": "YAML to JSON Converter",
       "category": "developer",
@@ -856,6 +907,15 @@
       "pocket": "developer",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/color-palette"
+    },
+    {
+      "id": "color-contrast",
+      "name": "Color Contrast Checker",
+      "category": "developer",
+      "description": "Check WCAG contrast between colors",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/color-contrast"
     }
   ]
 }

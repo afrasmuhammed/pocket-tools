@@ -1,0 +1,30 @@
+<div class="tool-header">
+  <h2>JSON Schema Validator</h2>
+  <p>Validate JSON against a lightweight schema locally in your browser.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="jsv-json">JSON</label>
+      <textarea id="jsv-json" class="textarea-tall" placeholder='{"name":"Alex Carter","active":true}' spellcheck="false"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="jsv-schema">Schema</label>
+      <textarea id="jsv-schema" class="textarea-tall" placeholder='{"type":"object","required":["name"],"properties":{"name":{"type":"string"}}}' spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-jsv-validate" class="btn">Validate</button>
+      <button id="btn-jsv-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-jsv-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Status</span><strong id="jsv-status">Idle</strong></div>
+      <div class="metric"><span>Issues</span><strong id="jsv-count">0</strong></div>
+    </div>
+    <div id="jsv-results" class="seo-result-list"></div>
+  </section>
+</div>

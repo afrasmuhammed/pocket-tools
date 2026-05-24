@@ -136,6 +136,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://pocketkit.app/#/tool/pdf-metadata</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://pocketkit.app/#/tool/rotate-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -226,6 +231,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://pocketkit.app/#/tool/text-redactor</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://pocketkit.app/#/tool/pomodoro</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -301,6 +311,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://pocketkit.app/#/tool/utm-builder</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://pocketkit.app/#/tool/dummy-user</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -322,6 +337,11 @@
   </url>
   <url>
     <loc>https://pocketkit.app/#/tool/json-formatter</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pocketkit.app/#/tool/json-schema-validator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -396,6 +416,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://pocketkit.app/#/tool/csv-cleaner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://pocketkit.app/#/tool/yaml-json</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -427,6 +452,11 @@
   </url>
   <url>
     <loc>https://pocketkit.app/#/tool/color-palette</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pocketkit.app/#/tool/color-contrast</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
