@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-24T18:55:21.398Z",
+  "generatedAt": "2026-05-25T08:12:17.550Z",
   "site": "https://pocketkit.app",
   "counts": {
     "pockets": 8,
-    "tools": 88
+    "tools": 89
   },
   "pockets": [
     {
@@ -179,6 +179,7 @@
       "url": "https://pocketkit.app/#/pocket/shop",
       "tools": [
         "invoice-generator",
+        "quote-estimate-builder",
         "receipt-enhancer",
         "qr-generator",
         "subscription-audit",
@@ -313,6 +314,15 @@
       "pocket": "pdf",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/invoice-generator"
+    },
+    {
+      "id": "quote-estimate-builder",
+      "name": "Quote / Estimate Builder",
+      "category": "documents",
+      "description": "Create a polished estimate PDF",
+      "pocket": "shop",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/quote-estimate-builder"
     },
     {
       "id": "merge-pdf",

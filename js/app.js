@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=41';
+import { appRouter } from './router.js?v=42';
 import {
   CATEGORIES,
   POCKETS,
@@ -7,7 +7,7 @@ import {
   getPrimaryPocketForTool,
   getTool,
   getToolsForPocket,
-} from './registry.js?v=26';
+} from './registry.js?v=27';
 
 const RECENT_KEY = 'pt-recent';
 const FAVORITE_KEY = 'pk-favorites';
@@ -32,6 +32,7 @@ const TOOL_ALIASES = {
   'color-contrast': 'wcag contrast checker accessibility colors aa aaa',
   'pdf-metadata': 'pdf metadata title author pages size created modified',
   'pdf-table-extractor': 'pdf table extract csv spreadsheet statement invoice rows columns',
+  'quote-estimate-builder': 'quote estimate proposal project pricing pdf client line items deposit',
   'safe-share-link': 'clean url link tracking remove safe share privacy utm fbclid gclid',
   'exif-cleaner': 'exif metadata remove photo image privacy camera location clean',
   'screenshot-privacy-blur': 'screenshot privacy blur redact pixelate hide image phone email address token',

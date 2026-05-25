@@ -196,6 +196,7 @@ export const POCKETS = [
     featured: ['Invoice', 'Receipt enhancer', 'VAT', 'Grocery calc', 'QR code'],
     tools: [
       'invoice-generator',
+      'quote-estimate-builder',
       'receipt-enhancer',
       'qr-generator',
       'subscription-audit',
@@ -275,6 +276,7 @@ export const TOOLS = [
   // DOCUMENTS
   { id: 'compress-pdf',      name: 'Compress PDF',         category: 'documents', desc: 'Optimize and reduce PDF size',       icon: ICONS.filePdf },
   { id: 'invoice-generator', name: 'Invoice Generator',    category: 'documents', desc: 'Create a PDF invoice',              icon: ICONS.pen, needsPdfLib: true },
+  { id: 'quote-estimate-builder', name: 'Quote / Estimate Builder', category: 'documents', desc: 'Create a polished estimate PDF', icon: ICONS.pen, needsPdfLib: true },
   { id: 'merge-pdf',         name: 'Merge PDF',            category: 'documents', desc: 'Combine multiple PDFs',              icon: ICONS.merge,  needsPdfLib: true },
   { id: 'split-pdf',         name: 'Split PDF',            category: 'documents', desc: 'Split into separate pages',          icon: ICONS.split,  needsPdfLib: true },
   { id: 'protect-pdf',       name: 'Password Protect PDF', category: 'documents', desc: 'AES-256 encrypt your PDF',           icon: ICONS.lock },
