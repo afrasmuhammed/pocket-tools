@@ -1,0 +1,87 @@
+<div class="tool-header">
+  <h2>Receipt / Expense Extractor</h2>
+  <p>Paste receipt text or import a selectable-text PDF, then export clean expense rows.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="drop-zone">
+      <input type="file" id="rex-upload" accept="application/pdf">
+      <div>
+        <strong>Optional PDF Receipt</strong>
+        <span>Use PDFs with selectable text. For photo receipts, enhance or OCR first, then paste text below.</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label for="rex-input">Receipt Text</label>
+      <textarea id="rex-input" class="textarea-tall" placeholder="Paste receipt text, email receipt lines, or PDF-extracted text..." spellcheck="false"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="rex-category">Category</label>
+        <select id="rex-category">
+          <option>Meals</option>
+          <option>Travel</option>
+          <option>Office</option>
+          <option>Software</option>
+          <option>Supplies</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="rex-currency">Currency</label>
+        <select id="rex-currency">
+          <option value="$" selected>USD $</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="INR">INR</option>
+          <option value="AED">AED</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="rex-paid-by">Paid By</label>
+        <input type="text" id="rex-paid-by" placeholder="Card, cash, team member...">
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-rex-extract" class="btn">Extract Expense</button>
+      <button id="btn-rex-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-rex-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Total</span><strong id="rex-total">--</strong></div>
+      <div class="metric"><span>Tax</span><strong id="rex-tax">--</strong></div>
+      <div class="metric"><span>Confidence</span><strong id="rex-confidence">0%</strong></div>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="rex-merchant">Merchant</label>
+        <input type="text" id="rex-merchant" placeholder="Merchant">
+      </div>
+      <div class="input-group">
+        <label for="rex-date">Date</label>
+        <input type="date" id="rex-date">
+      </div>
+      <div class="input-group">
+        <label for="rex-total-input">Total</label>
+        <input type="number" id="rex-total-input" min="0" step="0.01" placeholder="0.00">
+      </div>
+      <div class="input-group">
+        <label for="rex-tax-input">Tax</label>
+        <input type="number" id="rex-tax-input" min="0" step="0.01" placeholder="0.00">
+      </div>
+    </div>
+    <div id="rex-candidates" class="seo-result-list"></div>
+    <div class="input-group">
+      <label for="rex-output">Expense CSV</label>
+      <textarea id="rex-output" class="textarea-medium" readonly placeholder="CSV output will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-rex-copy" class="btn">Copy CSV</button>
+      <button id="btn-rex-download" class="btn btn-secondary">Download CSV</button>
+    </div>
+  </section>
+</div>

@@ -38,6 +38,7 @@ export const POCKETS = [
       'discount-calculator',
       'bill-splitter',
       'subscription-audit',
+      'receipt-expense-extractor',
       'safe-share-link',
       'screenshot-privacy-blur',
       'random-decision',
@@ -200,6 +201,7 @@ export const POCKETS = [
       'receipt-enhancer',
       'qr-generator',
       'subscription-audit',
+      'receipt-expense-extractor',
       'vat-calculator',
       'grocery-calculator',
     ],
@@ -306,6 +308,7 @@ export const TOOLS = [
   { id: 'grocery-calculator',name: 'Grocery Calculator',    category: 'math',      desc: 'List items and total prices',        icon: ICONS.cart },
   { id: 'vat-calculator',    name: 'VAT Calculator',        category: 'math',      desc: 'Add or remove VAT (19 % / 7 %)',     icon: ICONS.vat },
   { id: 'subscription-audit', name: 'Subscription Audit',    category: 'math',      desc: 'Find recurring spend and yearly cost', icon: ICONS.cart },
+  { id: 'receipt-expense-extractor', name: 'Receipt / Expense Extractor', category: 'math', desc: 'Turn receipt text into expense CSV', icon: ICONS.cart, needsPdfJs: true },
 
   // TEXT additions
   { id: 'text-diff',         name: 'Text Diff',             category: 'text',      desc: 'Compare two texts line by line',     icon: ICONS.diff },

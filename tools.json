@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-25T08:12:17.550Z",
+  "generatedAt": "2026-05-25T08:34:15.170Z",
   "site": "https://pocketkit.app",
   "counts": {
     "pockets": 8,
-    "tools": 89
+    "tools": 90
   },
   "pockets": [
     {
@@ -28,6 +28,7 @@
         "discount-calculator",
         "bill-splitter",
         "subscription-audit",
+        "receipt-expense-extractor",
         "safe-share-link",
         "screenshot-privacy-blur",
         "random-decision",
@@ -183,6 +184,7 @@
         "receipt-enhancer",
         "qr-generator",
         "subscription-audit",
+        "receipt-expense-extractor",
         "vat-calculator",
         "grocery-calculator"
       ]
@@ -548,6 +550,15 @@
       "pocket": "daily",
       "access": "free",
       "url": "https://pocketkit.app/#/tool/subscription-audit"
+    },
+    {
+      "id": "receipt-expense-extractor",
+      "name": "Receipt / Expense Extractor",
+      "category": "math",
+      "description": "Turn receipt text into expense CSV",
+      "pocket": "daily",
+      "access": "free",
+      "url": "https://pocketkit.app/#/tool/receipt-expense-extractor"
     },
     {
       "id": "text-diff",
