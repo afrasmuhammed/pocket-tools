@@ -79,7 +79,7 @@ export default {
         launch: 'PocketKit',
         private: true,
         pockets: ['Daily', 'Developer', 'PDF'],
-        stats: { tools: 76, offline: true },
+        stats: { tools: 90, offline: true },
       });
       document.getElementById('btn-jf-format').click();
     };

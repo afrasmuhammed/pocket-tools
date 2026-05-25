@@ -1,6 +1,6 @@
 # PocketKit
 
-PocketKit is a private, installable PWA for everyday tools. Instead of opening to one giant wall of 76 tools, the app is organized into focused pockets.
+PocketKit is a private, installable PWA for everyday tools. Instead of opening to one giant wall of 90 tools, the app is organized into focused pockets.
 
 Live preview target: [pocketkit.app](https://pocketkit.app/)
 
@@ -19,7 +19,7 @@ Live preview target: [pocketkit.app](https://pocketkit.app/)
 
 ## Current Tools
 
-The app currently contains 76 browser-based tools across photos, documents, text, money/math, time, utilities, SEO, QA, and developer workflows.
+The app currently contains 90 browser-based tools across photos, documents, text, money/math, time, utilities, SEO, QA, and developer workflows.
 
 PocketKit Daily is the free default experience. Pro pockets are visible as soft locked previews until auth and payments are added.
 
@@ -46,11 +46,11 @@ Run `node scripts/sync-metadata.mjs` after registry changes to regenerate `sitem
 
 Run `node scripts/check-pocketkit.mjs` before shipping larger changes. It checks registry IDs, pocket references, template/module files, service-worker cache entries, sitemap entries, and `tools.json` counts.
 
-With a local static server running, run `node scripts/smoke-static.mjs` to verify that the app shell, discovery files, and all 76 tool templates/modules return successfully.
+With a local static server running, run `node scripts/smoke-static.mjs` to verify that the app shell, discovery files, and all 90 tool templates/modules return successfully.
 
 ## Offline Support
 
-`sw.js` precaches all 150+ static assets: app shell, CSS, 76 tool JS modules, 76 tool templates, vendored libraries, icons, and discovery files. Most tools run locally in the browser and work offline whenever possible.
+`sw.js` precaches all 180+ static assets: app shell, CSS, 90 tool JS modules, 90 tool templates, vendored libraries, icons, and discovery files. Most tools run locally in the browser and work offline whenever possible.
 
 ## Planning
 

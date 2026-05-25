@@ -146,11 +146,19 @@ function getToolCapabilities(tool, container, hasDraftFields) {
 }
 
 const SAMPLE_ACTIONS = {
+  'api-beautifier': container => container.querySelector('#btn-api-sample')?.click(),
+  'bug-report': container => container.querySelector('#btn-br-sample')?.click(),
+  'canonical-url': container => container.querySelector('#btn-cu-sample')?.click(),
   'json-formatter': container => container.querySelector('#btn-jf-sample')?.click(),
   'json-schema-validator': container => container.querySelector('#btn-jsv-sample')?.click(),
+  'xml-formatter': container => container.querySelector('#btn-xml-sample')?.click(),
+  'yaml-json': container => container.querySelector('#btn-yaml-sample')?.click(),
+  'json-yaml': container => container.querySelector('#btn-jyaml-sample')?.click(),
   'csv-cleaner': container => container.querySelector('#btn-csvc-sample')?.click(),
   'utm-builder': container => container.querySelector('#btn-utm-sample')?.click(),
   'text-redactor': container => container.querySelector('#btn-redact-sample')?.click(),
+  'hash-generator': container => container.querySelector('#btn-hash-sample')?.click(),
+  'hmac-generator': container => container.querySelector('#btn-hmac-sample')?.click(),
   'color-contrast': container => container.querySelector('#btn-contrast-sample')?.click(),
   'safe-share-link': container => container.querySelector('#btn-ssl-sample')?.click(),
   'screenshot-privacy-blur': container => container.querySelector('#btn-spb-sample')?.click(),
@@ -174,6 +182,9 @@ const SAMPLE_ACTIONS = {
   'slug-generator': container => container.querySelector('#btn-slug-sample')?.click(),
   'meta-tags': container => container.querySelector('#btn-meta-sample')?.click(),
   'og-preview': container => container.querySelector('#btn-og-sample')?.click(),
+  'robots-txt': container => container.querySelector('#btn-robots-sample')?.click(),
+  'sitemap-formatter': container => container.querySelector('#btn-sf-sample')?.click(),
+  'test-case': container => container.querySelector('#btn-tc-sample')?.click(),
   'csv-json': container => container.querySelector('#btn-csv-sample')?.click(),
   'json-csv': container => container.querySelector('#btn-jcsv-sample')?.click(),
   'markdown-previewer': container => container.querySelector('#btn-md-sample')?.click(),
@@ -218,7 +229,19 @@ class Router {
     this.currentToolId = null;
     this.templateCache = new Map();
     this.moduleCache = new Map();
-    window.addEventListener('hashchange', () => this.handleRoute());
+    this.currentHash = window.location.hash || '#/';
+    this.returnHash = '#/all';
+    window.addEventListener('hashchange', () => {
+      const nextHash = window.location.hash || '#/';
+      const previousHash = this.currentHash || '#/';
+      if (nextHash.startsWith('#/tool/') && !previousHash.startsWith('#/tool/')) {
+        this.returnHash = previousHash;
+      } else if (!nextHash.startsWith('#/tool/')) {
+        this.returnHash = nextHash;
+      }
+      this.currentHash = nextHash;
+      this.handleRoute();
+    });
   }
 
   async handleRoute() {
@@ -269,7 +292,7 @@ class Router {
       document.body.classList.add('tool-open');
       btnBack.classList.remove('hidden');
       btnQuickOpen?.classList.add('hidden');
-      btnBack.onclick = () => { window.location.hash = '#/all'; };
+      btnBack.onclick = () => { window.location.hash = this.returnHash || '#/all'; };
 
       const tool = getTool(toolId);
       setAppTitle(appTitle, tool.name, false);
@@ -312,7 +335,7 @@ class Router {
 
     let module = this.moduleCache.get(toolId);
     if (!module) {
-      module = await import(`./tools/${toolId}.js?v=19`);
+      module = await import(`./tools/${toolId}.js?v=20`);
       this.moduleCache.set(toolId, module);
     }
 

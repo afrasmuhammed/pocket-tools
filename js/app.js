@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=43';
+import { appRouter } from './router.js?v=44';
 import {
   CATEGORIES,
   POCKETS,
