@@ -1,6 +1,7 @@
 import { UI } from '../core/ui.js';
 import { FileHelper } from '../core/file.js';
 import { loadPdfJs } from '../core/lazy.js';
+import { consumeHandoff, setHandoff } from '../core/handoff.js';
 
 const SAMPLE = `NORTHSTAR CAFE
 42 Market Street
@@ -111,6 +112,8 @@ export default {
     const confidence = document.getElementById('rex-confidence');
     const candidates = document.getElementById('rex-candidates');
     const output = document.getElementById('rex-output');
+    const handoff = consumeHandoff('receipt-expense-extractor');
+    if (handoff?.value) input.value = handoff.value;
 
     const fieldAmount = el => el.value === '' ? NaN : Number(el.value);
 
@@ -192,10 +195,16 @@ export default {
       if (!output.value) return UI.showError('Extract an expense first.');
       navigator.clipboard.writeText(output.value).then(() => UI.showSuccess('CSV copied.')).catch(() => UI.showError('Copy failed.'));
     };
+    document.getElementById('btn-rex-csv-cleaner').onclick = () => {
+      if (!output.value) return UI.showError('Extract an expense first.');
+      setHandoff('csv-cleaner', output.value, 'Expense CSV');
+      window.location.hash = '#/tool/csv-cleaner';
+    };
     document.getElementById('btn-rex-download').onclick = () => {
       if (!output.value) return UI.showError('Extract an expense first.');
       FileHelper.downloadText('expense-row.csv', output.value, 'text/csv');
     };
     [merchantEl, dateEl, totalInput, taxInput, category, currency, paidBy].forEach(el => el.addEventListener('input', writeCsv));
+    if (handoff?.value) run();
   },
 };

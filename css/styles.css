@@ -1460,6 +1460,125 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
   line-height: 1.35;
 }
 
+.pk-smart-paste {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(240px, 1fr);
+  gap: 14px;
+  align-items: stretch;
+  max-width: 880px;
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--border) 84%, transparent);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 4%, transparent), transparent 36%),
+    color-mix(in srgb, var(--card) 90%, var(--accent-subtle));
+}
+.pk-smart-paste-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.pk-smart-paste-copy .pk-section-title {
+  margin-bottom: 8px;
+}
+.pk-smart-paste-copy strong,
+.pk-smart-paste-copy span {
+  display: block;
+}
+.pk-smart-paste-copy strong {
+  color: var(--fg);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: -0.012em;
+  line-height: 1.25;
+}
+.pk-smart-paste-copy span {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.pk-smart-paste textarea {
+  min-height: 134px;
+  margin: 0;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--fg);
+  font: inherit;
+  font-size: 13.5px;
+  resize: vertical;
+  box-shadow: var(--shadow-xs);
+}
+.pk-smart-paste textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+  outline: none;
+}
+.pk-smart-results {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+.pk-smart-results p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.pk-smart-results button {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--pocket-accent, var(--accent)) 24%, var(--border));
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--card) 84%, var(--pocket-accent, var(--accent)) 5%);
+  color: var(--fg);
+  text-align: left;
+  transition: border-color .15s, background .15s, transform .15s;
+}
+.pk-smart-results button:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--pocket-accent, var(--accent)) 45%, var(--border));
+  background: color-mix(in srgb, var(--card-hover) 82%, var(--pocket-accent, var(--accent)) 7%);
+}
+.pk-smart-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--pocket-accent, var(--accent)) 11%, transparent);
+  color: var(--pocket-accent, var(--accent));
+}
+.pk-smart-icon .icon {
+  width: 16px;
+  height: 16px;
+}
+.pk-smart-results strong,
+.pk-smart-results small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pk-smart-results strong {
+  font-size: 12.5px;
+  font-weight: 690;
+}
+.pk-smart-results small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
 /* ── Sections ── */
 .pk-section {
   padding: 52px 0 24px;
@@ -2561,6 +2680,18 @@ html[data-theme="dark"] .pk-why-card {
     margin-top: 22px;
     padding: 14px;
     border-radius: 16px;
+  }
+  .pk-smart-paste {
+    grid-template-columns: 1fr;
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 16px;
+  }
+  .pk-smart-paste textarea {
+    min-height: 118px;
+  }
+  .pk-smart-results {
+    grid-template-columns: 1fr;
   }
   .pk-launch-board-head {
     align-items: flex-start;

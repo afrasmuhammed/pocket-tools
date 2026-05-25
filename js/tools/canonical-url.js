@@ -1,4 +1,5 @@
 import { UI } from '../core/ui.js';
+import { consumeHandoff } from '../core/handoff.js';
 
 const SAMPLE = 'http://www.example.com/blog/post/?utm_source=newsletter&utm_campaign=spring#comments';
 
@@ -33,6 +34,8 @@ export default {
     const slashEl = document.getElementById('cu-slash');
     const canonicalEl = document.getElementById('cu-canonical');
     const tagEl = document.getElementById('cu-tag');
+    const handoff = consumeHandoff('canonical-url');
+    if (handoff?.value) urlEl.value = handoff.value;
 
     const render = () => {
       try {

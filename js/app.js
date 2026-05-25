@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=44';
+import { appRouter } from './router.js?v=45';
 import {
   CATEGORIES,
   POCKETS,
@@ -8,6 +8,7 @@ import {
   getTool,
   getToolsForPocket,
 } from './registry.js?v=28';
+import { setHandoff } from './core/handoff.js';
 
 const RECENT_KEY = 'pt-recent';
 const FAVORITE_KEY = 'pk-favorites';
@@ -33,8 +34,8 @@ const TOOL_ALIASES = {
   'pdf-metadata': 'pdf metadata title author pages size created modified',
   'pdf-table-extractor': 'pdf table extract csv spreadsheet statement invoice rows columns',
   'quote-estimate-builder': 'quote estimate proposal project pricing pdf client line items deposit',
-  'receipt-expense-extractor': 'receipt expense extract csv merchant tax total reimbursement',
-  'safe-share-link': 'clean url link tracking remove safe share privacy utm fbclid gclid',
+  'receipt-expense-extractor': 'receipt expense extract csv merchant tax total reimbursement paid card',
+  'safe-share-link': 'clean url link tracking remove safe share privacy utm fbclid gclid remove tracking strip tracking clean link',
   'exif-cleaner': 'exif metadata remove photo image privacy camera location clean',
   'screenshot-privacy-blur': 'screenshot privacy blur redact pixelate hide image phone email address token',
   'meeting-actions': 'meeting notes action items decisions owners due dates summary',
@@ -47,7 +48,7 @@ const TOOL_ALIASES = {
   'regex-tester': 'regex regexp regular expression pattern match',
   'text-diff': 'diff compare text changes',
   'slug-generator': 'slug url title permalink seo kebab case',
-  'word-counter': 'word count character sentence paragraph writing',
+  'word-counter': 'word count character sentence paragraph writing count words check text',
   'character-counter': 'character count letters length',
   'reading-time': 'reading time words minutes article',
   'merge-pdf': 'combine pdf join documents',
@@ -397,6 +398,114 @@ function makeQuickStart(toolId, title, desc) {
   `;
 }
 
+function looksLikeUrl(value) {
+  try {
+    const text = value.trim();
+    if (!text || /\s/.test(text)) return false;
+    const url = new URL(/^https?:\/\//i.test(text) ? text : `https://${text}`);
+    return Boolean(url.hostname.includes('.'));
+  } catch {
+    return false;
+  }
+}
+
+function smartPasteSuggestions(value) {
+  const text = value.trim();
+  if (!text) return [];
+  const suggestions = [];
+  const lower = text.toLowerCase();
+  const first = text[0];
+  const hasManyLines = text.split(/\r?\n/).filter(Boolean).length > 1;
+  const push = (toolId, title, reason) => {
+    if (!getTool(toolId) || suggestions.some(item => item.toolId === toolId)) return;
+    suggestions.push({ toolId, title, reason });
+  };
+
+  if ((first === '{' || first === '[') && /[}\]]\s*$/.test(text)) {
+    push('json-formatter', 'Format JSON', 'Looks like structured JSON.');
+    push('json-schema-validator', 'Validate schema', 'Check fields and required values.');
+  }
+  if (looksLikeUrl(text)) {
+    push('safe-share-link', 'Clean link', 'Remove tracking parameters.');
+    push('qr-generator', 'Make QR code', 'Turn this link into a scannable code.');
+    push('canonical-url', 'Canonicalize URL', 'Create a clean canonical tag.');
+  }
+  if (hasManyLines && /,/.test(text)) {
+    push('csv-cleaner', 'Clean CSV', 'Normalize rows, headers, and spacing.');
+    push('csv-json', 'Convert CSV to JSON', 'Turn rows into structured data.');
+  }
+  if (/\b(total|subtotal|tax|vat|paid|visa|mastercard|receipt)\b/i.test(text) && /\d+[.,]\d{2}/.test(text)) {
+    push('receipt-expense-extractor', 'Extract expense', 'Looks like receipt or reimbursement text.');
+  }
+  if (/\b(action|owner|decision|due|next steps?|follow up)\b/i.test(lower) && hasManyLines) {
+    push('meeting-actions', 'Extract actions', 'Looks like notes with tasks or decisions.');
+  }
+  if (text.length > 160 || hasManyLines) {
+    push('word-counter', 'Count text', 'Measure words, characters, and structure.');
+    push('reading-time', 'Reading time', 'Estimate reading and speaking time.');
+  }
+  if (/\b(email|phone|card|address|token|secret|password|api key)\b/i.test(lower)) {
+    push('text-redactor', 'Redact private text', 'Hide sensitive details before sharing.');
+  }
+  return suggestions.slice(0, 4);
+}
+
+function makeSmartPaste() {
+  return `
+    <div class="pk-smart-paste">
+      <div class="pk-smart-paste-copy">
+        <p class="pk-section-title">Smart paste</p>
+        <strong>Paste once. PocketKit picks the right tool.</strong>
+        <span>Detects links, JSON, CSV, receipt text, meeting notes, and long text locally in your browser.</span>
+      </div>
+      <textarea id="smart-paste-input" placeholder="Paste a link, JSON, CSV, receipt text, or notes..." spellcheck="false"></textarea>
+      <div id="smart-paste-results" class="pk-smart-results" aria-live="polite">
+        <p>Suggestions appear here.</p>
+      </div>
+    </div>
+  `;
+}
+
+function initSmartPaste(view) {
+  const input = view.querySelector('#smart-paste-input');
+  const results = view.querySelector('#smart-paste-results');
+  if (!input || !results) return;
+
+  const render = () => {
+    const value = input.value;
+    const suggestions = smartPasteSuggestions(value);
+    if (!value.trim()) {
+      results.innerHTML = '<p>Suggestions appear here.</p>';
+      return;
+    }
+    if (!suggestions.length) {
+      results.innerHTML = '<p>No strong match yet. Try a URL, JSON, CSV, receipt, or meeting notes.</p>';
+      return;
+    }
+    results.innerHTML = suggestions.map(item => {
+      const tool = getTool(item.toolId);
+      const pocket = getPrimaryPocketForTool(item.toolId);
+      return `
+        <button type="button" data-smart-tool="${item.toolId}" style="${pocket ? `--pocket-accent:${pocket.accent}` : ''}">
+          <span class="pk-smart-icon">${svgPath(tool.icon)}</span>
+          <span><strong>${item.title}</strong><small>${item.reason}</small></span>
+        </button>
+      `;
+    }).join('');
+  };
+
+  input.addEventListener('input', render);
+  results.addEventListener('click', event => {
+    const button = event.target.closest('[data-smart-tool]');
+    if (!button) return;
+    const toolId = button.dataset.smartTool;
+    const value = input.value.trim();
+    if (!toolId || !value) return;
+    setHandoff(toolId, value, 'Smart Paste');
+    window.location.hash = `#/tool/${encodeURIComponent(toolId)}`;
+  });
+}
+
 function renderPersonalRows() {
   const target = document.getElementById('pk-personal-target');
   if (!target) return;
@@ -440,6 +549,7 @@ function renderLanding() {
           ${makeQuickStart('qr-generator', 'Share something', 'Make QR codes fast')}
         </div>
       </div>
+      ${makeSmartPaste()}
       <div id="pk-personal-target" class="pk-personal-target"></div>
       ${makeMobilePockets()}
     </section>
@@ -525,6 +635,7 @@ function renderLanding() {
 
   const grid = view.querySelector('#pocket-grid');
   POCKETS.forEach(pocket => grid.appendChild(makePocketCard(pocket)));
+  initSmartPaste(view);
   renderPersonalRows();
 }
 

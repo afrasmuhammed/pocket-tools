@@ -1,5 +1,5 @@
 import { UI } from '../core/ui.js';
-import { setHandoff } from '../core/handoff.js';
+import { consumeHandoff, setHandoff } from '../core/handoff.js';
 
 const SAMPLE = 'https://www.example.com/guide?utm_source=newsletter&utm_medium=email&utm_campaign=spring&fbclid=abc123&gclid=xyz789&ref=homepage&id=42#comments';
 const TRACKING_PREFIXES = ['utm_', 'pk_', 'mc_', 'ga_'];
@@ -37,6 +37,8 @@ export default {
     const removedCount = document.getElementById('ssl-removed-count');
     const savedCount = document.getElementById('ssl-saved-count');
     const removedList = document.getElementById('ssl-removed-list');
+    const handoff = consumeHandoff('safe-share-link');
+    if (handoff?.value) input.value = handoff.value;
 
     const clean = () => {
       const raw = input.value.trim();
@@ -81,8 +83,9 @@ export default {
     };
     document.getElementById('btn-ssl-qr').onclick = () => {
       if (!output.value) return UI.showError('Clean a link first.');
-      setHandoff('qr-generator', { value: output.value });
+      setHandoff('qr-generator', output.value, 'Clean link');
       window.location.hash = '#/tool/qr-generator';
     };
+    if (handoff?.value) clean();
   },
 };

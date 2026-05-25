@@ -98,7 +98,10 @@ export default {
     };
 
     setPreset('text');
-    if (handoff?.value) input.value = handoff.value;
+    if (handoff?.value) {
+      input.value = handoff.value;
+      requestAnimationFrame(() => btnGen.click());
+    }
 
     btnDownload.onclick = () => {
       const img = qrDiv.querySelector('img');
