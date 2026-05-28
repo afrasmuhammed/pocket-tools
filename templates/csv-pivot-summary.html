@@ -1,0 +1,55 @@
+<div class="tool-header">
+  <h2>CSV Pivot Summary</h2>
+  <p>Group CSV rows by one column and summarize counts, totals, or averages.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="cps-input">CSV</label>
+      <textarea id="cps-input" class="textarea-tall" placeholder="Paste CSV with headers..." spellcheck="false"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="cps-group">Group By Column</label>
+        <input id="cps-group" type="text" placeholder="category">
+      </div>
+      <div class="input-group">
+        <label for="cps-value">Value Column</label>
+        <input id="cps-value" type="text" placeholder="amount">
+      </div>
+      <div class="input-group">
+        <label for="cps-agg">Summary</label>
+        <select id="cps-agg">
+          <option value="sum">Sum</option>
+          <option value="count">Count</option>
+          <option value="avg">Average</option>
+          <option value="min">Minimum</option>
+          <option value="max">Maximum</option>
+        </select>
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-cps-build" class="btn">Summarize CSV</button>
+      <button id="btn-cps-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-cps-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Rows</span><strong id="cps-rows">0</strong></div>
+      <div class="metric"><span>Groups</span><strong id="cps-groups">0</strong></div>
+      <div class="metric"><span>Top</span><strong id="cps-top">--</strong></div>
+    </div>
+    <div id="cps-results" class="seo-result-list"></div>
+    <div class="input-group">
+      <label for="cps-output">Summary CSV</label>
+      <textarea id="cps-output" class="textarea-tall" readonly placeholder="Grouped CSV will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-cps-copy" class="btn">Copy CSV</button>
+      <button id="btn-cps-download" class="btn btn-secondary">Download CSV</button>
+    </div>
+  </section>
+</div>

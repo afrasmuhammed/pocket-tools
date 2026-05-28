@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-28T11:52:17.692Z",
+  "generatedAt": "2026-05-28T12:21:18.858Z",
   "site": "https://pocketkit.app",
   "counts": {
     "pockets": 9,
-    "tools": 95
+    "tools": 100
   },
   "pockets": [
     {
@@ -98,6 +98,8 @@
         "whitespace-remover",
         "text-redactor",
         "meeting-actions",
+        "agenda-builder",
+        "checklist-builder",
         "case-converter",
         "alphabetical-sorter"
       ]
@@ -118,6 +120,7 @@
         "csv-json",
         "json-csv",
         "csv-cleaner",
+        "csv-pivot-summary",
         "base64-encoder",
         "url-encoder",
         "html-entities",
@@ -144,6 +147,11 @@
         "expense-report-builder",
         "contract-clause-highlighter",
         "table-cleaner",
+        "status-update-builder",
+        "agenda-builder",
+        "checklist-builder",
+        "decision-matrix",
+        "csv-pivot-summary",
         "meeting-actions",
         "quote-estimate-builder",
         "invoice-generator",
@@ -592,6 +600,15 @@
       "url": "https://pocketkit.app/#/tool/expense-report-builder"
     },
     {
+      "id": "decision-matrix",
+      "name": "Decision Matrix",
+      "category": "math",
+      "description": "Score options with weighted criteria",
+      "pocket": "office",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/decision-matrix"
+    },
+    {
       "id": "text-diff",
       "name": "Text Diff",
       "category": "text",
@@ -653,6 +670,33 @@
       "pocket": "office",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/table-cleaner"
+    },
+    {
+      "id": "status-update-builder",
+      "name": "Status Update Builder",
+      "category": "text",
+      "description": "Turn messy notes into crisp stakeholder updates",
+      "pocket": "office",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/status-update-builder"
+    },
+    {
+      "id": "agenda-builder",
+      "name": "Meeting Agenda Builder",
+      "category": "text",
+      "description": "Create timed agendas from goals and notes",
+      "pocket": "student",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/agenda-builder"
+    },
+    {
+      "id": "checklist-builder",
+      "name": "Checklist Builder",
+      "category": "text",
+      "description": "Convert process notes into clean checklists",
+      "pocket": "student",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/checklist-builder"
     },
     {
       "id": "pomodoro",
@@ -995,6 +1039,15 @@
       "pocket": "developer",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/csv-cleaner"
+    },
+    {
+      "id": "csv-pivot-summary",
+      "name": "CSV Pivot Summary",
+      "category": "developer",
+      "description": "Group CSV rows by column and summarize values",
+      "pocket": "developer",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/csv-pivot-summary"
     },
     {
       "id": "yaml-json",

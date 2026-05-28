@@ -1,0 +1,53 @@
+<div class="tool-header">
+  <h2>Meeting Agenda Builder</h2>
+  <p>Create a timed agenda from goals, context, decisions, and discussion points.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="ag-goal">Meeting Goal</label>
+        <input id="ag-goal" type="text" placeholder="Decide launch checklist, review scope, align next steps...">
+      </div>
+      <div class="input-group">
+        <label for="ag-duration">Duration</label>
+        <select id="ag-duration">
+          <option value="15">15 minutes</option>
+          <option value="30" selected>30 minutes</option>
+          <option value="45">45 minutes</option>
+          <option value="60">60 minutes</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="ag-attendees">Attendees</label>
+        <input id="ag-attendees" type="text" placeholder="Product, client, design, ops...">
+      </div>
+    </div>
+    <div class="input-group">
+      <label for="ag-input">Notes / Topics</label>
+      <textarea id="ag-input" class="textarea-tall" placeholder="Paste discussion points, decisions needed, prep items, risks, and follow-ups..." spellcheck="true"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-ag-build" class="btn">Build Agenda</button>
+      <button id="btn-ag-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-ag-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Topics</span><strong id="ag-topics">0</strong></div>
+      <div class="metric"><span>Minutes</span><strong id="ag-minutes">0</strong></div>
+      <div class="metric"><span>Decisions</span><strong id="ag-decisions">0</strong></div>
+    </div>
+    <div class="input-group">
+      <label for="ag-output">Agenda</label>
+      <textarea id="ag-output" class="textarea-tall" readonly placeholder="Agenda will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-ag-copy" class="btn">Copy Agenda</button>
+      <button id="btn-ag-download" class="btn btn-secondary">Download .md</button>
+    </div>
+  </section>
+</div>

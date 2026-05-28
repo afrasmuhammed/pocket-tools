@@ -1,5 +1,5 @@
 import { UI } from './core/ui.js';
-import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=29';
+import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=30';
 
 const FAVORITE_KEY = 'pk-favorites';
 const DRAFT_PREFIX = 'pk-draft:';
@@ -171,6 +171,11 @@ const SAMPLE_ACTIONS = {
   'expense-report-builder': container => container.querySelector('#btn-erb-sample')?.click(),
   'contract-clause-highlighter': container => container.querySelector('#btn-cch-sample')?.click(),
   'table-cleaner': container => container.querySelector('#btn-tbl-sample')?.click(),
+  'status-update-builder': container => container.querySelector('#btn-sub-sample')?.click(),
+  'agenda-builder': container => container.querySelector('#btn-ag-sample')?.click(),
+  'checklist-builder': container => container.querySelector('#btn-clb-sample')?.click(),
+  'decision-matrix': container => container.querySelector('#btn-dm-sample')?.click(),
+  'csv-pivot-summary': container => container.querySelector('#btn-cps-sample')?.click(),
   'regex-tester': container => container.querySelector('[data-pattern]')?.click(),
   'qr-generator': container => {
     const input = container.querySelector('#qr-input');
@@ -331,7 +336,7 @@ class Router {
   async loadTool(toolId, container) {
     let html = this.templateCache.get(toolId);
     if (!html) {
-      const res = await fetch(`templates/${toolId}.html?v=18`);
+      const res = await fetch(`templates/${toolId}.html?v=19`);
       if (!res.ok) throw new Error(`Template not found: ${toolId}`);
       html = await res.text();
       this.templateCache.set(toolId, html);
@@ -340,7 +345,7 @@ class Router {
 
     let module = this.moduleCache.get(toolId);
     if (!module) {
-      module = await import(`./tools/${toolId}.js?v=23`);
+      module = await import(`./tools/${toolId}.js?v=24`);
       this.moduleCache.set(toolId, module);
     }
 

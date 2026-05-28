@@ -1,0 +1,53 @@
+<div class="tool-header">
+  <h2>Decision Matrix</h2>
+  <p>Score options with weighted criteria and produce a clear recommendation.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="dm-input">Scores CSV</label>
+      <textarea id="dm-input" class="textarea-tall" placeholder="option,impact,confidence,effort,risk&#10;Option A,5,4,2,1" spellcheck="false"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="dm-impact">Impact Weight</label>
+        <input id="dm-impact" type="number" min="0" max="10" step="1" value="4">
+      </div>
+      <div class="input-group">
+        <label for="dm-confidence">Confidence Weight</label>
+        <input id="dm-confidence" type="number" min="0" max="10" step="1" value="3">
+      </div>
+      <div class="input-group">
+        <label for="dm-effort">Effort Penalty</label>
+        <input id="dm-effort" type="number" min="0" max="10" step="1" value="2">
+      </div>
+      <div class="input-group">
+        <label for="dm-risk">Risk Penalty</label>
+        <input id="dm-risk" type="number" min="0" max="10" step="1" value="2">
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-dm-score" class="btn">Score Options</button>
+      <button id="btn-dm-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-dm-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Options</span><strong id="dm-options">0</strong></div>
+      <div class="metric"><span>Winner</span><strong id="dm-winner">--</strong></div>
+      <div class="metric"><span>Score</span><strong id="dm-score">--</strong></div>
+    </div>
+    <div id="dm-results" class="seo-result-list"></div>
+    <div class="input-group">
+      <label for="dm-output">Recommendation</label>
+      <textarea id="dm-output" class="textarea-tall" readonly placeholder="Recommendation will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-dm-copy" class="btn">Copy Recommendation</button>
+      <button id="btn-dm-download" class="btn btn-secondary">Download .md</button>
+    </div>
+  </section>
+</div>

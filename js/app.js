@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=46';
+import { appRouter } from './router.js?v=47';
 import {
   CATEGORIES,
   POCKETS,
@@ -7,7 +7,7 @@ import {
   getPrimaryPocketForTool,
   getTool,
   getToolsForPocket,
-} from './registry.js?v=29';
+} from './registry.js?v=30';
 import { setHandoff } from './core/handoff.js';
 
 const RECENT_KEY = 'pt-recent';
@@ -45,6 +45,11 @@ const TOOL_ALIASES = {
   'expense-report-builder': 'expense report reimbursement csv category totals tax receipt finance manager',
   'contract-clause-highlighter': 'contract clause highlight agreement renewal termination liability indemnity payment legal review',
   'table-cleaner': 'table clean pasted spreadsheet csv tsv markdown columns rows normalize',
+  'status-update-builder': 'status update weekly report stakeholder done next blockers risks progress',
+  'agenda-builder': 'meeting agenda schedule topics decisions minutes prep attendees',
+  'checklist-builder': 'checklist todo tasks launch qa process steps markdown',
+  'decision-matrix': 'decision matrix score options weighted criteria impact effort risk confidence',
+  'csv-pivot-summary': 'csv pivot summary group by aggregate sum count average totals spreadsheet',
   'jwt-decoder': 'jwt token decode auth bearer claims header payload',
   'base64-encoder': 'base64 encode decode atob btoa',
   'url-encoder': 'url encode decode uri percent escape',
@@ -441,6 +446,9 @@ function smartPasteSuggestions(value) {
     if (/\b(date|merchant|category|total|tax|paid_by|currency)\b/i.test(text)) {
       push('expense-report-builder', 'Build expense report', 'Looks like expense CSV.');
     }
+    if (/\b(category|status|owner|amount|total|score|count)\b/i.test(text)) {
+      push('csv-pivot-summary', 'Summarize CSV', 'Group rows and total a column.');
+    }
   }
   if (hasManyLines && (/\t/.test(text) || /\|/.test(text) || /\S\s{2,}\S/.test(text))) {
     push('table-cleaner', 'Clean table', 'Looks like pasted table rows.');
@@ -459,6 +467,18 @@ function smartPasteSuggestions(value) {
   }
   if (/\b(action|owner|decision|due|next steps?|follow up)\b/i.test(lower) && hasManyLines) {
     push('meeting-actions', 'Extract actions', 'Looks like notes with tasks or decisions.');
+  }
+  if (/\b(status|shipped|done|blocked|blocker|risk|metric|next)\b/i.test(lower) && hasManyLines) {
+    push('status-update-builder', 'Build status update', 'Looks like progress notes.');
+  }
+  if (/\b(agenda|meeting|attendees|discussion|decide|decision|minutes)\b/i.test(lower)) {
+    push('agenda-builder', 'Build agenda', 'Looks like meeting planning notes.');
+  }
+  if (/\b(checklist|launch|verify|review|test|todo|handoff)\b/i.test(lower) && hasManyLines) {
+    push('checklist-builder', 'Build checklist', 'Looks like task or process notes.');
+  }
+  if (/\b(option|impact|confidence|effort|risk|score|criteria)\b/i.test(lower) && hasManyLines) {
+    push('decision-matrix', 'Score options', 'Looks like options and criteria.');
   }
   if (text.length > 160 || hasManyLines) {
     push('word-counter', 'Count text', 'Measure words, characters, and structure.');

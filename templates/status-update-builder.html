@@ -1,0 +1,57 @@
+<div class="tool-header">
+  <h2>Status Update Builder</h2>
+  <p>Turn messy work notes into a clean stakeholder update with progress, blockers, and next steps.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="sub-input">Work Notes</label>
+      <textarea id="sub-input" class="textarea-tall" placeholder="Paste bullets, shipped items, metrics, blockers, risks, and next steps..." spellcheck="true"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="sub-period">Period</label>
+        <input id="sub-period" type="text" placeholder="This week, May launch, Sprint 8...">
+      </div>
+      <div class="input-group">
+        <label for="sub-audience">Audience</label>
+        <select id="sub-audience">
+          <option value="leadership">Leadership</option>
+          <option value="client">Client</option>
+          <option value="team">Internal team</option>
+          <option value="standup">Standup</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="sub-tone">Tone</label>
+        <select id="sub-tone">
+          <option value="crisp">Crisp</option>
+          <option value="warm">Warm</option>
+          <option value="direct">Direct</option>
+        </select>
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-sub-build" class="btn">Build Update</button>
+      <button id="btn-sub-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-sub-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Done</span><strong id="sub-done">0</strong></div>
+      <div class="metric"><span>Next</span><strong id="sub-next">0</strong></div>
+      <div class="metric"><span>Risks</span><strong id="sub-risks">0</strong></div>
+    </div>
+    <div class="input-group">
+      <label for="sub-output">Status Update</label>
+      <textarea id="sub-output" class="textarea-tall" readonly placeholder="Your update will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-sub-copy" class="btn">Copy Update</button>
+      <button id="btn-sub-download" class="btn btn-secondary">Download .md</button>
+    </div>
+  </section>
+</div>

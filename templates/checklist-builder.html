@@ -1,0 +1,48 @@
+<div class="tool-header">
+  <h2>Checklist Builder</h2>
+  <p>Convert process notes into a clean checklist with prep, action, review, and follow-up sections.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="clb-input">Process Notes</label>
+      <textarea id="clb-input" class="textarea-tall" placeholder="Paste messy steps, launch tasks, QA items, handoff notes, reminders..." spellcheck="true"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="clb-title">Checklist Title</label>
+        <input id="clb-title" type="text" placeholder="Launch checklist, handoff checklist...">
+      </div>
+      <div class="input-group">
+        <label for="clb-style">Style</label>
+        <select id="clb-style">
+          <option value="grouped">Grouped</option>
+          <option value="flat">Flat</option>
+          <option value="qa">QA pass</option>
+        </select>
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-clb-build" class="btn">Build Checklist</button>
+      <button id="btn-clb-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-clb-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Items</span><strong id="clb-items">0</strong></div>
+      <div class="metric"><span>Sections</span><strong id="clb-sections">0</strong></div>
+      <div class="metric"><span>Style</span><strong id="clb-style-metric">--</strong></div>
+    </div>
+    <div class="input-group">
+      <label for="clb-output">Checklist</label>
+      <textarea id="clb-output" class="textarea-tall" readonly placeholder="Checklist will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-clb-copy" class="btn">Copy Checklist</button>
+      <button id="btn-clb-download" class="btn btn-secondary">Download .md</button>
+    </div>
+  </section>
+</div>
