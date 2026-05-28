@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=47';
+import { appRouter } from './router.js?v=48';
 import {
   CATEGORIES,
   POCKETS,
@@ -9,6 +9,16 @@ import {
   getToolsForPocket,
 } from './registry.js?v=30';
 import { setHandoff } from './core/handoff.js';
+import {
+  CHECKOUT_ENDPOINT,
+  PRO_PRICE_LABEL,
+  VERIFY_ENDPOINT,
+  clearProAccess,
+  formatAccessDate,
+  getProAccess,
+  hasProAccess,
+  saveProAccess,
+} from './core/access.js';
 
 const RECENT_KEY = 'pt-recent';
 const FAVORITE_KEY = 'pk-favorites';
@@ -87,6 +97,17 @@ let commandOpen = false;
 let commandActiveIndex = 0;
 let commandItems = [];
 let deferredInstallPrompt = null;
+let checkoutBusy = false;
+
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[char]));
+}
 
 function getRecent() {
   try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; }
@@ -202,6 +223,14 @@ function updateRouteMeta(hash = window.location.hash || '#/') {
     setMeta('All PocketKit Tools', `${TOOLS.length} private browser tools${suffix} across ${POCKETS.length} organized pockets.`, hash);
     return;
   }
+  if (hash.startsWith('#/account')) {
+    setMeta('PocketKit Pro Account', 'Manage PocketKit Pro access, checkout, and unlocked pockets.', hash);
+    return;
+  }
+  if (hash.startsWith('#/payment/')) {
+    setMeta('PocketKit Checkout', 'Verify PocketKit Pro checkout and unlock private Pro tools.', hash);
+    return;
+  }
   if (hash.startsWith('#/pocket/')) {
     const pocket = getPocket(decodeURIComponent(hash.replace('#/pocket/', '')).trim());
     if (pocket) {
@@ -259,13 +288,14 @@ function toolIconChip(toolId) {
 
 function makePocketMeta(pocket) {
   const toolsLabel = `${pocket.tools.length} ${pocket.tools.length === 1 ? 'tool' : 'tools'}`;
-  const accessLabel = pocket.access === 'free' ? 'No account' : 'Preview now';
+  const accessLabel = pocket.access === 'free' ? 'No account' : hasProAccess() ? 'Unlocked' : 'Unlock Pro';
   return `${toolsLabel} · ${accessLabel}`;
 }
 
 function makeToolCard(tool, index = 0, options = {}) {
   const pocket = getPrimaryPocketForTool(tool.id);
-  const isLocked = options.locked && pocket?.access === 'pro';
+  const isPro = pocket?.access === 'pro';
+  const isLocked = (options.locked || isPro) && isPro && !hasProAccess();
   const classes = ['tool-card', 'pk-tool-card'];
   if (isLocked) classes.push('pk-tool-locked');
   if (isFavorite(tool.id)) classes.push('pk-tool-saved');
@@ -283,7 +313,7 @@ function makeToolCard(tool, index = 0, options = {}) {
     <span class="desc">${tool.desc}</span>
     <span class="pk-tool-meta">
       ${pocket ? `<span class="pk-pocket-dot" style="background:${pocket.accent}"></span>${pocket.shortName}` : CATEGORY_LABELS[tool.category] || tool.category}
-      ${pocket?.access === 'pro' ? '<span class="pk-meta-pro">Pro</span>' : ''}
+      ${isPro ? `<span class="pk-meta-pro">${isLocked ? 'Locked' : 'Pro'}</span>` : ''}
     </span>
     ${isFavorite(tool.id) ? '<span class="pk-saved-corner" aria-label="Saved">Saved</span>' : ''}
   `;
@@ -361,7 +391,15 @@ function makeMobilePockets() {
 function setHomeContent(html) {
   const viewHome = document.getElementById('view-home');
   if (!viewHome) return null;
+  const viewTool = document.getElementById('view-tool');
+  const btnBack = document.getElementById('btn-back');
+  const btnQuickOpen = document.getElementById('btn-quick-open');
   viewHome.innerHTML = html;
+  viewHome.classList.remove('hidden');
+  viewTool?.classList.add('hidden');
+  document.body.classList.remove('tool-open');
+  btnBack?.classList.add('hidden');
+  btnQuickOpen?.classList.remove('hidden');
   return viewHome;
 }
 
@@ -564,9 +602,10 @@ function renderLanding() {
       <div class="pk-hero">
         <p class="pk-kicker">${POCKETS.length} pockets · ${TOOLS.length} tools · Installable app</p>
         <h2>Small tools,<br><em>neatly packed.</em></h2>
-        <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Preview Pro pockets while paid access is being prepared.</p>
+        <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Pro unlocks every specialized pocket through Stripe Checkout.</p>
         <div class="pk-hero-actions">
           <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
+          <button class="btn btn-secondary" type="button" data-start-checkout>${hasProAccess() ? 'Manage Pro' : 'Unlock Pro'}</button>
           <button class="btn btn-secondary" type="button" data-open-command>Quick open</button>
           <a class="btn btn-secondary" href="#/all">Browse all tools</a>
         </div>
@@ -599,7 +638,7 @@ function renderLanding() {
         <div>
           <p class="pk-section-title">Pockets</p>
           <h2>Open the pocket you need.</h2>
-          <p>Daily is ready for everyone. Pro pockets stay visible so you can see what's coming next.</p>
+          <p>Daily is ready for everyone. Pro pockets unlock after checkout and can still be previewed before you pay.</p>
         </div>
         <a class="btn btn-secondary" href="#/all">Browse all tools</a>
       </div>
@@ -663,13 +702,14 @@ function renderLanding() {
         <div class="pk-price-card pk-price-card-featured">
           ${badge('pro')}
           <h3>All Pro pockets</h3>
-          <strong class="pk-price">$24 <span>/year · planned launch price</span></strong>
-          <p>Preview seven specialized pockets — PDF, Designer, Student, Developer, QA, SEO, and Shop. Paid access will open when payments are ready.</p>
+          <strong class="pk-price">${PRO_PRICE_LABEL.replace('/year', '')} <span>/year · launch price</span></strong>
+          <p>Unlock every specialized pocket — PDF, Designer, Student, Developer, Office, QA, SEO, and Shop. Payment is handled by Stripe Checkout.</p>
           <div class="pk-pro-pocket-list">${POCKETS.filter(pocket => pocket.access === 'pro').map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
-          <a class="btn btn-secondary" href="#/pocket/developer">Preview Pro</a>
+          <button class="btn pk-btn-primary" type="button" data-start-checkout>${hasProAccess() ? 'Pro unlocked' : 'Unlock all Pro'}</button>
+          <a class="btn btn-secondary" href="#/account">Account</a>
         </div>
       </div>
-      <p class="pk-pricing-note">Pro pricing is a launch preview. Daily stays free while paid access is being prepared.</p>
+      <p class="pk-pricing-note">Daily stays free. Pro access is verified after Stripe returns a paid checkout session.</p>
     </section>
   `);
 
@@ -706,8 +746,11 @@ function renderPocket(pocketId) {
       ${isPro ? `
         <div class="pk-pro-banner">
           <div class="pk-mark">Pro</div>
-          <p><strong>${pocket.name} is a Pro pocket.</strong> Preview the tools below. Daily stays free; paid access will open when payments are ready.</p>
-          <button class="btn pk-btn-primary" id="btn-preview-pocket">Preview tools</button>
+          <p><strong>${pocket.name} is a Pro pocket.</strong> ${hasProAccess() ? 'Your Pro access is active on this device.' : `Unlock all Pro pockets for ${PRO_PRICE_LABEL}, or preview the tools below.`}</p>
+          ${hasProAccess()
+            ? '<a class="btn pk-btn-primary" href="#/account">Manage Pro</a>'
+            : '<button class="btn pk-btn-primary" type="button" data-start-checkout>Unlock Pro</button>'}
+          <button class="btn btn-secondary" id="btn-preview-pocket">Preview tools</button>
         </div>
       ` : ''}
       <div class="pk-starting-points">
@@ -891,6 +934,151 @@ function renderAllGrid() {
   results.forEach((tool, index) => grid.appendChild(makeToolCard(tool, index)));
 }
 
+function parseHashParams(prefix) {
+  const hash = window.location.hash || '';
+  const query = hash.startsWith(prefix) && hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : '';
+  return new URLSearchParams(query);
+}
+
+async function startProCheckout(source = 'app') {
+  if (hasProAccess()) {
+    window.location.hash = '#/account';
+    return;
+  }
+  if (checkoutBusy) return;
+  checkoutBusy = true;
+  window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Opening secure checkout...' }));
+  try {
+    const response = await fetch(CHECKOUT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ source }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.url) throw new Error(data.error || 'Checkout is not ready yet.');
+    window.location.assign(data.url);
+  } catch (error) {
+    renderCheckoutSetup(error.message || 'Checkout is not ready yet.');
+  } finally {
+    checkoutBusy = false;
+  }
+}
+
+function renderCheckoutSetup(message) {
+  const view = setHomeContent(`
+    <section class="pk-account-page">
+      <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>Checkout setup</span></div>
+      <div class="pk-account-card pk-account-card-wide">
+        <p class="pk-section-title">Payment setup needed</p>
+        <h2>Stripe Checkout is wired, but credentials are not configured on this deploy.</h2>
+        <p>${escapeHtml(message)}</p>
+        <div class="pk-setup-grid">
+          <div><strong>1</strong><span>Create a Stripe product and one-time yearly price.</span></div>
+          <div><strong>2</strong><span>Set Netlify environment variables for the checkout functions.</span></div>
+          <div><strong>3</strong><span>Redeploy, then click Unlock Pro again.</span></div>
+        </div>
+        <div class="pk-code-block">STRIPE_SECRET_KEY=sk_live_...
+STRIPE_PRO_PRICE_ID=price_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+SITE_URL=https://pocketkit.app</div>
+        <div class="pk-paywall-actions">
+          <a class="btn pk-btn-primary" href="#/account">Open account</a>
+          <a class="btn btn-secondary" href="#/">Back home</a>
+        </div>
+      </div>
+    </section>
+  `);
+  window.scrollTo(0, 0);
+  return view;
+}
+
+function renderAccount() {
+  const access = getProAccess();
+  const active = hasProAccess();
+  const proPockets = POCKETS.filter(pocket => pocket.access === 'pro');
+  const view = setHomeContent(`
+    <section class="pk-account-page">
+      <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>Account</span></div>
+      <div class="pk-account-card pk-account-card-wide">
+        <p class="pk-section-title">PocketKit Pro</p>
+        <h2>${active ? 'Pro is active on this device.' : 'Unlock every Pro pocket.'}</h2>
+        <p>${active
+          ? `Your Pro access is saved locally${access?.customerEmail ? ` for ${escapeHtml(access.customerEmail)}` : ''}.`
+          : `Daily stays free. Pro unlocks ${proPockets.length} specialized pockets and ${TOOLS.length} total tools through secure Stripe Checkout.`}</p>
+        <div class="pk-account-status ${active ? 'pk-account-status-active' : ''}">
+          <strong>${active ? 'Active' : 'Not unlocked'}</strong>
+          <span>${active ? `Valid until ${formatAccessDate(access?.accessUntil)}` : `${PRO_PRICE_LABEL} launch price`}</span>
+        </div>
+        <div class="pk-pro-pocket-list">${proPockets.map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
+        <div class="pk-paywall-actions">
+          <button class="btn pk-btn-primary" type="button" data-start-checkout>${active ? 'Manage Pro' : 'Unlock Pro'}</button>
+          <a class="btn btn-secondary" href="#/pocket/office">Preview Office</a>
+          ${active ? '<button class="btn btn-secondary" type="button" id="btn-clear-pro">Clear local access</button>' : ''}
+        </div>
+      </div>
+    </section>
+  `);
+  view.querySelector('#btn-clear-pro')?.addEventListener('click', () => {
+    clearProAccess();
+    window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Local Pro access cleared.' }));
+    renderAccount();
+  });
+  window.scrollTo(0, 0);
+}
+
+function renderPaymentCancel() {
+  setHomeContent(`
+    <section class="pk-account-page">
+      <div class="pk-account-card pk-account-card-wide">
+        <p class="pk-section-title">Checkout canceled</p>
+        <h2>No payment was taken.</h2>
+        <p>You can keep using Daily tools for free, preview Pro pockets, or restart checkout when ready.</p>
+        <div class="pk-paywall-actions">
+          <button class="btn pk-btn-primary" type="button" data-start-checkout>Restart checkout</button>
+          <a class="btn btn-secondary" href="#/">Back home</a>
+        </div>
+      </div>
+    </section>
+  `);
+}
+
+async function renderPaymentSuccess() {
+  const params = parseHashParams('#/payment/success');
+  const sessionId = params.get('session_id') || '';
+  const view = setHomeContent(`
+    <section class="pk-account-page">
+      <div class="pk-account-card pk-account-card-wide">
+        <p class="pk-section-title">Verifying payment</p>
+        <h2 id="pk-payment-title">Checking your Stripe session...</h2>
+        <p id="pk-payment-copy">This only takes a moment. Pro unlocks after the paid session is verified server-side.</p>
+        <div class="pk-paywall-actions">
+          <a class="btn btn-secondary" href="#/">Back home</a>
+        </div>
+      </div>
+    </section>
+  `);
+  const title = view.querySelector('#pk-payment-title');
+  const copy = view.querySelector('#pk-payment-copy');
+  if (!sessionId) {
+    title.textContent = 'Missing checkout session.';
+    copy.textContent = 'Stripe did not return a session id. Please restart checkout.';
+    return;
+  }
+  try {
+    const response = await fetch(`${VERIFY_ENDPOINT}?session_id=${encodeURIComponent(sessionId)}`);
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.unlocked) throw new Error(data.error || 'Payment was not verified yet.');
+    saveProAccess(data);
+    title.textContent = 'Pro unlocked.';
+    copy.textContent = 'Your Pro access is active on this device. You can now open every Pro pocket and tool.';
+    view.querySelector('.pk-paywall-actions').innerHTML = '<a class="btn pk-btn-primary" href="#/account">Open account</a><a class="btn btn-secondary" href="#/pocket/office">Open Pro pocket</a>';
+  } catch (error) {
+    title.textContent = 'Could not verify payment.';
+    copy.textContent = error.message || 'Please try again or contact support with your Stripe receipt.';
+    view.querySelector('.pk-paywall-actions').innerHTML = '<button class="btn pk-btn-primary" type="button" data-start-checkout>Restart checkout</button><a class="btn btn-secondary" href="#/account">Account</a>';
+  }
+}
+
 function copyLink(value, message) {
   navigator.clipboard.writeText(value)
     .then(() => {
@@ -908,6 +1096,12 @@ function refreshActivePage() {
 
 function initPersonalActions() {
   document.addEventListener('click', event => {
+    const checkout = event.target.closest('[data-start-checkout]');
+    if (checkout) {
+      event.preventDefault();
+      startProCheckout(checkout.dataset.source || window.location.hash || 'app');
+      return;
+    }
     const button = event.target.closest('[data-pk-action]');
     if (!button) return;
     const action = button.dataset.pkAction;
@@ -1021,6 +1215,17 @@ function buildCommandItems() {
     {
       type: 'action',
       section: 'Actions',
+      title: hasProAccess() ? 'Manage Pro' : 'Unlock Pro',
+      subtitle: hasProAccess() ? 'View this device access' : `${PRO_PRICE_LABEL} launch access through Stripe Checkout`,
+      href: '#/account',
+      accent: 'var(--accent)',
+      mark: 'Pro',
+      keywords: 'pro account payment checkout stripe unlock upgrade billing',
+      weight: 15,
+    },
+    {
+      type: 'action',
+      section: 'Actions',
       title: 'Toggle theme',
       subtitle: 'Switch light and dark mode',
       action: 'theme',
@@ -1045,7 +1250,7 @@ function buildCommandItems() {
     type: 'pocket',
     section: 'Pockets',
     title: pocket.name,
-    subtitle: `${pocket.tools.length} tools · ${pocket.access === 'free' ? 'Free' : 'Pro preview'}`,
+    subtitle: `${pocket.tools.length} tools · ${pocket.access === 'free' ? 'Free' : hasProAccess() ? 'Unlocked' : 'Pro preview'}`,
     href: `#/pocket/${encodeURIComponent(pocket.id)}`,
     accent: pocket.accent,
     mark: pocket.shortName.slice(0, 2),
@@ -1216,6 +1421,18 @@ function renderRoute() {
     renderLanding();
     return;
   }
+  if (hash.startsWith('#/account')) {
+    renderAccount();
+    return;
+  }
+  if (hash.startsWith('#/payment/success')) {
+    renderPaymentSuccess();
+    return;
+  }
+  if (hash.startsWith('#/payment/cancel')) {
+    renderPaymentCancel();
+    return;
+  }
   if (hash.startsWith('#/all')) {
     renderAllTools();
     return;
@@ -1314,6 +1531,10 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('pk-toggle-favorite', (event) => {
     const toolId = event.detail?.toolId;
     if (toolId && getTool(toolId)) toggleFavorite(toolId);
+  });
+
+  window.addEventListener('pk-start-checkout', (event) => {
+    startProCheckout(event.detail?.source || 'app');
   });
 
   window.addEventListener('pk-tool-opened', (event) => {

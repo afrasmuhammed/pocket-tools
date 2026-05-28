@@ -1,5 +1,6 @@
 import { UI } from './core/ui.js';
 import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=30';
+import { PRO_PRICE_LABEL, hasProAccess } from './core/access.js';
 
 const FAVORITE_KEY = 'pk-favorites';
 const DRAFT_PREFIX = 'pk-draft:';
@@ -265,7 +266,7 @@ class Router {
     const hash = window.location.hash || '';
 
     // App pages rendered by app.js
-    if (!hash || hash === '#' || hash === '#/' || hash.startsWith('#/all') || hash.startsWith('#/pocket/')) {
+    if (!hash || hash === '#' || hash === '#/' || hash.startsWith('#/all') || hash.startsWith('#/pocket/') || hash.startsWith('#/account') || hash.startsWith('#/payment/')) {
       viewTool.classList.add('hidden');
       viewHome.classList.remove('hidden');
       document.body.classList.remove('tool-open');
@@ -308,6 +309,12 @@ class Router {
       setAppTitle(appTitle, tool.name, false);
       toolContainer.dataset.category = tool.category;
       toolContainer.replaceChildren();
+      const pocket = getPrimaryPocketForTool(tool.id);
+      if (pocket?.access === 'pro' && !hasProAccess()) {
+        this.renderLockedTool(tool, pocket, toolContainer);
+        window.scrollTo(0, 0);
+        return;
+      }
       const skeleton = document.createElement('div');
       skeleton.className = 'skeleton';
       skeleton.setAttribute('aria-hidden', 'true');
@@ -331,6 +338,36 @@ class Router {
     }
 
     window.location.hash = '#/';
+  }
+
+  renderLockedTool(tool, pocket, container) {
+    container.innerHTML = `
+      <section class="pk-paywall" style="--pocket-accent:${pocket.accent}">
+        <div class="pk-breadcrumb">
+          <a href="#/">Home</a><span>/</span>
+          <a href="#/pocket/${pocket.id}">${pocket.shortName}</a><span>/</span>
+          <span>${tool.name}</span>
+        </div>
+        <div class="pk-paywall-card">
+          <span class="pk-mark" style="--pocket-accent:${pocket.accent}">${pocket.shortName.slice(0, 2)}</span>
+          <p class="pk-section-title">Pro tool</p>
+          <h2>${tool.name}</h2>
+          <p>${tool.desc}. Unlock all Pro pockets for ${PRO_PRICE_LABEL}; Daily tools stay free.</p>
+          <div class="pk-paywall-actions">
+            <button type="button" class="btn pk-btn-primary" data-start-checkout>Unlock Pro</button>
+            <a class="btn btn-secondary" href="#/pocket/${pocket.id}">Preview pocket</a>
+          </div>
+          <div class="pk-paywall-trust">
+            <span>Stripe Checkout</span>
+            <span>Apple Pay / Google Pay ready</span>
+            <span>100 browser tools</span>
+          </div>
+        </div>
+      </section>
+    `;
+    container.querySelector('[data-start-checkout]')?.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('pk-start-checkout', { detail: { source: tool.id } }));
+    });
   }
 
   async loadTool(toolId, container) {

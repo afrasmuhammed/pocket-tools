@@ -9,9 +9,10 @@ const required = [
   '/robots.txt',
   '/sitemap.xml',
   '/tools.json',
-  '/css/styles.css?v=39',
-  '/js/app.js?v=63',
-  '/js/router.js?v=47',
+  '/css/styles.css?v=40',
+  '/js/app.js?v=64',
+  '/js/router.js?v=48',
+  '/js/core/access.js',
 ];
 
 for (const path of required) {

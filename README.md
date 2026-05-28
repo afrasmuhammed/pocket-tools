@@ -22,7 +22,27 @@ Live preview target: [pocketkit.app](https://pocketkit.app/)
 
 The app currently contains 100 browser-based tools across photos, documents, text, money/math, time, utilities, SEO, QA, office, and developer workflows.
 
-PocketKit Daily is the free default experience. Pro pockets are visible as soft locked previews until auth and payments are added.
+PocketKit Daily is the free default experience. Pro pockets are visible as previews and unlock after a verified Stripe Checkout payment.
+
+## Payments
+
+PocketKit Pro uses Stripe Checkout through Netlify Functions:
+
+- `/.netlify/functions/create-checkout-session` starts checkout.
+- `/#/payment/success?session_id=...` verifies the paid session server-side.
+- `/#/account` shows local Pro access status and the Pro pocket list.
+- `/.netlify/functions/stripe-webhook` verifies Stripe webhook signatures and is ready for durable subscription/account storage later.
+
+Set these environment variables in Netlify before taking real payments:
+
+```txt
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_PRO_PRICE_ID=price_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+SITE_URL=https://pocketkit.app
+```
+
+The current launch unlock is saved locally on the paid device for 365 days after Stripe confirms the session. A shared account database can be added later if cross-device login, invoices, and subscription self-service are needed.
 
 ## PWA
 
