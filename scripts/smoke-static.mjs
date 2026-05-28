@@ -9,9 +9,9 @@ const required = [
   '/robots.txt',
   '/sitemap.xml',
   '/tools.json',
-  '/css/styles.css?v=37',
-  '/js/app.js?v=61',
-  '/js/router.js?v=45',
+  '/css/styles.css?v=39',
+  '/js/app.js?v=62',
+  '/js/router.js?v=46',
 ];
 
 for (const path of required) {
@@ -21,8 +21,8 @@ for (const path of required) {
 
 for (const tool of TOOLS) {
   const [template, module] = await Promise.all([
-    fetch(`${base}/templates/${tool.id}.html?v=17`),
-    fetch(`${base}/js/tools/${tool.id}.js?v=22`),
+    fetch(`${base}/templates/${tool.id}.html?v=18`),
+    fetch(`${base}/js/tools/${tool.id}.js?v=23`),
   ]);
   if (!template.ok) throw new Error(`Template failed: ${tool.id} (${template.status})`);
   if (!module.ok) throw new Error(`Module failed: ${tool.id} (${module.status})`);

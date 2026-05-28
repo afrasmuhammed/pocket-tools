@@ -1,0 +1,48 @@
+<div class="tool-header">
+  <h2>SOW / Scope Cleaner</h2>
+  <p>Convert scattered scope notes into a clean statement of work outline.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="scope-input">Scope Notes</label>
+      <textarea id="scope-input" class="textarea-tall" placeholder="Paste bullets, client notes, change requests, assumptions, exclusions, open questions..." spellcheck="true"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="scope-project">Project</label>
+        <input id="scope-project" type="text" placeholder="Website refresh, onboarding, audit...">
+      </div>
+      <div class="input-group">
+        <label for="scope-mode">Format</label>
+        <select id="scope-mode">
+          <option value="proposal">Proposal scope</option>
+          <option value="delivery">Delivery handoff</option>
+          <option value="review">Scope review</option>
+        </select>
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-scope-clean" class="btn">Clean Scope</button>
+      <button id="btn-scope-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-scope-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>In Scope</span><strong id="scope-in-count">0</strong></div>
+      <div class="metric"><span>Questions</span><strong id="scope-question-count">0</strong></div>
+      <div class="metric"><span>Risks</span><strong id="scope-risk-count">0</strong></div>
+    </div>
+    <div class="input-group">
+      <label for="scope-output">Clean SOW Outline</label>
+      <textarea id="scope-output" class="textarea-tall" readonly placeholder="Clean scope will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-scope-copy" class="btn">Copy Scope</button>
+      <button id="btn-scope-download" class="btn btn-secondary">Download .md</button>
+    </div>
+  </section>
+</div>

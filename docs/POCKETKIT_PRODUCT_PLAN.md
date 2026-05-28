@@ -7,7 +7,7 @@ The core product decision is simple:
 - PocketKit Daily is free.
 - Specialized pockets are Pro.
 - The app should stay calm, simple, fast, and practical like the original toolkit.
-- The homepage should explain the product and guide users into pockets, not show all 90 tools immediately.
+- The homepage should explain the product and guide users into pockets, not show all 95 tools immediately.
 
 ## Product Positioning
 
@@ -25,7 +25,7 @@ Trust line:
 
 Important framing:
 
-- Do not position PocketKit as "90 free tools".
+- Do not position PocketKit as "95 free tools".
 - Position it as an installable workspace with useful pockets.
 - Daily tools create trust and distribution.
 - Pro pockets create monetization.
@@ -361,7 +361,7 @@ This page keeps:
 - Search
 - Category chips
 - Recently used
-- Full 90-tool grid
+- Full 95-tool grid
 
 It should be secondary, but still available for power users.
 
@@ -391,7 +391,7 @@ Pin behavior:
 
 Important limitation:
 
-- Browsers usually cannot install 90 separate mini-apps from one PWA.
+- Browsers usually cannot install 95 separate mini-apps from one PWA.
 - But every tool can have a direct URL.
 - Manifest shortcuts can expose key tools/pockets on supported platforms.
 

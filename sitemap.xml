@@ -36,6 +36,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://pocketkit.app/#/pocket/office</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://pocketkit.app/#/pocket/qa</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -256,6 +261,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://pocketkit.app/#/tool/expense-report-builder</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://pocketkit.app/#/tool/text-diff</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -267,6 +277,26 @@
   </url>
   <url>
     <loc>https://pocketkit.app/#/tool/meeting-actions</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pocketkit.app/#/tool/client-email-polisher</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pocketkit.app/#/tool/scope-cleaner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pocketkit.app/#/tool/contract-clause-highlighter</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pocketkit.app/#/tool/table-cleaner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

@@ -146,6 +146,29 @@ export const POCKETS = [
     ],
   },
   {
+    id: 'office',
+    name: 'PocketKit Office',
+    shortName: 'Office',
+    access: 'pro',
+    desc: 'Client, admin, contracts, tables, and expense workflows.',
+    accent: '#4f46e5',
+    featured: ['Email polish', 'Scope cleaner', 'Expense reports', 'Contract highlights', 'Table cleanup'],
+    tools: [
+      'client-email-polisher',
+      'scope-cleaner',
+      'expense-report-builder',
+      'contract-clause-highlighter',
+      'table-cleaner',
+      'meeting-actions',
+      'quote-estimate-builder',
+      'invoice-generator',
+      'receipt-expense-extractor',
+      'csv-cleaner',
+      'pdf-table-extractor',
+      'safe-share-link',
+    ],
+  },
+  {
     id: 'qa',
     name: 'PocketKit QA',
     shortName: 'QA',
@@ -309,11 +332,16 @@ export const TOOLS = [
   { id: 'vat-calculator',    name: 'VAT Calculator',        category: 'math',      desc: 'Add or remove VAT (19 % / 7 %)',     icon: ICONS.vat },
   { id: 'subscription-audit', name: 'Subscription Audit',    category: 'math',      desc: 'Find recurring spend and yearly cost', icon: ICONS.cart },
   { id: 'receipt-expense-extractor', name: 'Receipt / Expense Extractor', category: 'math', desc: 'Turn receipt text into expense CSV', icon: ICONS.cart, needsPdfJs: true },
+  { id: 'expense-report-builder', name: 'Expense Report Builder', category: 'math', desc: 'Summarize expense CSV into reimbursement reports', icon: ICONS.cart },
 
   // TEXT additions
   { id: 'text-diff',         name: 'Text Diff',             category: 'text',      desc: 'Compare two texts line by line',     icon: ICONS.diff },
   { id: 'text-redactor',     name: 'Text Redactor',         category: 'text',      desc: 'Hide emails, phones, IDs, and cards', icon: ICONS.shield },
   { id: 'meeting-actions',   name: 'Meeting Actions Extractor', category: 'text',  desc: 'Turn notes into decisions and tasks', icon: ICONS.pen },
+  { id: 'client-email-polisher', name: 'Client Email Polisher', category: 'text', desc: 'Turn rough notes into polished client email', icon: ICONS.pen },
+  { id: 'scope-cleaner',     name: 'SOW / Scope Cleaner',   category: 'text',      desc: 'Organize messy scope notes into a clean SOW', icon: ICONS.read },
+  { id: 'contract-clause-highlighter', name: 'Contract Clause Highlighter', category: 'text', desc: 'Surface dates, money, duties, and risky clauses', icon: ICONS.shield },
+  { id: 'table-cleaner',     name: 'Table Cleaner',         category: 'text',      desc: 'Clean pasted tables into CSV, TSV, or Markdown', icon: ICONS.braces },
 
   // TIME (4)
   { id: 'pomodoro',          name: 'Pomodoro Timer',       category: 'time',      desc: 'Focus 25/5 timer',                   icon: ICONS.timer },

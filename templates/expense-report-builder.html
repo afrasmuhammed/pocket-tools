@@ -1,0 +1,54 @@
+<div class="tool-header">
+  <h2>Expense Report Builder</h2>
+  <p>Paste expense CSV and get a clean reimbursement summary, category totals, and a manager-ready report.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="erb-input">Expense CSV</label>
+      <textarea id="erb-input" class="textarea-tall" placeholder="date,merchant,category,total,tax,currency,paid_by,notes..." spellcheck="false"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="erb-title">Report Title</label>
+        <input id="erb-title" type="text" value="Expense Report">
+      </div>
+      <div class="input-group">
+        <label for="erb-owner">Submitted By</label>
+        <input id="erb-owner" type="text" placeholder="Team member or department">
+      </div>
+      <div class="input-group">
+        <label for="erb-currency">Currency</label>
+        <select id="erb-currency">
+          <option value="$" selected>USD $</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="AED">AED</option>
+        </select>
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-erb-build" class="btn">Build Report</button>
+      <button id="btn-erb-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-erb-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Total</span><strong id="erb-total">--</strong></div>
+      <div class="metric"><span>Rows</span><strong id="erb-rows">0</strong></div>
+      <div class="metric"><span>Tax</span><strong id="erb-tax">--</strong></div>
+    </div>
+    <div id="erb-breakdown" class="seo-result-list"></div>
+    <div class="input-group">
+      <label for="erb-output">Report</label>
+      <textarea id="erb-output" class="textarea-tall" readonly placeholder="Expense report will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-erb-copy" class="btn">Copy Report</button>
+      <button id="btn-erb-download" class="btn btn-secondary">Download .md</button>
+    </div>
+  </section>
+</div>

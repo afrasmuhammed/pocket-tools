@@ -200,6 +200,11 @@ export default {
       setHandoff('csv-cleaner', output.value, 'Expense CSV');
       window.location.hash = '#/tool/csv-cleaner';
     };
+    document.getElementById('btn-rex-expense-report').onclick = () => {
+      if (!output.value) return UI.showError('Extract an expense first.');
+      setHandoff('expense-report-builder', output.value, 'Expense CSV');
+      window.location.hash = '#/tool/expense-report-builder';
+    };
     document.getElementById('btn-rex-download').onclick = () => {
       if (!output.value) return UI.showError('Extract an expense first.');
       FileHelper.downloadText('expense-row.csv', output.value, 'text/csv');

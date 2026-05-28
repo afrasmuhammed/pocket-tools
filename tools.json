@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-25T08:34:15.170Z",
+  "generatedAt": "2026-05-28T11:52:17.692Z",
   "site": "https://pocketkit.app",
   "counts": {
-    "pockets": 8,
-    "tools": 90
+    "pockets": 9,
+    "tools": 95
   },
   "pockets": [
     {
@@ -129,6 +129,28 @@
         "lorem-ipsum",
         "color-palette",
         "color-contrast"
+      ]
+    },
+    {
+      "id": "office",
+      "name": "PocketKit Office",
+      "shortName": "Office",
+      "access": "pro",
+      "description": "Client, admin, contracts, tables, and expense workflows.",
+      "url": "https://pocketkit.app/#/pocket/office",
+      "tools": [
+        "client-email-polisher",
+        "scope-cleaner",
+        "expense-report-builder",
+        "contract-clause-highlighter",
+        "table-cleaner",
+        "meeting-actions",
+        "quote-estimate-builder",
+        "invoice-generator",
+        "receipt-expense-extractor",
+        "csv-cleaner",
+        "pdf-table-extractor",
+        "safe-share-link"
       ]
     },
     {
@@ -322,7 +344,7 @@
       "name": "Quote / Estimate Builder",
       "category": "documents",
       "description": "Create a polished estimate PDF",
-      "pocket": "shop",
+      "pocket": "office",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/quote-estimate-builder"
     },
@@ -561,6 +583,15 @@
       "url": "https://pocketkit.app/#/tool/receipt-expense-extractor"
     },
     {
+      "id": "expense-report-builder",
+      "name": "Expense Report Builder",
+      "category": "math",
+      "description": "Summarize expense CSV into reimbursement reports",
+      "pocket": "office",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/expense-report-builder"
+    },
+    {
       "id": "text-diff",
       "name": "Text Diff",
       "category": "text",
@@ -586,6 +617,42 @@
       "pocket": "student",
       "access": "pro",
       "url": "https://pocketkit.app/#/tool/meeting-actions"
+    },
+    {
+      "id": "client-email-polisher",
+      "name": "Client Email Polisher",
+      "category": "text",
+      "description": "Turn rough notes into polished client email",
+      "pocket": "office",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/client-email-polisher"
+    },
+    {
+      "id": "scope-cleaner",
+      "name": "SOW / Scope Cleaner",
+      "category": "text",
+      "description": "Organize messy scope notes into a clean SOW",
+      "pocket": "office",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/scope-cleaner"
+    },
+    {
+      "id": "contract-clause-highlighter",
+      "name": "Contract Clause Highlighter",
+      "category": "text",
+      "description": "Surface dates, money, duties, and risky clauses",
+      "pocket": "office",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/contract-clause-highlighter"
+    },
+    {
+      "id": "table-cleaner",
+      "name": "Table Cleaner",
+      "category": "text",
+      "description": "Clean pasted tables into CSV, TSV, or Markdown",
+      "pocket": "office",
+      "access": "pro",
+      "url": "https://pocketkit.app/#/tool/table-cleaner"
     },
     {
       "id": "pomodoro",

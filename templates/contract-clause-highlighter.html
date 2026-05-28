@@ -1,0 +1,46 @@
+<div class="tool-header">
+  <h2>Contract Clause Highlighter</h2>
+  <p>Spot dates, amounts, duties, and clauses worth reviewing. Extraction helper only, not legal advice.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="cch-input">Contract Text</label>
+      <textarea id="cch-input" class="textarea-tall" placeholder="Paste agreement text, terms, order forms, or renewal clauses..." spellcheck="false"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="cch-focus">Review Focus</label>
+        <select id="cch-focus">
+          <option value="balanced">Balanced review</option>
+          <option value="renewal">Renewal and cancellation</option>
+          <option value="money">Money and fees</option>
+          <option value="risk">Risk and liability</option>
+        </select>
+      </div>
+    </div>
+    <div class="button-row">
+      <button id="btn-cch-highlight" class="btn">Highlight Clauses</button>
+      <button id="btn-cch-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-cch-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Dates</span><strong id="cch-dates">0</strong></div>
+      <div class="metric"><span>Money</span><strong id="cch-money">0</strong></div>
+      <div class="metric"><span>Review</span><strong id="cch-risk">0</strong></div>
+    </div>
+    <div id="cch-findings" class="seo-result-list"></div>
+    <div class="input-group">
+      <label for="cch-output">Review Summary</label>
+      <textarea id="cch-output" class="textarea-tall" readonly placeholder="Clause summary will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-cch-copy" class="btn">Copy Summary</button>
+      <button id="btn-cch-download" class="btn btn-secondary">Download .md</button>
+    </div>
+  </section>
+</div>

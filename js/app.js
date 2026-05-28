@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=45';
+import { appRouter } from './router.js?v=46';
 import {
   CATEGORIES,
   POCKETS,
@@ -7,7 +7,7 @@ import {
   getPrimaryPocketForTool,
   getTool,
   getToolsForPocket,
-} from './registry.js?v=28';
+} from './registry.js?v=29';
 import { setHandoff } from './core/handoff.js';
 
 const RECENT_KEY = 'pt-recent';
@@ -40,6 +40,11 @@ const TOOL_ALIASES = {
   'screenshot-privacy-blur': 'screenshot privacy blur redact pixelate hide image phone email address token',
   'meeting-actions': 'meeting notes action items decisions owners due dates summary',
   'subscription-audit': 'subscriptions recurring charges monthly yearly spend audit cancel',
+  'client-email-polisher': 'email polish client message rewrite professional follow up reminder payment concise',
+  'scope-cleaner': 'sow scope cleaner proposal deliverables in scope out of scope assumptions questions',
+  'expense-report-builder': 'expense report reimbursement csv category totals tax receipt finance manager',
+  'contract-clause-highlighter': 'contract clause highlight agreement renewal termination liability indemnity payment legal review',
+  'table-cleaner': 'table clean pasted spreadsheet csv tsv markdown columns rows normalize',
   'jwt-decoder': 'jwt token decode auth bearer claims header payload',
   'base64-encoder': 'base64 encode decode atob btoa',
   'url-encoder': 'url encode decode uri percent escape',
@@ -433,9 +438,24 @@ function smartPasteSuggestions(value) {
   if (hasManyLines && /,/.test(text)) {
     push('csv-cleaner', 'Clean CSV', 'Normalize rows, headers, and spacing.');
     push('csv-json', 'Convert CSV to JSON', 'Turn rows into structured data.');
+    if (/\b(date|merchant|category|total|tax|paid_by|currency)\b/i.test(text)) {
+      push('expense-report-builder', 'Build expense report', 'Looks like expense CSV.');
+    }
+  }
+  if (hasManyLines && (/\t/.test(text) || /\|/.test(text) || /\S\s{2,}\S/.test(text))) {
+    push('table-cleaner', 'Clean table', 'Looks like pasted table rows.');
   }
   if (/\b(total|subtotal|tax|vat|paid|visa|mastercard|receipt)\b/i.test(text) && /\d+[.,]\d{2}/.test(text)) {
     push('receipt-expense-extractor', 'Extract expense', 'Looks like receipt or reimbursement text.');
+  }
+  if (/\b(scope|sow|deliverable|in scope|out of scope|assumption|timeline|client provides)\b/i.test(lower)) {
+    push('scope-cleaner', 'Clean scope', 'Looks like scope or SOW notes.');
+  }
+  if (/\b(agreement|contract|shall|renewal|terminate|liability|indemnif|confidential|late payment)\b/i.test(lower)) {
+    push('contract-clause-highlighter', 'Highlight clauses', 'Looks like agreement or contract language.');
+  }
+  if (/\b(hi|hello|thanks|regards|following up|email|approve|confirm|payment reminder)\b/i.test(lower)) {
+    push('client-email-polisher', 'Polish email', 'Looks like a client message draft.');
   }
   if (/\b(action|owner|decision|due|next steps?|follow up)\b/i.test(lower) && hasManyLines) {
     push('meeting-actions', 'Extract actions', 'Looks like notes with tasks or decisions.');

@@ -524,6 +524,32 @@ html[data-theme="dark"] .tool-card:hover {
 
 .settings-grid { display: grid; gap: 12px; margin-top: 0; }
 .settings-grid .input-group, .settings-grid input, .settings-grid select { margin-bottom: 0; }
+.tool-container .check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  margin: 0;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+}
+.tool-container .check-row input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.tool-container .check-row span {
+  min-width: 0;
+}
 
 /* Image compressor 2×2 control grid */
 .ic-controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; margin-bottom: 4px; }

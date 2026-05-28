@@ -1,0 +1,53 @@
+<div class="tool-header">
+  <h2>Table Cleaner</h2>
+  <p>Paste messy tables from email, PDFs, docs, or spreadsheets and clean them into CSV, TSV, or Markdown.</p>
+</div>
+
+<div class="tool-dashboard">
+  <section class="tool-panel">
+    <div class="input-group">
+      <label for="tbl-input">Pasted Table</label>
+      <textarea id="tbl-input" class="textarea-tall" placeholder="Paste tabbed, piped, comma-separated, or space-aligned rows..." spellcheck="false"></textarea>
+    </div>
+    <div class="settings-grid">
+      <div class="input-group">
+        <label for="tbl-format">Output</label>
+        <select id="tbl-format">
+          <option value="csv">CSV</option>
+          <option value="tsv">TSV</option>
+          <option value="markdown">Markdown table</option>
+        </select>
+      </div>
+      <label class="check-row">
+        <input type="checkbox" id="tbl-headers" checked>
+        <span>Normalize header names</span>
+      </label>
+      <label class="check-row">
+        <input type="checkbox" id="tbl-empty" checked>
+        <span>Remove empty rows</span>
+      </label>
+    </div>
+    <div class="button-row">
+      <button id="btn-tbl-clean" class="btn">Clean Table</button>
+      <button id="btn-tbl-sample" class="btn btn-secondary">Sample</button>
+      <button id="btn-tbl-clear" class="btn btn-secondary">Clear</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
+    <div class="metric-grid">
+      <div class="metric"><span>Rows</span><strong id="tbl-rows">0</strong></div>
+      <div class="metric"><span>Columns</span><strong id="tbl-cols">0</strong></div>
+      <div class="metric"><span>Format</span><strong id="tbl-format-metric">CSV</strong></div>
+    </div>
+    <div class="input-group">
+      <label for="tbl-output">Clean Output</label>
+      <textarea id="tbl-output" class="textarea-tall" readonly placeholder="Clean table output will appear here..." spellcheck="false"></textarea>
+    </div>
+    <div class="button-row">
+      <button id="btn-tbl-copy" class="btn">Copy Output</button>
+      <button id="btn-tbl-csv-cleaner" class="btn btn-secondary">Open in CSV Cleaner</button>
+      <button id="btn-tbl-download" class="btn btn-secondary">Download</button>
+    </div>
+  </section>
+</div>
