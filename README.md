@@ -22,7 +22,7 @@ Live preview target: [pocketkit.app](https://pocketkit.app/)
 
 The app currently contains 100 browser-based tools across photos, documents, text, money/math, time, utilities, SEO, QA, office, and developer workflows.
 
-PocketKit Daily is the free default experience. Pro pockets are visible as previews and unlock after a verified Stripe Checkout payment.
+PocketKit Daily is the free default experience. Pro pockets are open during launch preview while Stripe checkout is being finalized.
 
 ## Payments
 
@@ -42,7 +42,7 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 SITE_URL=https://pocketkit.app
 ```
 
-The current launch unlock is saved locally on the paid device for 365 days after Stripe confirms the session. A shared account database can be added later if cross-device login, invoices, and subscription self-service are needed.
+The current launch preview keeps Pro tools open until `PRO_GATE_ENABLED` is turned on in `js/core/access.js`. After that, paid unlocks are saved locally on the paid device for 365 days after Stripe confirms the session. A shared account database can be added later if cross-device login, invoices, and subscription self-service are needed.
 
 ## PWA
 

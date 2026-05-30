@@ -1,6 +1,6 @@
 import { UI } from './core/ui.js';
 import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=30';
-import { PRO_PRICE_LABEL, hasProAccess } from './core/access.js';
+import { PRO_PRICE_LABEL, canUseProAccess } from './core/access.js';
 
 const FAVORITE_KEY = 'pk-favorites';
 const DRAFT_PREFIX = 'pk-draft:';
@@ -310,7 +310,7 @@ class Router {
       toolContainer.dataset.category = tool.category;
       toolContainer.replaceChildren();
       const pocket = getPrimaryPocketForTool(tool.id);
-      if (pocket?.access === 'pro' && !hasProAccess()) {
+      if (pocket?.access === 'pro' && !canUseProAccess()) {
         this.renderLockedTool(tool, pocket, toolContainer);
         window.scrollTo(0, 0);
         return;

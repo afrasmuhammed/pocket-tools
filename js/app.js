@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=48';
+import { appRouter } from './router.js?v=49';
 import {
   CATEGORIES,
   POCKETS,
@@ -11,8 +11,10 @@ import {
 import { setHandoff } from './core/handoff.js';
 import {
   CHECKOUT_ENDPOINT,
+  PRO_GATE_ENABLED,
   PRO_PRICE_LABEL,
   VERIFY_ENDPOINT,
+  canUseProAccess,
   clearProAccess,
   formatAccessDate,
   getProAccess,
@@ -288,14 +290,14 @@ function toolIconChip(toolId) {
 
 function makePocketMeta(pocket) {
   const toolsLabel = `${pocket.tools.length} ${pocket.tools.length === 1 ? 'tool' : 'tools'}`;
-  const accessLabel = pocket.access === 'free' ? 'No account' : hasProAccess() ? 'Unlocked' : 'Unlock Pro';
+  const accessLabel = pocket.access === 'free' ? 'No account' : canUseProAccess() ? 'Open access' : 'Unlock Pro';
   return `${toolsLabel} · ${accessLabel}`;
 }
 
 function makeToolCard(tool, index = 0, options = {}) {
   const pocket = getPrimaryPocketForTool(tool.id);
   const isPro = pocket?.access === 'pro';
-  const isLocked = (options.locked || isPro) && isPro && !hasProAccess();
+  const isLocked = (options.locked || isPro) && isPro && !canUseProAccess();
   const classes = ['tool-card', 'pk-tool-card'];
   if (isLocked) classes.push('pk-tool-locked');
   if (isFavorite(tool.id)) classes.push('pk-tool-saved');
@@ -605,7 +607,7 @@ function renderLanding() {
         <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Pro unlocks every specialized pocket through Stripe Checkout.</p>
         <div class="pk-hero-actions">
           <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
-          <button class="btn btn-secondary" type="button" data-start-checkout>${hasProAccess() ? 'Manage Pro' : 'Unlock Pro'}</button>
+          <a class="btn btn-secondary" href="#/account">${canUseProAccess() ? 'Pro access' : 'Unlock Pro'}</a>
           <button class="btn btn-secondary" type="button" data-open-command>Quick open</button>
           <a class="btn btn-secondary" href="#/all">Browse all tools</a>
         </div>
@@ -705,11 +707,13 @@ function renderLanding() {
           <strong class="pk-price">${PRO_PRICE_LABEL.replace('/year', '')} <span>/year · launch price</span></strong>
           <p>Unlock every specialized pocket — PDF, Designer, Student, Developer, Office, QA, SEO, and Shop. Payment is handled by Stripe Checkout.</p>
           <div class="pk-pro-pocket-list">${POCKETS.filter(pocket => pocket.access === 'pro').map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
-          <button class="btn pk-btn-primary" type="button" data-start-checkout>${hasProAccess() ? 'Pro unlocked' : 'Unlock all Pro'}</button>
+          ${canUseProAccess()
+            ? '<a class="btn pk-btn-primary" href="#/all?q=pro">Open Pro tools</a>'
+            : '<button class="btn pk-btn-primary" type="button" data-start-checkout>Unlock all Pro</button>'}
           <a class="btn btn-secondary" href="#/account">Account</a>
         </div>
       </div>
-      <p class="pk-pricing-note">Daily stays free. Pro access is verified after Stripe returns a paid checkout session.</p>
+      <p class="pk-pricing-note">${PRO_GATE_ENABLED ? 'Daily stays free. Pro access is verified after Stripe returns a paid checkout session.' : 'Launch preview: Pro tools are open while payments are being finalized.'}</p>
     </section>
   `);
 
@@ -746,11 +750,11 @@ function renderPocket(pocketId) {
       ${isPro ? `
         <div class="pk-pro-banner">
           <div class="pk-mark">Pro</div>
-          <p><strong>${pocket.name} is a Pro pocket.</strong> ${hasProAccess() ? 'Your Pro access is active on this device.' : `Unlock all Pro pockets for ${PRO_PRICE_LABEL}, or preview the tools below.`}</p>
-          ${hasProAccess()
-            ? '<a class="btn pk-btn-primary" href="#/account">Manage Pro</a>'
+          <p><strong>${pocket.name} is a Pro pocket.</strong> ${canUseProAccess() ? 'Launch preview is open, so you can use these tools now.' : `Unlock all Pro pockets for ${PRO_PRICE_LABEL}, or preview the tools below.`}</p>
+          ${canUseProAccess()
+            ? '<a class="btn pk-btn-primary" href="#/all?q=pro">Browse Pro tools</a>'
             : '<button class="btn pk-btn-primary" type="button" data-start-checkout>Unlock Pro</button>'}
-          <button class="btn btn-secondary" id="btn-preview-pocket">Preview tools</button>
+          <button class="btn btn-secondary" id="btn-preview-pocket">${canUseProAccess() ? 'Show tools' : 'Preview tools'}</button>
         </div>
       ` : ''}
       <div class="pk-starting-points">
@@ -941,7 +945,7 @@ function parseHashParams(prefix) {
 }
 
 async function startProCheckout(source = 'app') {
-  if (hasProAccess()) {
+  if (canUseProAccess()) {
     window.location.hash = '#/account';
     return;
   }
@@ -995,24 +999,29 @@ SITE_URL=https://pocketkit.app</div>
 function renderAccount() {
   const access = getProAccess();
   const active = hasProAccess();
+  const openPreview = canUseProAccess() && !active;
   const proPockets = POCKETS.filter(pocket => pocket.access === 'pro');
   const view = setHomeContent(`
     <section class="pk-account-page">
       <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>Account</span></div>
       <div class="pk-account-card pk-account-card-wide">
         <p class="pk-section-title">PocketKit Pro</p>
-        <h2>${active ? 'Pro is active on this device.' : 'Unlock every Pro pocket.'}</h2>
+        <h2>${active ? 'Pro is active on this device.' : openPreview ? 'Pro tools are open during launch preview.' : 'Unlock every Pro pocket.'}</h2>
         <p>${active
           ? `Your Pro access is saved locally${access?.customerEmail ? ` for ${escapeHtml(access.customerEmail)}` : ''}.`
+          : openPreview
+            ? 'Use every Pro pocket now while checkout is being finalized. Daily stays free, and payments can be enabled when Stripe credentials are ready.'
           : `Daily stays free. Pro unlocks ${proPockets.length} specialized pockets and ${TOOLS.length} total tools through secure Stripe Checkout.`}</p>
-        <div class="pk-account-status ${active ? 'pk-account-status-active' : ''}">
-          <strong>${active ? 'Active' : 'Not unlocked'}</strong>
-          <span>${active ? `Valid until ${formatAccessDate(access?.accessUntil)}` : `${PRO_PRICE_LABEL} launch price`}</span>
+        <div class="pk-account-status ${active || openPreview ? 'pk-account-status-active' : ''}">
+          <strong>${active ? 'Active' : openPreview ? 'Launch preview open' : 'Not unlocked'}</strong>
+          <span>${active ? `Valid until ${formatAccessDate(access?.accessUntil)}` : openPreview ? 'No payment required right now' : `${PRO_PRICE_LABEL} launch price`}</span>
         </div>
         <div class="pk-pro-pocket-list">${proPockets.map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
         <div class="pk-paywall-actions">
-          <button class="btn pk-btn-primary" type="button" data-start-checkout>${active ? 'Manage Pro' : 'Unlock Pro'}</button>
-          <a class="btn btn-secondary" href="#/pocket/office">Preview Office</a>
+          ${canUseProAccess()
+            ? '<a class="btn pk-btn-primary" href="#/all?q=pro">Open Pro tools</a>'
+            : '<button class="btn pk-btn-primary" type="button" data-start-checkout>Unlock Pro</button>'}
+          <a class="btn btn-secondary" href="#/pocket/office">Open Office</a>
           ${active ? '<button class="btn btn-secondary" type="button" id="btn-clear-pro">Clear local access</button>' : ''}
         </div>
       </div>
@@ -1215,8 +1224,8 @@ function buildCommandItems() {
     {
       type: 'action',
       section: 'Actions',
-      title: hasProAccess() ? 'Manage Pro' : 'Unlock Pro',
-      subtitle: hasProAccess() ? 'View this device access' : `${PRO_PRICE_LABEL} launch access through Stripe Checkout`,
+      title: canUseProAccess() ? 'Open Pro tools' : 'Unlock Pro',
+      subtitle: canUseProAccess() ? 'Launch preview access is open now' : `${PRO_PRICE_LABEL} launch access through Stripe Checkout`,
       href: '#/account',
       accent: 'var(--accent)',
       mark: 'Pro',
@@ -1250,7 +1259,7 @@ function buildCommandItems() {
     type: 'pocket',
     section: 'Pockets',
     title: pocket.name,
-    subtitle: `${pocket.tools.length} tools · ${pocket.access === 'free' ? 'Free' : hasProAccess() ? 'Unlocked' : 'Pro preview'}`,
+    subtitle: `${pocket.tools.length} tools · ${pocket.access === 'free' ? 'Free' : canUseProAccess() ? 'Open access' : 'Pro preview'}`,
     href: `#/pocket/${encodeURIComponent(pocket.id)}`,
     accent: pocket.accent,
     mark: pocket.shortName.slice(0, 2),

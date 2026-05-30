@@ -2,6 +2,7 @@ const ACCESS_KEY = 'pk-pro-access';
 const ACCESS_DAYS = 365;
 
 export const PRO_PRICE_LABEL = '$24/year';
+export const PRO_GATE_ENABLED = false;
 export const CHECKOUT_ENDPOINT = '/.netlify/functions/create-checkout-session';
 export const VERIFY_ENDPOINT = '/.netlify/functions/verify-checkout-session';
 
@@ -26,6 +27,10 @@ export function hasProAccess(now = Date.now()) {
   if (!access) return false;
   if (!access.accessUntil) return true;
   return Number(access.accessUntil) > now;
+}
+
+export function canUseProAccess(now = Date.now()) {
+  return !PRO_GATE_ENABLED || hasProAccess(now);
 }
 
 export function saveProAccess(details = {}) {
