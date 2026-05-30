@@ -63,6 +63,17 @@ PocketKit exposes `opensearch.xml`, `sitemap.xml`, and `tools.json`, so supporte
 
 Run `node scripts/sync-metadata.mjs` after registry changes to regenerate `sitemap.xml` and `tools.json`.
 
+## Trust Pages
+
+The app includes launch-ready trust and support pages:
+
+- `#/privacy`
+- `#/terms`
+- `#/refunds`
+- `#/contact`
+- `#/local-first`
+- `#/changelog`
+
 ## QA
 
 Run `node scripts/check-pocketkit.mjs` before shipping larger changes. It checks registry IDs, pocket references, template/module files, service-worker cache entries, sitemap entries, and `tools.json` counts.
@@ -76,3 +87,5 @@ With a local static server running, run `node scripts/smoke-static.mjs` to verif
 ## Planning
 
 See [docs/POCKETKIT_PRODUCT_PLAN.md](docs/POCKETKIT_PRODUCT_PLAN.md) for the detailed product/design plan and Claude Design handoff.
+
+See [docs/LAUNCH_CHECKLIST.md](docs/LAUNCH_CHECKLIST.md) for the launch readiness checklist.

@@ -5,6 +5,18 @@ import { PRO_PRICE_LABEL, canUseProAccess } from './core/access.js';
 const FAVORITE_KEY = 'pk-favorites';
 const DRAFT_PREFIX = 'pk-draft:';
 const DRAFT_DEBOUNCE_MS = 350;
+const APP_PAGE_PREFIXES = [
+  '#/all',
+  '#/pocket/',
+  '#/account',
+  '#/payment/',
+  '#/privacy',
+  '#/terms',
+  '#/refunds',
+  '#/contact',
+  '#/local-first',
+  '#/changelog',
+];
 
 const ACTION_ICONS = {
   sample: 'M4 4v16l14-8z',
@@ -266,7 +278,7 @@ class Router {
     const hash = window.location.hash || '';
 
     // App pages rendered by app.js
-    if (!hash || hash === '#' || hash === '#/' || hash.startsWith('#/all') || hash.startsWith('#/pocket/') || hash.startsWith('#/account') || hash.startsWith('#/payment/')) {
+    if (!hash || hash === '#' || hash === '#/' || APP_PAGE_PREFIXES.some(prefix => hash.startsWith(prefix))) {
       viewTool.classList.add('hidden');
       viewHome.classList.remove('hidden');
       document.body.classList.remove('tool-open');

@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=49';
+import { appRouter } from './router.js?v=50';
 import {
   CATEGORIES,
   POCKETS,
@@ -31,6 +31,39 @@ const CATEGORY_LABELS = Object.fromEntries(CATEGORIES.map(cat => [cat.id, cat.la
 const DEFAULT_META = {
   title: 'PocketKit',
   desc: 'PocketKit — private everyday tools, installed like an app.',
+};
+const SUPPORT_EMAIL = 'support@pocketkit.app';
+const TRUST_PAGES = {
+  privacy: {
+    eyebrow: 'Privacy',
+    title: 'Privacy-first by design.',
+    desc: 'PocketKit is built as a local-first browser app. Most tools run on your device, and file tools are designed so your files do not leave the browser.',
+  },
+  terms: {
+    eyebrow: 'Terms',
+    title: 'Simple terms for a practical tool.',
+    desc: 'PocketKit is provided as a utility app for everyday work. Use it responsibly, check important outputs, and keep your own backups of files and results.',
+  },
+  refunds: {
+    eyebrow: 'Refunds',
+    title: 'Fair launch support.',
+    desc: 'During launch preview, Pro tools are open while payment is finalized. When paid access opens, refund requests can be sent to support with your Stripe receipt.',
+  },
+  contact: {
+    eyebrow: 'Contact',
+    title: 'Need help or found something off?',
+    desc: `Email ${SUPPORT_EMAIL} with the tool name, what happened, and the browser/device you used. Screenshots help a lot.`,
+  },
+  'local-first': {
+    eyebrow: 'Local-first',
+    title: 'Your browser does the work.',
+    desc: 'PocketKit favors tools that process text, images, PDFs, and data inside your browser. That keeps work fast, private, and usable offline after the app has loaded.',
+  },
+  changelog: {
+    eyebrow: 'Changelog',
+    title: 'Launch notes.',
+    desc: 'PocketKit is now organized into 9 pockets with 100 browser tools, smarter quick open, metadata files, launch-preview Pro access, and Stripe Checkout wiring ready for setup.',
+  },
 };
 const TOOL_ALIASES = {
   'image-compressor': 'compress image shrink photo reduce jpg png webp optimize resize',
@@ -233,6 +266,12 @@ function updateRouteMeta(hash = window.location.hash || '#/') {
     setMeta('PocketKit Checkout', 'Verify PocketKit Pro checkout and unlock private Pro tools.', hash);
     return;
   }
+  const pageId = hash.replace('#/', '').split('?')[0];
+  if (TRUST_PAGES[pageId]) {
+    const page = TRUST_PAGES[pageId];
+    setMeta(`${page.eyebrow} — PocketKit`, page.desc, hash);
+    return;
+  }
   if (hash.startsWith('#/pocket/')) {
     const pocket = getPocket(decodeURIComponent(hash.replace('#/pocket/', '')).trim());
     if (pocket) {
@@ -396,13 +435,32 @@ function setHomeContent(html) {
   const viewTool = document.getElementById('view-tool');
   const btnBack = document.getElementById('btn-back');
   const btnQuickOpen = document.getElementById('btn-quick-open');
-  viewHome.innerHTML = html;
+  viewHome.innerHTML = `${html}${renderFooter()}`;
   viewHome.classList.remove('hidden');
   viewTool?.classList.add('hidden');
   document.body.classList.remove('tool-open');
   btnBack?.classList.add('hidden');
   btnQuickOpen?.classList.remove('hidden');
   return viewHome;
+}
+
+function renderFooter() {
+  return `
+    <footer class="home-footer pk-footer">
+      <div class="pk-footer-brand">
+        <strong>PocketKit</strong>
+        <span>${TOOLS.length} private browser tools in ${POCKETS.length} organized pockets.</span>
+      </div>
+      <nav class="pk-footer-links" aria-label="PocketKit footer">
+        <a href="#/local-first">Local-first</a>
+        <a href="#/privacy">Privacy</a>
+        <a href="#/terms">Terms</a>
+        <a href="#/refunds">Refunds</a>
+        <a href="#/contact">Contact</a>
+        <a href="#/changelog">Changelog</a>
+      </nav>
+    </footer>
+  `;
 }
 
 function makeToolRail(ids, label, emptyText = '', options = {}) {
@@ -604,7 +662,7 @@ function renderLanding() {
       <div class="pk-hero">
         <p class="pk-kicker">${POCKETS.length} pockets · ${TOOLS.length} tools · Installable app</p>
         <h2>Small tools,<br><em>neatly packed.</em></h2>
-        <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Pro unlocks every specialized pocket through Stripe Checkout.</p>
+        <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Pro tools are open during launch preview while checkout is finalized.</p>
         <div class="pk-hero-actions">
           <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
           <a class="btn btn-secondary" href="#/account">${canUseProAccess() ? 'Pro access' : 'Unlock Pro'}</a>
@@ -615,6 +673,10 @@ function renderLanding() {
           <span>Private by default</span>
           <span>Works offline</span>
           <span>Installs in a click</span>
+        </div>
+        <div class="pk-hero-fineprint">
+          <a href="#/local-first">How privacy works</a>
+          <span>Pro tools are open during launch preview.</span>
         </div>
       </div>
       <div class="pk-launch-board" aria-label="Fast starts">
@@ -640,7 +702,7 @@ function renderLanding() {
         <div>
           <p class="pk-section-title">Pockets</p>
           <h2>Open the pocket you need.</h2>
-          <p>Daily is ready for everyone. Pro pockets unlock after checkout and can still be previewed before you pay.</p>
+          <p>Daily is ready for everyone. Pro pockets are open during launch preview while checkout is finalized.</p>
         </div>
         <a class="btn btn-secondary" href="#/all">Browse all tools</a>
       </div>
@@ -705,7 +767,7 @@ function renderLanding() {
           ${badge('pro')}
           <h3>All Pro pockets</h3>
           <strong class="pk-price">${PRO_PRICE_LABEL.replace('/year', '')} <span>/year · launch price</span></strong>
-          <p>Unlock every specialized pocket — PDF, Designer, Student, Developer, Office, QA, SEO, and Shop. Payment is handled by Stripe Checkout.</p>
+          <p>Every specialized pocket — PDF, Designer, Student, Developer, Office, QA, SEO, and Shop. Open during launch preview, with Stripe Checkout ready for paid access later.</p>
           <div class="pk-pro-pocket-list">${POCKETS.filter(pocket => pocket.access === 'pro').map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
           ${canUseProAccess()
             ? '<a class="btn pk-btn-primary" href="#/all?q=pro">Open Pro tools</a>'
@@ -1035,6 +1097,84 @@ function renderAccount() {
   window.scrollTo(0, 0);
 }
 
+function renderTrustPage(pageId) {
+  const page = TRUST_PAGES[pageId];
+  if (!page) {
+    window.location.hash = '#/';
+    return;
+  }
+  const updated = 'May 30, 2026';
+  const body = {
+    privacy: [
+      ['What stays local', 'Text utilities, calculators, generators, image tools, PDF tools, and data formatters are designed to run in your browser. PocketKit does not need your files on a server for normal tool use.'],
+      ['What may leave your device', 'If payment is enabled, checkout happens through Stripe. Your browser also requests static app files, fonts, icons, and metadata needed to load the site.'],
+      ['Saved data', 'Favorites, recent tools, drafts, theme, and launch-preview access are stored in your browser storage on this device. Clearing site data removes them.'],
+      ['Files', 'File tools process selected files locally where the browser and bundled libraries support it. Avoid uploading private files anywhere unless a page clearly says it will upload.'],
+      ['Contact', `Questions or privacy requests can be sent to ${SUPPORT_EMAIL}.`],
+    ],
+    terms: [
+      ['Use', 'PocketKit is a collection of practical utilities for everyday work. You are responsible for checking results before relying on them in legal, financial, medical, or high-stakes decisions.'],
+      ['Availability', 'The app is provided as-is during launch preview. Offline support depends on your browser, storage settings, and whether the app shell has already loaded.'],
+      ['Payments', 'Pro tools are open during launch preview. When paid access is enabled, Stripe will handle checkout and payment details.'],
+      ['Content and files', 'You keep ownership of files and text you process in PocketKit. Keep your own backups before editing, compressing, splitting, or converting documents.'],
+      ['Support', `For help, email ${SUPPORT_EMAIL}.`],
+    ],
+    refunds: [
+      ['Launch preview', 'Pro tools are currently open while payment setup is finalized, so no payment is required to use them right now.'],
+      ['When paid access opens', 'Refund requests can be sent by email with the Stripe receipt, purchase email, and a short note about what went wrong.'],
+      ['Fair-use window', 'The planned launch policy is a simple 14-day refund window for accidental purchases or serious product issues.'],
+      ['Processing', 'Approved refunds are processed through Stripe. Your bank may take additional time to show the money back on the card.'],
+    ],
+    contact: [
+      ['Support email', `${SUPPORT_EMAIL}`],
+      ['What to include', 'Send the tool name, the page URL, what you expected, what happened instead, and your browser/device.'],
+      ['Bug reports', 'Screenshots, sample input, and whether the issue happens after a hard refresh make fixes much faster.'],
+      ['Product requests', 'New tool ideas are welcome when they solve a real repeated job, not just a novelty conversion.'],
+    ],
+    'local-first': [
+      ['Local tools', 'PocketKit is built around browser-side processing. Many tools continue working offline after the app has cached its shell and tool files.'],
+      ['No account required for Daily', 'Daily tools are designed to stay available without login, signup, or payment.'],
+      ['Launch-preview Pro', 'Pro pockets are open for launch preview so users can test the full library while payment setup is finalized.'],
+      ['Good limits', 'Local-first does not mean magic. Huge files, browser memory limits, private browsing, or blocked storage can affect some workflows.'],
+      ['Trust signals', 'Tool pages highlight whether a tool uses files, downloads output, supports copyable output, or autosaves drafts locally.'],
+    ],
+    changelog: [
+      ['Launch foundation', 'PocketKit now ships 100 tools across 9 pockets: Daily, PDF, Designer, Student, Developer, Office, QA, SEO, and Shop.'],
+      ['Smarter app shell', 'Quick Open, Smart Paste, recent tools, saved tools, most-used rails, offline caching, and install prompts are wired into the main experience.'],
+      ['Trust and metadata', 'Public metadata files, OpenSearch, sitemap, robots.txt, tool JSON, privacy pages, and local-first explanations are available.'],
+      ['Payments ready', 'Stripe Checkout functions, account page, success/cancel routes, and webhook verification are built. The Pro gate is off during launch preview.'],
+      ['Latest pushed fix', 'Pro tools are open during launch preview so users do not hit checkout setup before payment credentials are configured.'],
+    ],
+  }[pageId] || [];
+  const action = pageId === 'contact'
+    ? `<a class="btn pk-btn-primary" href="mailto:${SUPPORT_EMAIL}">Email support</a>`
+    : `<a class="btn pk-btn-primary" href="#/all">Browse tools</a>`;
+  setHomeContent(`
+    <section class="pk-trust-page">
+      <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>${page.eyebrow}</span></div>
+      <div class="pk-trust-hero">
+        <p class="pk-section-title">${page.eyebrow}</p>
+        <h2>${page.title}</h2>
+        <p>${page.desc}</p>
+        <div class="pk-paywall-actions">
+          ${action}
+          <a class="btn btn-secondary" href="#/account">Pro status</a>
+        </div>
+      </div>
+      <div class="pk-trust-list">
+        ${body.map(([title, copy]) => `
+          <article class="pk-trust-item">
+            <h3>${title}</h3>
+            <p>${copy}</p>
+          </article>
+        `).join('')}
+      </div>
+      <p class="pk-trust-updated">Last updated ${updated}. This page is product guidance, not legal advice.</p>
+    </section>
+  `);
+  window.scrollTo(0, 0);
+}
+
 function renderPaymentCancel() {
   setHomeContent(`
     <section class="pk-account-page">
@@ -1231,6 +1371,28 @@ function buildCommandItems() {
       mark: 'Pro',
       keywords: 'pro account payment checkout stripe unlock upgrade billing',
       weight: 15,
+    },
+    {
+      type: 'action',
+      section: 'Actions',
+      title: 'Privacy and local-first',
+      subtitle: 'See what runs on this device',
+      href: '#/local-first',
+      accent: 'var(--accent)',
+      mark: 'Trust',
+      keywords: 'privacy local first files offline trust security policy',
+      weight: 13,
+    },
+    {
+      type: 'action',
+      section: 'Actions',
+      title: 'Contact support',
+      subtitle: SUPPORT_EMAIL,
+      href: '#/contact',
+      accent: 'var(--accent)',
+      mark: 'Help',
+      keywords: 'contact support help email bug report feedback',
+      weight: 12,
     },
     {
       type: 'action',
@@ -1440,6 +1602,11 @@ function renderRoute() {
   }
   if (hash.startsWith('#/payment/cancel')) {
     renderPaymentCancel();
+    return;
+  }
+  const pageId = hash.replace('#/', '').split('?')[0];
+  if (TRUST_PAGES[pageId]) {
+    renderTrustPage(pageId);
     return;
   }
   if (hash.startsWith('#/all')) {
