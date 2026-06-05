@@ -1,6 +1,6 @@
 import { UI } from './core/ui.js';
 import { TOOLS, getPrimaryPocketForTool, getTool, isValidToolId } from './registry.js?v=30';
-import { PRO_PRICE_LABEL, canUseProAccess } from './core/access.js';
+import { canUseProAccess } from './core/access.js';
 
 const FAVORITE_KEY = 'pk-favorites';
 const DRAFT_PREFIX = 'pk-draft:';
@@ -364,22 +364,19 @@ class Router {
           <span class="pk-mark" style="--pocket-accent:${pocket.accent}">${pocket.shortName.slice(0, 2)}</span>
           <p class="pk-section-title">Pro tool</p>
           <h2>${tool.name}</h2>
-          <p>${tool.desc}. Unlock all Pro pockets for ${PRO_PRICE_LABEL}; Daily tools stay free.</p>
+          <p>${tool.desc}. This specialized pocket is part of the open preview library.</p>
           <div class="pk-paywall-actions">
-            <button type="button" class="btn pk-btn-primary" data-start-checkout>Unlock Pro</button>
-            <a class="btn btn-secondary" href="#/pocket/${pocket.id}">Preview pocket</a>
+            <a class="btn pk-btn-primary" href="#/pocket/${pocket.id}">Preview pocket</a>
+            <a class="btn btn-secondary" href="#/all?q=pro">All specialized tools</a>
           </div>
           <div class="pk-paywall-trust">
-            <span>Stripe Checkout</span>
-            <span>Apple Pay / Google Pay ready</span>
+            <span>Preview open</span>
+            <span>No account needed</span>
             <span>100 browser tools</span>
           </div>
         </div>
       </section>
     `;
-    container.querySelector('[data-start-checkout]')?.addEventListener('click', () => {
-      window.dispatchEvent(new CustomEvent('pk-start-checkout', { detail: { source: tool.id } }));
-    });
   }
 
   async loadTool(toolId, container) {

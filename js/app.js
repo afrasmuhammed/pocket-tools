@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=50';
+import { appRouter } from './router.js?v=51';
 import {
   CATEGORIES,
   POCKETS,
@@ -9,18 +9,7 @@ import {
   getToolsForPocket,
 } from './registry.js?v=30';
 import { setHandoff } from './core/handoff.js';
-import {
-  CHECKOUT_ENDPOINT,
-  PRO_GATE_ENABLED,
-  PRO_PRICE_LABEL,
-  VERIFY_ENDPOINT,
-  canUseProAccess,
-  clearProAccess,
-  formatAccessDate,
-  getProAccess,
-  hasProAccess,
-  saveProAccess,
-} from './core/access.js';
+import { canUseProAccess } from './core/access.js';
 
 const RECENT_KEY = 'pt-recent';
 const FAVORITE_KEY = 'pk-favorites';
@@ -45,9 +34,9 @@ const TRUST_PAGES = {
     desc: 'PocketKit is provided as a utility app for everyday work. Use it responsibly, check important outputs, and keep your own backups of files and results.',
   },
   refunds: {
-    eyebrow: 'Refunds',
-    title: 'Fair launch support.',
-    desc: 'During launch preview, Pro tools are open while payment is finalized. When paid access opens, refund requests can be sent to support with your Stripe receipt.',
+    eyebrow: 'Launch support',
+    title: 'Fair support while PocketKit grows.',
+    desc: 'PocketKit is in preview, so the full tool library is open while the product settles into shape.',
   },
   contact: {
     eyebrow: 'Contact',
@@ -62,7 +51,7 @@ const TRUST_PAGES = {
   changelog: {
     eyebrow: 'Changelog',
     title: 'Launch notes.',
-    desc: 'PocketKit is now organized into 9 pockets with 100 browser tools, smarter quick open, metadata files, launch-preview Pro access, and Stripe Checkout wiring ready for setup.',
+    desc: 'PocketKit is now organized into 9 pockets with 100 browser tools, smarter quick open, metadata files, and a polished liquid-glass app shell.',
   },
 };
 const TOOL_ALIASES = {
@@ -132,7 +121,6 @@ let commandOpen = false;
 let commandActiveIndex = 0;
 let commandItems = [];
 let deferredInstallPrompt = null;
-let checkoutBusy = false;
 
 function escapeHtml(value) {
   return String(value || '').replace(/[&<>"']/g, char => ({
@@ -259,11 +247,11 @@ function updateRouteMeta(hash = window.location.hash || '#/') {
     return;
   }
   if (hash.startsWith('#/account')) {
-    setMeta('PocketKit Pro Account', 'Manage PocketKit Pro access, checkout, and unlocked pockets.', hash);
+    setMeta('PocketKit Preview Access', 'Open the PocketKit preview library and specialized pockets.', hash);
     return;
   }
   if (hash.startsWith('#/payment/')) {
-    setMeta('PocketKit Checkout', 'Verify PocketKit Pro checkout and unlock private Pro tools.', hash);
+    setMeta('PocketKit Preview', 'PocketKit preview access is open.', hash);
     return;
   }
   const pageId = hash.replace('#/', '').split('?')[0];
@@ -329,7 +317,7 @@ function toolIconChip(toolId) {
 
 function makePocketMeta(pocket) {
   const toolsLabel = `${pocket.tools.length} ${pocket.tools.length === 1 ? 'tool' : 'tools'}`;
-  const accessLabel = pocket.access === 'free' ? 'No account' : canUseProAccess() ? 'Open access' : 'Unlock Pro';
+  const accessLabel = pocket.access === 'free' ? 'No account' : 'Preview open';
   return `${toolsLabel} · ${accessLabel}`;
 }
 
@@ -455,7 +443,7 @@ function renderFooter() {
         <a href="#/local-first">Local-first</a>
         <a href="#/privacy">Privacy</a>
         <a href="#/terms">Terms</a>
-        <a href="#/refunds">Refunds</a>
+        <a href="#/refunds">Launch support</a>
         <a href="#/contact">Contact</a>
         <a href="#/changelog">Changelog</a>
       </nav>
@@ -662,10 +650,9 @@ function renderLanding() {
       <div class="pk-hero">
         <p class="pk-kicker">${POCKETS.length} pockets · ${TOOLS.length} tools · Installable app</p>
         <h2>Small tools,<br><em>neatly packed.</em></h2>
-        <p>PocketKit is a private utility app, organized into pockets you can actually find later. Daily tools stay free. Pro tools are open during launch preview while checkout is finalized.</p>
+        <p>PocketKit is a private utility app, organized into pockets you can actually find later. The full library is open in this preview, with tools grouped by the work in front of you.</p>
         <div class="pk-hero-actions">
           <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
-          <a class="btn btn-secondary" href="#/account">${canUseProAccess() ? 'Pro access' : 'Unlock Pro'}</a>
           <button class="btn btn-secondary" type="button" data-open-command>Quick open</button>
           <a class="btn btn-secondary" href="#/all">Browse all tools</a>
         </div>
@@ -676,7 +663,7 @@ function renderLanding() {
         </div>
         <div class="pk-hero-fineprint">
           <a href="#/local-first">How privacy works</a>
-          <span>Pro tools are open during launch preview.</span>
+          <span>Every pocket is open during the preview.</span>
         </div>
       </div>
       <div class="pk-launch-board" aria-label="Fast starts">
@@ -702,7 +689,7 @@ function renderLanding() {
         <div>
           <p class="pk-section-title">Pockets</p>
           <h2>Open the pocket you need.</h2>
-          <p>Daily is ready for everyone. Pro pockets are open during launch preview while checkout is finalized.</p>
+          <p>Daily starts the kit. Specialized pockets are included in the current preview.</p>
         </div>
         <a class="btn btn-secondary" href="#/all">Browse all tools</a>
       </div>
@@ -748,13 +735,13 @@ function renderLanding() {
     </section>
 
     <section class="pk-section">
-      <p class="pk-section-title">Free and Pro</p>
+      <p class="pk-section-title">Included pockets</p>
       <div class="pk-pricing-grid">
         <div class="pk-price-card">
           ${badge('free')}
           <h3>PocketKit Daily</h3>
-          <strong class="pk-price">Free <span>forever</span></strong>
-          <p>Everyday tools available without an account. Install to your device and use offline. Always.</p>
+          <strong class="pk-price">Daily <span>everyday tools</span></strong>
+          <p>Common utilities for quick work, available without an account. Install to your device and use offline.</p>
           <ul class="pk-feature-list">
             <li>${POCKETS.find(p => p.id === 'daily')?.tools.length || 0} Daily tools</li>
             <li>Install as PWA</li>
@@ -766,16 +753,14 @@ function renderLanding() {
         <div class="pk-price-card pk-price-card-featured">
           ${badge('pro')}
           <h3>All Pro pockets</h3>
-          <strong class="pk-price">${PRO_PRICE_LABEL.replace('/year', '')} <span>/year · launch price</span></strong>
-          <p>Every specialized pocket — PDF, Designer, Student, Developer, Office, QA, SEO, and Shop. Open during launch preview, with Stripe Checkout ready for paid access later.</p>
+          <strong class="pk-price">Preview <span>specialized tools</span></strong>
+          <p>Every specialized pocket — PDF, Designer, Student, Developer, Office, QA, SEO, and Shop — is open in the preview.</p>
           <div class="pk-pro-pocket-list">${POCKETS.filter(pocket => pocket.access === 'pro').map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
-          ${canUseProAccess()
-            ? '<a class="btn pk-btn-primary" href="#/all?q=pro">Open Pro tools</a>'
-            : '<button class="btn pk-btn-primary" type="button" data-start-checkout>Unlock all Pro</button>'}
-          <a class="btn btn-secondary" href="#/account">Account</a>
+          <a class="btn pk-btn-primary" href="#/all?q=pro">Open specialized tools</a>
+          <a class="btn btn-secondary" href="#/pocket/office">Open Office</a>
         </div>
       </div>
-      <p class="pk-pricing-note">${PRO_GATE_ENABLED ? 'Daily stays free. Pro access is verified after Stripe returns a paid checkout session.' : 'Launch preview: Pro tools are open while payments are being finalized.'}</p>
+      <p class="pk-pricing-note">No account is required for the preview. Local tools stay private in your browser.</p>
     </section>
   `);
 
@@ -812,11 +797,9 @@ function renderPocket(pocketId) {
       ${isPro ? `
         <div class="pk-pro-banner">
           <div class="pk-mark">Pro</div>
-          <p><strong>${pocket.name} is a Pro pocket.</strong> ${canUseProAccess() ? 'Launch preview is open, so you can use these tools now.' : `Unlock all Pro pockets for ${PRO_PRICE_LABEL}, or preview the tools below.`}</p>
-          ${canUseProAccess()
-            ? '<a class="btn pk-btn-primary" href="#/all?q=pro">Browse Pro tools</a>'
-            : '<button class="btn pk-btn-primary" type="button" data-start-checkout>Unlock Pro</button>'}
-          <button class="btn btn-secondary" id="btn-preview-pocket">${canUseProAccess() ? 'Show tools' : 'Preview tools'}</button>
+          <p><strong>${pocket.name} is a specialized pocket.</strong> The preview is open, so you can use these tools now.</p>
+          <a class="btn pk-btn-primary" href="#/all?q=pro">Browse specialized tools</a>
+          <button class="btn btn-secondary" id="btn-preview-pocket">Show tools</button>
         </div>
       ` : ''}
       <div class="pk-starting-points">
@@ -1000,100 +983,27 @@ function renderAllGrid() {
   results.forEach((tool, index) => grid.appendChild(makeToolCard(tool, index)));
 }
 
-function parseHashParams(prefix) {
-  const hash = window.location.hash || '';
-  const query = hash.startsWith(prefix) && hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : '';
-  return new URLSearchParams(query);
-}
-
-async function startProCheckout(source = 'app') {
-  if (canUseProAccess()) {
-    window.location.hash = '#/account';
-    return;
-  }
-  if (checkoutBusy) return;
-  checkoutBusy = true;
-  window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Opening secure checkout...' }));
-  try {
-    const response = await fetch(CHECKOUT_ENDPOINT, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ source }),
-    });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok || !data.url) throw new Error(data.error || 'Checkout is not ready yet.');
-    window.location.assign(data.url);
-  } catch (error) {
-    renderCheckoutSetup(error.message || 'Checkout is not ready yet.');
-  } finally {
-    checkoutBusy = false;
-  }
-}
-
-function renderCheckoutSetup(message) {
-  const view = setHomeContent(`
-    <section class="pk-account-page">
-      <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>Checkout setup</span></div>
-      <div class="pk-account-card pk-account-card-wide">
-        <p class="pk-section-title">Payment setup needed</p>
-        <h2>Stripe Checkout is wired, but credentials are not configured on this deploy.</h2>
-        <p>${escapeHtml(message)}</p>
-        <div class="pk-setup-grid">
-          <div><strong>1</strong><span>Create a Stripe product and one-time yearly price.</span></div>
-          <div><strong>2</strong><span>Set Netlify environment variables for the checkout functions.</span></div>
-          <div><strong>3</strong><span>Redeploy, then click Unlock Pro again.</span></div>
-        </div>
-        <div class="pk-code-block">STRIPE_SECRET_KEY=sk_live_...
-STRIPE_PRO_PRICE_ID=price_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-SITE_URL=https://pocketkit.app</div>
-        <div class="pk-paywall-actions">
-          <a class="btn pk-btn-primary" href="#/account">Open account</a>
-          <a class="btn btn-secondary" href="#/">Back home</a>
-        </div>
-      </div>
-    </section>
-  `);
-  window.scrollTo(0, 0);
-  return view;
-}
-
 function renderAccount() {
-  const access = getProAccess();
-  const active = hasProAccess();
-  const openPreview = canUseProAccess() && !active;
   const proPockets = POCKETS.filter(pocket => pocket.access === 'pro');
-  const view = setHomeContent(`
+  setHomeContent(`
     <section class="pk-account-page">
-      <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>Account</span></div>
+      <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>Preview access</span></div>
       <div class="pk-account-card pk-account-card-wide">
-        <p class="pk-section-title">PocketKit Pro</p>
-        <h2>${active ? 'Pro is active on this device.' : openPreview ? 'Pro tools are open during launch preview.' : 'Unlock every Pro pocket.'}</h2>
-        <p>${active
-          ? `Your Pro access is saved locally${access?.customerEmail ? ` for ${escapeHtml(access.customerEmail)}` : ''}.`
-          : openPreview
-            ? 'Use every Pro pocket now while checkout is being finalized. Daily stays free, and payments can be enabled when Stripe credentials are ready.'
-          : `Daily stays free. Pro unlocks ${proPockets.length} specialized pockets and ${TOOLS.length} total tools through secure Stripe Checkout.`}</p>
-        <div class="pk-account-status ${active || openPreview ? 'pk-account-status-active' : ''}">
-          <strong>${active ? 'Active' : openPreview ? 'Launch preview open' : 'Not unlocked'}</strong>
-          <span>${active ? `Valid until ${formatAccessDate(access?.accessUntil)}` : openPreview ? 'No payment required right now' : `${PRO_PRICE_LABEL} launch price`}</span>
+        <p class="pk-section-title">PocketKit preview</p>
+        <h2>Every pocket is open in this preview.</h2>
+        <p>Daily and specialized pockets are available without an account, so you can move straight into the tool you need.</p>
+        <div class="pk-account-status pk-account-status-active">
+          <strong>Preview open</strong>
+          <span>${TOOLS.length} tools across ${POCKETS.length} pockets</span>
         </div>
         <div class="pk-pro-pocket-list">${proPockets.map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
         <div class="pk-paywall-actions">
-          ${canUseProAccess()
-            ? '<a class="btn pk-btn-primary" href="#/all?q=pro">Open Pro tools</a>'
-            : '<button class="btn pk-btn-primary" type="button" data-start-checkout>Unlock Pro</button>'}
+          <a class="btn pk-btn-primary" href="#/all?q=pro">Open specialized tools</a>
           <a class="btn btn-secondary" href="#/pocket/office">Open Office</a>
-          ${active ? '<button class="btn btn-secondary" type="button" id="btn-clear-pro">Clear local access</button>' : ''}
         </div>
       </div>
     </section>
   `);
-  view.querySelector('#btn-clear-pro')?.addEventListener('click', () => {
-    clearProAccess();
-    window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Local Pro access cleared.' }));
-    renderAccount();
-  });
   window.scrollTo(0, 0);
 }
 
@@ -1107,23 +1017,23 @@ function renderTrustPage(pageId) {
   const body = {
     privacy: [
       ['What stays local', 'Text utilities, calculators, generators, image tools, PDF tools, and data formatters are designed to run in your browser. PocketKit does not need your files on a server for normal tool use.'],
-      ['What may leave your device', 'If payment is enabled, checkout happens through Stripe. Your browser also requests static app files, fonts, icons, and metadata needed to load the site.'],
-      ['Saved data', 'Favorites, recent tools, drafts, theme, and launch-preview access are stored in your browser storage on this device. Clearing site data removes them.'],
+      ['What may leave your device', 'Your browser requests static app files, fonts, icons, and metadata needed to load the site.'],
+      ['Saved data', 'Favorites, recent tools, drafts, theme, and app preferences are stored in your browser storage on this device. Clearing site data removes them.'],
       ['Files', 'File tools process selected files locally where the browser and bundled libraries support it. Avoid uploading private files anywhere unless a page clearly says it will upload.'],
       ['Contact', `Questions or privacy requests can be sent to ${SUPPORT_EMAIL}.`],
     ],
     terms: [
       ['Use', 'PocketKit is a collection of practical utilities for everyday work. You are responsible for checking results before relying on them in legal, financial, medical, or high-stakes decisions.'],
       ['Availability', 'The app is provided as-is during launch preview. Offline support depends on your browser, storage settings, and whether the app shell has already loaded.'],
-      ['Payments', 'Pro tools are open during launch preview. When paid access is enabled, Stripe will handle checkout and payment details.'],
+      ['Preview access', 'Every pocket is open in the current preview so you can test the full library without an account.'],
       ['Content and files', 'You keep ownership of files and text you process in PocketKit. Keep your own backups before editing, compressing, splitting, or converting documents.'],
       ['Support', `For help, email ${SUPPORT_EMAIL}.`],
     ],
     refunds: [
-      ['Launch preview', 'Pro tools are currently open while payment setup is finalized, so no payment is required to use them right now.'],
-      ['When paid access opens', 'Refund requests can be sent by email with the Stripe receipt, purchase email, and a short note about what went wrong.'],
-      ['Fair-use window', 'The planned launch policy is a simple 14-day refund window for accidental purchases or serious product issues.'],
-      ['Processing', 'Approved refunds are processed through Stripe. Your bank may take additional time to show the money back on the card.'],
+      ['Launch preview', 'Every pocket is currently open for preview access.'],
+      ['Support requests', `If something breaks or feels unclear, email ${SUPPORT_EMAIL} with the tool name and what happened.`],
+      ['Product issues', 'Sample input, screenshots, browser details, and the page URL help make fixes faster.'],
+      ['Feedback', 'Requests are most useful when they describe a repeated job you want PocketKit to make easier.'],
     ],
     contact: [
       ['Support email', `${SUPPORT_EMAIL}`],
@@ -1133,8 +1043,8 @@ function renderTrustPage(pageId) {
     ],
     'local-first': [
       ['Local tools', 'PocketKit is built around browser-side processing. Many tools continue working offline after the app has cached its shell and tool files.'],
-      ['No account required for Daily', 'Daily tools are designed to stay available without login, signup, or payment.'],
-      ['Launch-preview Pro', 'Pro pockets are open for launch preview so users can test the full library while payment setup is finalized.'],
+      ['No account required', 'PocketKit is designed to stay available without login or signup during the preview.'],
+      ['Open preview library', 'Specialized pockets are open so users can test the full library.'],
       ['Good limits', 'Local-first does not mean magic. Huge files, browser memory limits, private browsing, or blocked storage can affect some workflows.'],
       ['Trust signals', 'Tool pages highlight whether a tool uses files, downloads output, supports copyable output, or autosaves drafts locally.'],
     ],
@@ -1142,8 +1052,8 @@ function renderTrustPage(pageId) {
       ['Launch foundation', 'PocketKit now ships 100 tools across 9 pockets: Daily, PDF, Designer, Student, Developer, Office, QA, SEO, and Shop.'],
       ['Smarter app shell', 'Quick Open, Smart Paste, recent tools, saved tools, most-used rails, offline caching, and install prompts are wired into the main experience.'],
       ['Trust and metadata', 'Public metadata files, OpenSearch, sitemap, robots.txt, tool JSON, privacy pages, and local-first explanations are available.'],
-      ['Payments ready', 'Stripe Checkout functions, account page, success/cancel routes, and webhook verification are built. The Pro gate is off during launch preview.'],
-      ['Latest pushed fix', 'Pro tools are open during launch preview so users do not hit checkout setup before payment credentials are configured.'],
+      ['Liquid glass refresh', 'The app shell, cards, controls, and tool surfaces now use the new translucent glass system.'],
+      ['Latest pushed fix', 'The live preview now uses the liquid-glass design without purchase cards or access prompts.'],
     ],
   }[pageId] || [];
   const action = pageId === 'contact'
@@ -1158,7 +1068,7 @@ function renderTrustPage(pageId) {
         <p>${page.desc}</p>
         <div class="pk-paywall-actions">
           ${action}
-          <a class="btn btn-secondary" href="#/account">Pro status</a>
+          <a class="btn btn-secondary" href="#/account">Preview access</a>
         </div>
       </div>
       <div class="pk-trust-list">
@@ -1175,57 +1085,8 @@ function renderTrustPage(pageId) {
   window.scrollTo(0, 0);
 }
 
-function renderPaymentCancel() {
-  setHomeContent(`
-    <section class="pk-account-page">
-      <div class="pk-account-card pk-account-card-wide">
-        <p class="pk-section-title">Checkout canceled</p>
-        <h2>No payment was taken.</h2>
-        <p>You can keep using Daily tools for free, preview Pro pockets, or restart checkout when ready.</p>
-        <div class="pk-paywall-actions">
-          <button class="btn pk-btn-primary" type="button" data-start-checkout>Restart checkout</button>
-          <a class="btn btn-secondary" href="#/">Back home</a>
-        </div>
-      </div>
-    </section>
-  `);
-}
-
-async function renderPaymentSuccess() {
-  const params = parseHashParams('#/payment/success');
-  const sessionId = params.get('session_id') || '';
-  const view = setHomeContent(`
-    <section class="pk-account-page">
-      <div class="pk-account-card pk-account-card-wide">
-        <p class="pk-section-title">Verifying payment</p>
-        <h2 id="pk-payment-title">Checking your Stripe session...</h2>
-        <p id="pk-payment-copy">This only takes a moment. Pro unlocks after the paid session is verified server-side.</p>
-        <div class="pk-paywall-actions">
-          <a class="btn btn-secondary" href="#/">Back home</a>
-        </div>
-      </div>
-    </section>
-  `);
-  const title = view.querySelector('#pk-payment-title');
-  const copy = view.querySelector('#pk-payment-copy');
-  if (!sessionId) {
-    title.textContent = 'Missing checkout session.';
-    copy.textContent = 'Stripe did not return a session id. Please restart checkout.';
-    return;
-  }
-  try {
-    const response = await fetch(`${VERIFY_ENDPOINT}?session_id=${encodeURIComponent(sessionId)}`);
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok || !data.unlocked) throw new Error(data.error || 'Payment was not verified yet.');
-    saveProAccess(data);
-    title.textContent = 'Pro unlocked.';
-    copy.textContent = 'Your Pro access is active on this device. You can now open every Pro pocket and tool.';
-    view.querySelector('.pk-paywall-actions').innerHTML = '<a class="btn pk-btn-primary" href="#/account">Open account</a><a class="btn btn-secondary" href="#/pocket/office">Open Pro pocket</a>';
-  } catch (error) {
-    title.textContent = 'Could not verify payment.';
-    copy.textContent = error.message || 'Please try again or contact support with your Stripe receipt.';
-    view.querySelector('.pk-paywall-actions').innerHTML = '<button class="btn pk-btn-primary" type="button" data-start-checkout>Restart checkout</button><a class="btn btn-secondary" href="#/account">Account</a>';
-  }
+function renderPreviewAccess() {
+  renderAccount();
 }
 
 function copyLink(value, message) {
@@ -1245,12 +1106,6 @@ function refreshActivePage() {
 
 function initPersonalActions() {
   document.addEventListener('click', event => {
-    const checkout = event.target.closest('[data-start-checkout]');
-    if (checkout) {
-      event.preventDefault();
-      startProCheckout(checkout.dataset.source || window.location.hash || 'app');
-      return;
-    }
     const button = event.target.closest('[data-pk-action]');
     if (!button) return;
     const action = button.dataset.pkAction;
@@ -1364,12 +1219,12 @@ function buildCommandItems() {
     {
       type: 'action',
       section: 'Actions',
-      title: canUseProAccess() ? 'Open Pro tools' : 'Unlock Pro',
-      subtitle: canUseProAccess() ? 'Launch preview access is open now' : `${PRO_PRICE_LABEL} launch access through Stripe Checkout`,
+      title: 'Open specialized tools',
+      subtitle: 'Preview access is open now',
       href: '#/account',
       accent: 'var(--accent)',
       mark: 'Pro',
-      keywords: 'pro account payment checkout stripe unlock upgrade billing',
+      keywords: 'pro specialized preview access office pdf developer designer seo qa shop',
       weight: 15,
     },
     {
@@ -1597,11 +1452,11 @@ function renderRoute() {
     return;
   }
   if (hash.startsWith('#/payment/success')) {
-    renderPaymentSuccess();
+    renderPreviewAccess();
     return;
   }
   if (hash.startsWith('#/payment/cancel')) {
-    renderPaymentCancel();
+    renderPreviewAccess();
     return;
   }
   const pageId = hash.replace('#/', '').split('?')[0];
@@ -1707,10 +1562,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('pk-toggle-favorite', (event) => {
     const toolId = event.detail?.toolId;
     if (toolId && getTool(toolId)) toggleFavorite(toolId);
-  });
-
-  window.addEventListener('pk-start-checkout', (event) => {
-    startProCheckout(event.detail?.source || 'app');
   });
 
   window.addEventListener('pk-tool-opened', (event) => {

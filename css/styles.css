@@ -2449,9 +2449,9 @@ html[data-theme="dark"] .pk-mobile-pro-row {
 .pk-mobile-pro-row-desc {
   color: var(--muted);
   font-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .pk-mobile-pro-row-arrow {
   color: var(--muted);
