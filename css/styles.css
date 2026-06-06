@@ -1551,8 +1551,8 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
   border: 1px solid color-mix(in srgb, var(--pocket-accent) 30%, var(--glass-edge));
   border-radius: 999px;
   background:
-    radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 0%), rgba(255,255,255,0.28), transparent 34%),
-    linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06)),
+    radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 0%), rgba(255,255,255,0.10), transparent 36%),
+    linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)),
     color-mix(in srgb, var(--pocket-accent) 9%, var(--glass-fill-soft));
   color: var(--fg);
   font-size: 12px;
@@ -1698,9 +1698,9 @@ html[data-theme="dark"] .diff-removed { background: rgba(220, 38, 38,.15); color
   border: 1px solid var(--border);
   border-radius: 14px;
   background:
-    radial-gradient(circle at 32% 18%, rgba(255,255,255,0.40), transparent 38%),
-    linear-gradient(145deg, rgba(255,255,255,0.20), rgba(255,255,255,0.06)),
-    color-mix(in srgb, var(--pocket-accent, var(--accent)) 16%, var(--glass-fill-soft));
+    radial-gradient(circle at 32% 18%, rgba(255,255,255,0.18), transparent 42%),
+    linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.035)),
+    color-mix(in srgb, var(--pocket-accent, var(--accent)) 12%, var(--glass-fill-soft));
   color: var(--pocket-accent, var(--accent));
   font-family: var(--font-mono-ui);
   font-size: 10.5px;
@@ -3661,16 +3661,16 @@ html[data-theme="dark"] .pk-why-card {
   --accent-fg: #ffffff;
   --accent-subtle: rgba(240, 112, 64, 0.16);
   --accent-glow: rgba(240, 112, 64, 0.34);
-  --glass-fill: rgba(255, 255, 255, 0.13);
-  --glass-fill-strong: rgba(255, 255, 255, 0.22);
+  --glass-fill: rgba(255, 255, 255, 0.105);
+  --glass-fill-strong: rgba(255, 255, 255, 0.16);
   --glass-fill-soft: rgba(255, 255, 255, 0.08);
-  --glass-edge: rgba(255, 255, 255, 0.38);
-  --glass-edge-soft: rgba(255, 255, 255, 0.20);
-  --glass-shadow: 0 26px 86px rgba(2, 8, 23, 0.42);
-  --glass-shadow-sm: 0 15px 44px rgba(2, 8, 23, 0.28);
-  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.58), inset 0 -1px 0 rgba(255, 255, 255, 0.10), inset 0 0 22px rgba(255, 255, 255, 0.045);
-  --glass-prism: linear-gradient(135deg, rgba(255,255,255,0.34), rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.03) 58%, rgba(255,255,255,0.18));
-  --glass-caustic: radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 18%), rgba(255,255,255,0.32), transparent 34%);
+  --glass-edge: rgba(255, 255, 255, 0.28);
+  --glass-edge-soft: rgba(255, 255, 255, 0.14);
+  --glass-shadow: 0 24px 76px rgba(2, 8, 23, 0.38);
+  --glass-shadow-sm: 0 14px 38px rgba(2, 8, 23, 0.24);
+  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -1px 0 rgba(255, 255, 255, 0.07);
+  --glass-prism: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.035) 42%, rgba(255,255,255,0.065));
+  --glass-caustic: radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 18%), rgba(255,255,255,0.12), transparent 38%);
   --glass-rim: 1px solid color-mix(in srgb, var(--glass-edge) 84%, var(--accent) 16%);
   --shadow-xs: var(--glass-inset);
   --shadow-sm: var(--glass-shadow-sm), var(--glass-inset);
@@ -3711,14 +3711,14 @@ html[data-theme="light"] {
   --accent-fg: #ffffff;
   --accent-subtle: rgba(217, 93, 54, 0.14);
   --accent-glow: rgba(217, 93, 54, 0.26);
-  --glass-fill: rgba(255, 255, 255, 0.56);
-  --glass-fill-strong: rgba(255, 255, 255, 0.76);
-  --glass-fill-soft: rgba(255, 255, 255, 0.40);
-  --glass-edge: rgba(255, 255, 255, 0.88);
-  --glass-edge-soft: rgba(255, 255, 255, 0.58);
-  --glass-shadow: 0 24px 82px rgba(98, 57, 28, 0.20);
-  --glass-shadow-sm: 0 14px 42px rgba(98, 57, 28, 0.14);
-  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.92), inset 0 -1px 0 rgba(255, 255, 255, 0.38), inset 0 0 24px rgba(255, 255, 255, 0.20);
+  --glass-fill: rgba(255, 255, 255, 0.46);
+  --glass-fill-strong: rgba(255, 255, 255, 0.58);
+  --glass-fill-soft: rgba(255, 255, 255, 0.34);
+  --glass-edge: rgba(255, 255, 255, 0.76);
+  --glass-edge-soft: rgba(255, 255, 255, 0.42);
+  --glass-shadow: 0 22px 70px rgba(98, 57, 28, 0.16);
+  --glass-shadow-sm: 0 12px 34px rgba(98, 57, 28, 0.12);
+  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.74), inset 0 -1px 0 rgba(255, 255, 255, 0.26);
   --pro-bg: rgba(255, 225, 167, 0.46);
   --pro-ink: #875011;
   --pro-border: rgba(190, 124, 25, 0.22);
@@ -3744,14 +3744,14 @@ html[data-theme="dark"] {
   --accent-fg: #ffffff;
   --accent-subtle: rgba(240, 112, 64, 0.16);
   --accent-glow: rgba(240, 112, 64, 0.34);
-  --glass-fill: rgba(255, 255, 255, 0.13);
-  --glass-fill-strong: rgba(255, 255, 255, 0.22);
+  --glass-fill: rgba(255, 255, 255, 0.105);
+  --glass-fill-strong: rgba(255, 255, 255, 0.16);
   --glass-fill-soft: rgba(255, 255, 255, 0.08);
-  --glass-edge: rgba(255, 255, 255, 0.38);
-  --glass-edge-soft: rgba(255, 255, 255, 0.20);
-  --glass-shadow: 0 26px 86px rgba(2, 8, 23, 0.42);
-  --glass-shadow-sm: 0 15px 44px rgba(2, 8, 23, 0.28);
-  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.58), inset 0 -1px 0 rgba(255, 255, 255, 0.10), inset 0 0 22px rgba(255, 255, 255, 0.045);
+  --glass-edge: rgba(255, 255, 255, 0.28);
+  --glass-edge-soft: rgba(255, 255, 255, 0.14);
+  --glass-shadow: 0 24px 76px rgba(2, 8, 23, 0.38);
+  --glass-shadow-sm: 0 14px 38px rgba(2, 8, 23, 0.24);
+  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -1px 0 rgba(255, 255, 255, 0.07);
   --shadow-xs: var(--glass-inset);
   --shadow-sm: var(--glass-shadow-sm), var(--glass-inset);
   --shadow-md: var(--glass-shadow), var(--glass-inset);
@@ -3783,14 +3783,14 @@ html[data-theme="dark"] {
     --accent-fg: #ffffff;
     --accent-subtle: rgba(240, 112, 64, 0.16);
     --accent-glow: rgba(240, 112, 64, 0.34);
-    --glass-fill: rgba(255, 255, 255, 0.13);
-    --glass-fill-strong: rgba(255, 255, 255, 0.22);
+    --glass-fill: rgba(255, 255, 255, 0.105);
+    --glass-fill-strong: rgba(255, 255, 255, 0.16);
     --glass-fill-soft: rgba(255, 255, 255, 0.08);
-    --glass-edge: rgba(255, 255, 255, 0.38);
-    --glass-edge-soft: rgba(255, 255, 255, 0.20);
-    --glass-shadow: 0 26px 86px rgba(2, 8, 23, 0.42);
-    --glass-shadow-sm: 0 15px 44px rgba(2, 8, 23, 0.28);
-    --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.58), inset 0 -1px 0 rgba(255, 255, 255, 0.10), inset 0 0 22px rgba(255, 255, 255, 0.045);
+    --glass-edge: rgba(255, 255, 255, 0.28);
+    --glass-edge-soft: rgba(255, 255, 255, 0.14);
+    --glass-shadow: 0 24px 76px rgba(2, 8, 23, 0.38);
+    --glass-shadow-sm: 0 14px 38px rgba(2, 8, 23, 0.24);
+    --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -1px 0 rgba(255, 255, 255, 0.07);
     --shadow-xs: var(--glass-inset);
     --shadow-sm: var(--glass-shadow-sm), var(--glass-inset);
     --shadow-md: var(--glass-shadow), var(--glass-inset);
@@ -3954,18 +3954,18 @@ body::after {
   background:
     var(--glass-caustic),
     var(--glass-prism),
-    linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0.07) 44%, rgba(255,255,255,0.14)),
+    linear-gradient(145deg, rgba(255,255,255,0.10), rgba(255,255,255,0.035) 48%, rgba(255,255,255,0.075)),
     var(--glass-fill);
-  box-shadow: var(--glass-shadow-sm), var(--glass-inset), 0 0 0 1px rgba(255,255,255,0.035);
-  backdrop-filter: blur(34px) saturate(1.65) brightness(1.04);
-  -webkit-backdrop-filter: blur(34px) saturate(1.65) brightness(1.04);
+  box-shadow: var(--glass-shadow-sm), var(--glass-inset);
+  backdrop-filter: blur(28px) saturate(1.42);
+  -webkit-backdrop-filter: blur(28px) saturate(1.42);
 }
 
 .app-header,
 html[data-theme="dark"] .app-header {
   background:
-    radial-gradient(circle at var(--glass-x, 50%) 0%, rgba(255,255,255,0.24), transparent 34%),
-    linear-gradient(180deg, rgba(255,255,255,0.30), rgba(255,255,255,0.11)),
+    radial-gradient(circle at var(--glass-x, 50%) 0%, rgba(255,255,255,0.12), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08)),
     linear-gradient(100deg, rgba(255,128,76,0.11), transparent 42%, rgba(202,178,255,0.09)),
     rgba(12, 17, 27, 0.52);
   border-bottom-color: var(--glass-edge-soft);
@@ -3981,8 +3981,8 @@ html[data-theme="light"] .app-header {
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) .app-header {
     background:
-      radial-gradient(circle at var(--glass-x, 50%) 0%, rgba(255,255,255,0.24), transparent 34%),
-      linear-gradient(180deg, rgba(255,255,255,0.30), rgba(255,255,255,0.11)),
+    radial-gradient(circle at var(--glass-x, 50%) 0%, rgba(255,255,255,0.12), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08)),
       linear-gradient(100deg, rgba(255,128,76,0.11), transparent 42%, rgba(202,178,255,0.09)),
       rgba(12, 17, 27, 0.52);
     border-bottom-color: var(--glass-edge-soft);
@@ -4010,8 +4010,8 @@ html[data-theme="light"] .app-header {
 .pk-pro-pocket-list span {
   border-color: var(--glass-edge-soft);
   background:
-    radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 0%), rgba(255,255,255,0.28), transparent 32%),
-    linear-gradient(145deg, rgba(255,255,255,0.20), rgba(255,255,255,0.06)),
+    radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 0%), rgba(255,255,255,0.12), transparent 34%),
+    linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)),
     var(--glass-fill-soft);
   box-shadow: var(--glass-inset), 0 8px 26px rgba(2,8,23,0.12);
   backdrop-filter: blur(26px) saturate(1.52);
@@ -4030,8 +4030,8 @@ html[data-theme="light"] .app-header {
 .image-panel:hover,
 .results-container:hover {
   background:
-    radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 0%), rgba(255,255,255,0.40), transparent 34%),
-    linear-gradient(145deg, rgba(255,255,255,0.30), rgba(255,255,255,0.12)),
+    radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 0%), rgba(255,255,255,0.18), transparent 34%),
+    linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.06)),
     var(--glass-fill-strong);
   border-color: color-mix(in srgb, var(--accent) 42%, var(--glass-edge));
   box-shadow: var(--glass-shadow), var(--glass-inset), 0 0 0 1px rgba(255,255,255,0.08), 0 0 38px color-mix(in srgb, var(--accent) 18%, transparent);
@@ -4153,12 +4153,12 @@ html[data-theme="light"] .app-header {
   content: "";
   position: absolute;
   inset: 0 0 auto;
-  height: 46%;
+  height: 22%;
   border-radius: inherit;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.36), rgba(255,255,255,0.08) 46%, transparent),
-    linear-gradient(90deg, transparent, rgba(255,255,255,0.52), transparent);
-  opacity: .9;
+    linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.03) 58%, transparent),
+    linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+  opacity: .55;
   pointer-events: none;
   mix-blend-mode: screen;
 }
@@ -4183,10 +4183,10 @@ html[data-theme="light"] .app-header {
   pointer-events: none;
   border-radius: inherit;
   background:
-    radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 18%), rgba(255,255,255,0.34), transparent 22%),
-    linear-gradient(120deg, rgba(255,255,255,0.20), transparent 24%, transparent 72%, rgba(255,255,255,0.10)),
-    linear-gradient(180deg, transparent, rgba(255,255,255,0.045));
-  opacity: .78;
+    radial-gradient(circle at var(--glass-x, 50%) var(--glass-y, 18%), rgba(255,255,255,0.13), transparent 24%),
+    linear-gradient(120deg, rgba(255,255,255,0.08), transparent 24%, transparent 72%, rgba(255,255,255,0.055)),
+    linear-gradient(180deg, transparent, rgba(255,255,255,0.028));
+  opacity: .42;
 }
 
 .icon-wrap,
