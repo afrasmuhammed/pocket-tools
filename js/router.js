@@ -198,7 +198,7 @@ const SAMPLE_ACTIONS = {
   'word-counter': container => {
     const input = container.querySelector('#wc-input');
     if (input) {
-      input.value = 'PocketKit keeps useful tools close, private, and ready offline. Paste text here to count words, characters, paragraphs, sentences, and reading time.';
+      input.value = 'PocketTools keeps useful tools close, private, and ready offline. Paste text here to count words, characters, paragraphs, sentences, and reading time.';
       input.dispatchEvent(new Event('input', { bubbles: true }));
     }
   },
@@ -214,8 +214,8 @@ const SAMPLE_ACTIONS = {
   'text-diff': container => {
     const original = container.querySelector('#diff-original');
     const modified = container.querySelector('#diff-modified');
-    if (original) original.value = 'PocketKit Daily is free.\nTools run locally.\nSearch opens every utility.';
-    if (modified) modified.value = 'PocketKit Daily stays free.\nTools run locally in your browser.\nQuick open finds every utility.';
+    if (original) original.value = 'PocketTools Daily is free.\nTools run locally.\nSearch opens every utility.';
+    if (modified) modified.value = 'PocketTools Daily stays free.\nTools run locally in your browser.\nQuick open finds every utility.';
     container.querySelector('#btn-diff')?.click();
   },
   'keyword-density': container => container.querySelector('#btn-kd-sample')?.click(),
@@ -284,7 +284,7 @@ class Router {
       document.body.classList.remove('tool-open');
       btnBack.classList.add('hidden');
       btnQuickOpen?.classList.remove('hidden');
-      setAppTitle(appTitle, 'PocketKit', true);
+      setAppTitle(appTitle, 'PocketTools', true);
       this.currentToolId = null;
 
       if (this._homeScroll) {
@@ -362,12 +362,12 @@ class Router {
         </div>
         <div class="pk-paywall-card">
           <span class="pk-mark" style="--pocket-accent:${pocket.accent}">${pocket.shortName.slice(0, 2)}</span>
-          <p class="pk-section-title">Pro tool</p>
+          <p class="pk-section-title">Specialized tool</p>
           <h2>${tool.name}</h2>
           <p>${tool.desc}. This specialized pocket is part of the open preview library.</p>
           <div class="pk-paywall-actions">
             <a class="btn pk-btn-primary" href="#/pocket/${pocket.id}">Preview pocket</a>
-            <a class="btn btn-secondary" href="#/all?q=pro">All specialized tools</a>
+            <a class="btn btn-secondary" href="#/all?q=specialized">All specialized tools</a>
           </div>
           <div class="pk-paywall-trust">
             <span>Preview open</span>
@@ -418,7 +418,7 @@ class Router {
         <span>${tool.name}</span>
       </div>
       <div class="tool-meta-actions">
-        ${pocket ? `<span class="pk-badge ${pocket.access === 'free' ? 'pk-badge-free' : 'pk-badge-pro'}">${pocket.access === 'free' ? 'Free' : 'Pro'}</span>` : ''}
+        ${pocket ? `<span class="pk-badge ${pocket.access === 'free' ? 'pk-badge-free' : 'pk-badge-pro'}">${pocket.access === 'free' ? 'Free' : 'Open'}</span>` : ''}
         <span class="pk-badge">Works offline</span>
         ${SAMPLE_ACTIONS[tool.id] ? actionButton('sample', 'Try sample', 'btn-try-sample') : ''}
         ${getToolDraft(tool.id) ? actionButton('clear', 'Clear draft', 'btn-clear-tool-draft') : ''}

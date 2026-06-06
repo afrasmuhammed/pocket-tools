@@ -1,4 +1,4 @@
-import { appRouter } from './router.js?v=51';
+import { appRouter } from './router.js?v=54';
 import {
   CATEGORIES,
   POCKETS,
@@ -17,26 +17,49 @@ const USAGE_KEY = 'pk-usage';
 const RECENT_MAX = 4;
 const FAVORITE_MAX = 12;
 const CATEGORY_LABELS = Object.fromEntries(CATEGORIES.map(cat => [cat.id, cat.label]));
+const DIRECTORY_POCKET_ORDER = ['developer', 'shop', 'daily', 'student', 'pdf', 'designer', 'office', 'qa', 'seo'];
+const DIRECTORY_POCKET_LABELS = {
+  developer: 'Developer Tools',
+  shop: 'Calculators',
+  daily: 'Random Tools',
+  student: 'Text Tools',
+  pdf: 'PDF Tools',
+  designer: 'Image Tools',
+  office: 'Office Tools',
+  qa: 'QA Tools',
+  seo: 'SEO Tools',
+};
+const DIRECTORY_POCKET_EMOJIS = {
+  developer: '*',
+  shop: '%',
+  daily: 'rand',
+  student: 'text',
+  pdf: 'PDF',
+  designer: 'img',
+  office: 'doc',
+  qa: 'QA',
+  seo: 'SEO',
+};
 const DEFAULT_META = {
-  title: 'PocketKit',
-  desc: 'PocketKit — private everyday tools, installed like an app.',
+  title: 'PocketTools',
+  desc: 'PocketTools — free, private browser tools for everyday tasks.',
 };
 const SUPPORT_EMAIL = 'support@pocketkit.app';
 const TRUST_PAGES = {
   privacy: {
     eyebrow: 'Privacy',
     title: 'Privacy-first by design.',
-    desc: 'PocketKit is built as a local-first browser app. Most tools run on your device, and file tools are designed so your files do not leave the browser.',
+    desc: 'PocketTools is built as a local-first browser app. Most tools run on your device, and file tools are designed so your files do not leave the browser.',
   },
   terms: {
     eyebrow: 'Terms',
     title: 'Simple terms for a practical tool.',
-    desc: 'PocketKit is provided as a utility app for everyday work. Use it responsibly, check important outputs, and keep your own backups of files and results.',
+    desc: 'PocketTools is provided as a utility app for everyday work. Use it responsibly, check important outputs, and keep your own backups of files and results.',
   },
   refunds: {
     eyebrow: 'Launch support',
-    title: 'Fair support while PocketKit grows.',
-    desc: 'PocketKit is in preview, so the full tool library is open while the product settles into shape.',
+    title: 'Fair support while PocketTools grows.',
+    desc: 'PocketTools is in preview, so the full tool library is open while the product settles into shape.',
   },
   contact: {
     eyebrow: 'Contact',
@@ -46,12 +69,12 @@ const TRUST_PAGES = {
   'local-first': {
     eyebrow: 'Local-first',
     title: 'Your browser does the work.',
-    desc: 'PocketKit favors tools that process text, images, PDFs, and data inside your browser. That keeps work fast, private, and usable offline after the app has loaded.',
+    desc: 'PocketTools favors tools that process text, images, PDFs, and data inside your browser. That keeps work fast, private, and usable offline after the app has loaded.',
   },
   changelog: {
     eyebrow: 'Changelog',
     title: 'Launch notes.',
-    desc: 'PocketKit is now organized into 9 pockets with 100 browser tools, smarter quick open, metadata files, and a polished liquid-glass app shell.',
+    desc: 'PocketTools is now organized into 9 categories with 100 browser tools, smarter quick open, metadata files, and a polished liquid-glass app shell.',
   },
 };
 const TOOL_ALIASES = {
@@ -243,34 +266,34 @@ function updateRouteMeta(hash = window.location.hash || '#/') {
   if (hash.startsWith('#/all')) {
     const q = getAllRouteQuery();
     const suffix = q ? ` matching "${q}"` : '';
-    setMeta('All PocketKit Tools', `${TOOLS.length} private browser tools${suffix} across ${POCKETS.length} organized pockets.`, hash);
+    setMeta('All PocketTools', `${TOOLS.length} private browser tools${suffix} across ${POCKETS.length} organized categories.`, hash);
     return;
   }
   if (hash.startsWith('#/account')) {
-    setMeta('PocketKit Preview Access', 'Open the PocketKit preview library and specialized pockets.', hash);
+    setMeta('PocketTools Preview Access', 'Open the PocketTools preview library and specialized categories.', hash);
     return;
   }
   if (hash.startsWith('#/payment/')) {
-    setMeta('PocketKit Preview', 'PocketKit preview access is open.', hash);
+    setMeta('PocketTools Preview', 'PocketTools preview access is open.', hash);
     return;
   }
   const pageId = hash.replace('#/', '').split('?')[0];
   if (TRUST_PAGES[pageId]) {
     const page = TRUST_PAGES[pageId];
-    setMeta(`${page.eyebrow} — PocketKit`, page.desc, hash);
+    setMeta(`${page.eyebrow} — PocketTools`, page.desc, hash);
     return;
   }
   if (hash.startsWith('#/pocket/')) {
     const pocket = getPocket(decodeURIComponent(hash.replace('#/pocket/', '')).trim());
     if (pocket) {
-      setMeta(pocket.name, `${pocket.desc} ${pocket.tools.length} tools in this PocketKit pocket.`, `#/pocket/${pocket.id}`);
+      setMeta(pocket.name, `${pocket.desc} ${pocket.tools.length} tools in this PocketTools category.`, `#/pocket/${pocket.id}`);
       return;
     }
   }
   if (hash.startsWith('#/tool/')) {
     const tool = getTool(decodeURIComponent(hash.replace('#/tool/', '')).trim());
     if (tool) {
-      setMeta(`${tool.name} — PocketKit`, `${tool.desc}. Private, browser-based, and installable.`, `#/tool/${tool.id}`);
+      setMeta(`${tool.name} — PocketTools`, `${tool.desc}. Private, browser-based, and installable.`, `#/tool/${tool.id}`);
     }
   }
 }
@@ -301,7 +324,7 @@ function pocketMarkSvgStr(pocketId, size = 18) {
 }
 
 function badge(access) {
-  return `<span class="pk-badge ${access === 'free' ? 'pk-badge-free' : 'pk-badge-pro'}">${access === 'free' ? 'Free' : 'Pro'}</span>`;
+  return `<span class="pk-badge ${access === 'free' ? 'pk-badge-free' : 'pk-badge-pro'}">${access === 'free' ? 'Free' : 'Open'}</span>`;
 }
 
 function pocketMark(pocket) {
@@ -313,6 +336,46 @@ function toolIconChip(toolId) {
   const tool = getTool(toolId);
   if (!tool) return '';
   return `<span class="pk-tool-chip" title="${tool.name}">${svgPath(tool.icon)}</span>`;
+}
+
+const TOOL_MARKS = {
+  'json-formatter': '{}',
+  'regex-tester': 'rx',
+  'base64-encoder': '64',
+  'uuid-generator': 'id',
+  'timestamp-converter': 'ts',
+  'url-encoder': 'url',
+  'password-generator': 'key',
+  'hash-generator': '#',
+  'jwt-decoder': 'jwt',
+  'qr-generator': 'QR',
+  'word-counter': 'txt',
+  'character-counter': 'abc',
+  'compress-pdf': 'zip',
+  'merge-pdf': '+',
+  'split-pdf': '/',
+  'image-compressor': 'img',
+  'format-converter': 'fmt',
+  'color-picker': 'hex',
+  'invoice-generator': 'inv',
+  'receipt-expense-extractor': 'rec',
+  'pomodoro': '25',
+};
+
+const CATEGORY_MARKS = {
+  photos: 'img',
+  documents: 'doc',
+  text: 'txt',
+  math: '%',
+  time: 'time',
+  utilities: '*',
+  seo: 'seo',
+  qa: 'qa',
+  developer: 'dev',
+};
+
+function toolMark(tool) {
+  return TOOL_MARKS[tool.id] || CATEGORY_MARKS[tool.category] || 'tool';
 }
 
 function makePocketMeta(pocket) {
@@ -342,7 +405,7 @@ function makeToolCard(tool, index = 0, options = {}) {
     <span class="desc">${tool.desc}</span>
     <span class="pk-tool-meta">
       ${pocket ? `<span class="pk-pocket-dot" style="background:${pocket.accent}"></span>${pocket.shortName}` : CATEGORY_LABELS[tool.category] || tool.category}
-      ${isPro ? `<span class="pk-meta-pro">${isLocked ? 'Locked' : 'Pro'}</span>` : ''}
+      ${isPro ? `<span class="pk-meta-pro">${isLocked ? 'Preview' : 'Open'}</span>` : ''}
     </span>
     ${isFavorite(tool.id) ? '<span class="pk-saved-corner" aria-label="Saved">Saved</span>' : ''}
   `;
@@ -369,7 +432,7 @@ function makePocketCard(pocket) {
     <p>${pocket.desc}</p>
     <div class="pk-pocket-chips">${pocket.tools.slice(0, 4).map(toolIconChip).join('')}<span>+${Math.max(0, pocket.tools.length - 4)}</span></div>
     <div class="pk-pocket-foot">
-      <span>${pocket.access === 'free' ? 'Ready now' : 'Pro pocket'}</span>
+      <span>${pocket.access === 'free' ? 'Ready now' : 'Specialized'}</span>
       <span>Open →</span>
     </div>
   `;
@@ -399,7 +462,7 @@ function makeMobilePockets() {
           <span>Open Daily →</span>
         </div>
       </a>
-      <p class="pk-section-title" style="margin-top:20px;margin-bottom:10px">Pro pockets</p>
+      <p class="pk-section-title" style="margin-top:20px;margin-bottom:10px">Specialized pockets</p>
       <div class="pk-mobile-pro-rows">
         ${proPockets.map(pocket => `
           <a class="pk-mobile-pro-row" href="#/pocket/${encodeURIComponent(pocket.id)}" style="--pocket-accent:${pocket.accent}">
@@ -436,10 +499,10 @@ function renderFooter() {
   return `
     <footer class="home-footer pk-footer">
       <div class="pk-footer-brand">
-        <strong>PocketKit</strong>
+        <strong>PocketTools</strong>
         <span>${TOOLS.length} private browser tools in ${POCKETS.length} organized pockets.</span>
       </div>
-      <nav class="pk-footer-links" aria-label="PocketKit footer">
+      <nav class="pk-footer-links" aria-label="PocketTools footer">
         <a href="#/local-first">Local-first</a>
         <a href="#/privacy">Privacy</a>
         <a href="#/terms">Terms</a>
@@ -581,7 +644,7 @@ function makeSmartPaste() {
     <div class="pk-smart-paste">
       <div class="pk-smart-paste-copy">
         <p class="pk-section-title">Smart paste</p>
-        <strong>Paste once. PocketKit picks the right tool.</strong>
+        <strong>Paste once. PocketTools picks the right tool.</strong>
         <span>Detects links, JSON, CSV, receipt text, meeting notes, and long text locally in your browser.</span>
       </div>
       <textarea id="smart-paste-input" placeholder="Paste a link, JSON, CSV, receipt text, or notes..." spellcheck="false"></textarea>
@@ -644,129 +707,103 @@ function renderPersonalRows() {
   ].filter(Boolean).join('');
 }
 
+function makeDirectoryToolTile(toolOrId) {
+  const tool = typeof toolOrId === 'string' ? getTool(toolOrId) : toolOrId;
+  if (!tool) return '';
+  const pocket = getPrimaryPocketForTool(tool.id);
+  const keywords = `${tool.name} ${tool.desc} ${pocket?.name || ''} ${TOOL_ALIASES[tool.id] || ''}`.toLowerCase();
+  return `
+    <a class="pk-directory-tool" href="#/tool/${encodeURIComponent(tool.id)}" data-search="${escapeHtml(keywords)}" style="${pocket ? `--pocket-accent:${pocket.accent}` : ''}">
+      <span class="pk-directory-icon">${escapeHtml(toolMark(tool))}</span>
+      <span>
+        <strong>${tool.name}</strong>
+        <small>${tool.desc}</small>
+      </span>
+    </a>
+  `;
+}
+
+function makePocketDirectorySection(pocket) {
+  const tools = getToolsForPocket(pocket.id);
+  const title = DIRECTORY_POCKET_LABELS[pocket.id] || pocket.name;
+  const icon = DIRECTORY_POCKET_EMOJIS[pocket.id] || '*';
+  return `
+    <section class="pk-tool-section" style="--pocket-accent:${pocket.accent}">
+      <div class="pk-tool-section-head">
+        <div>
+          <h3><span class="pk-section-emoji" aria-hidden="true">${icon}</span>${title}</h3>
+          <p>${pocket.desc}</p>
+        </div>
+        <a href="#/pocket/${encodeURIComponent(pocket.id)}">See all</a>
+      </div>
+      <div class="pk-directory-grid pk-section-tool-grid">
+        ${tools.map(makeDirectoryToolTile).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function initHomepageDirectory(view) {
+  const input = view.querySelector('#pk-home-tool-search');
+  const empty = view.querySelector('#pk-directory-empty');
+  if (!input || !empty) return;
+  const cards = [...view.querySelectorAll('.pk-directory-tool')];
+  const sections = [...view.querySelectorAll('.pk-tool-section')];
+  input.addEventListener('input', () => {
+    const query = input.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const match = !query || (card.dataset.search || '').includes(query);
+      card.classList.toggle('hidden', !match);
+      if (match) visible += 1;
+    });
+    sections.forEach(section => {
+      const hasVisibleCard = [...section.querySelectorAll('.pk-directory-tool')].some(card => !card.classList.contains('hidden'));
+      section.classList.toggle('hidden', Boolean(query) && !hasVisibleCard);
+    });
+    empty.classList.toggle('hidden', visible > 0);
+  });
+  input.addEventListener('keydown', event => {
+    if (event.key !== 'Enter') return;
+    const query = input.value.trim();
+    if (query) window.location.hash = `#/all?q=${encodeURIComponent(query)}`;
+  });
+}
+
 function renderLanding() {
   const view = setHomeContent(`
-    <section class="pk-landing">
-      <div class="pk-hero">
-        <p class="pk-kicker">${POCKETS.length} pockets · ${TOOLS.length} tools · Installable app</p>
-        <h2>Small tools,<br><em>neatly packed.</em></h2>
-        <p>PocketKit is a private utility app, organized into pockets you can actually find later. The full library is open in this preview, with tools grouped by the work in front of you.</p>
-        <div class="pk-hero-actions">
-          <a class="btn pk-btn-primary" href="#/pocket/daily">Open PocketKit Daily</a>
-          <button class="btn btn-secondary" type="button" data-open-command>Quick open</button>
-          <a class="btn btn-secondary" href="#/all">Browse all tools</a>
+    <section class="pk-landing pk-landing-directory">
+      <div class="pk-hero pk-hero-directory">
+        <p class="pk-kicker">PocketTools</p>
+        <h2>Your pocket toolkit<br><em>for everyday tasks</em></h2>
+        <p>Fast, privacy-friendly browser utilities for developers, students, and everyday use. No sign-ups. No uploads. Everything runs locally in your browser.</p>
+        <label class="pk-home-search pk-hero-search">
+          <span class="search-icon">⌕</span>
+          <input id="pk-home-tool-search" type="search" placeholder="Search tools..." autocomplete="off" aria-label="Search tools">
+        </label>
+        <div class="pk-directory-tabs pk-home-category-nav" aria-label="Tool categories">
+          ${DIRECTORY_POCKET_ORDER.map(id => getPocket(id)).filter(Boolean).map(pocket => `
+            <a href="#/pocket/${encodeURIComponent(pocket.id)}" style="--pocket-accent:${pocket.accent}">
+              ${DIRECTORY_POCKET_LABELS[pocket.id]?.replace(' Tools', '') || pocket.shortName}
+              <span>${pocket.tools.length}</span>
+            </a>
+          `).join('')}
         </div>
-        <div class="pk-trust-row">
-          <span>Private by default</span>
-          <span>Works offline</span>
-          <span>Installs in a click</span>
-        </div>
-        <div class="pk-hero-fineprint">
-          <a href="#/local-first">How privacy works</a>
-          <span>Every pocket is open during the preview.</span>
-        </div>
-      </div>
-      <div class="pk-launch-board" aria-label="Fast starts">
-        <div class="pk-launch-board-head">
-          <p class="pk-section-title">Fast starts</p>
-          <span>Jump straight into the most common jobs.</span>
-        </div>
-        <div class="pk-quick-grid">
-          ${makeQuickStart('json-formatter', 'Clean data', 'Format JSON instantly')}
-          ${makeQuickStart('image-compressor', 'Shrink images', 'Compress before sharing')}
-          ${makeQuickStart('merge-pdf', 'Work with PDFs', 'Merge, split, protect')}
-          ${makeQuickStart('word-counter', 'Check text', 'Count words and reading time')}
-          ${makeQuickStart('qr-generator', 'Share something', 'Make QR codes fast')}
+        <div class="pk-home-stats" aria-label="PocketTools stats">
+          <div><strong>${TOOLS.length}</strong><span>Free tools</span></div>
+          <div><strong>100%</strong><span>Client-side</span></div>
+          <div><strong>0</strong><span>Sign-ups needed</span></div>
+          <div><strong>${POCKETS.length}</strong><span>Categories</span></div>
         </div>
       </div>
-      ${makeSmartPaste()}
-      <div id="pk-personal-target" class="pk-personal-target"></div>
-      ${makeMobilePockets()}
-    </section>
-
-    <section id="pockets" class="pk-section pk-desktop-section">
-      <div class="pk-section-head">
-        <div>
-          <p class="pk-section-title">Pockets</p>
-          <h2>Open the pocket you need.</h2>
-          <p>Daily starts the kit. Specialized pockets are included in the current preview.</p>
-        </div>
-        <a class="btn btn-secondary" href="#/all">Browse all tools</a>
+      <p id="pk-directory-empty" class="pk-directory-empty pk-home-empty hidden">No tools match your search. Press Enter to search the full library.</p>
+      <div class="pk-home-tool-sections">
+        ${DIRECTORY_POCKET_ORDER.map(id => getPocket(id)).filter(Boolean).map(makePocketDirectorySection).join('')}
       </div>
-      <div id="pocket-grid" class="pk-pocket-grid"></div>
-    </section>
-
-    <section class="pk-section">
-      <p class="pk-section-title">Why PocketKit</p>
-      <div class="pk-why-card">
-        <div class="pk-value-v2">
-          <div class="pk-value-v2-head">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"></path></svg>
-            <strong>Private by default</strong>
-          </div>
-          <span>Local tools run in your browser. Nothing uploads. No account needed for Daily.</span>
-        </div>
-        <div class="pk-value-v2 pk-value-v2-sep">
-          <div class="pk-value-v2-head">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m9 12 2 2 4-4"/></svg>
-            <strong>Works offline</strong>
-          </div>
-          <span>PocketKit is installable. Most tools keep working on planes, trains, and without a connection.</span>
-        </div>
-        <div class="pk-value-v2 pk-value-v2-sep">
-          <div class="pk-value-v2-head">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h6l2 3h2l2-3h6M3 12l3-8h12l3 8v8H3z"></path></svg>
-            <strong>Organized in pockets</strong>
-          </div>
-          <span>No wall of ${TOOLS.length} tools. Open the pocket that matches the work in front of you.</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="pk-section">
-      <div class="pk-install-strip">
-        <div class="pk-mark pk-mark-large">PK</div>
-        <div>
-          <strong>Install PocketKit on this device</strong>
-          <span>Add to Dock, taskbar, or home screen. Some platforms support direct pocket shortcuts.</span>
-        </div>
-        <button class="btn btn-secondary" type="button" id="btn-install-app">Install app</button>
-      </div>
-    </section>
-
-    <section class="pk-section">
-      <p class="pk-section-title">Included pockets</p>
-      <div class="pk-pricing-grid">
-        <div class="pk-price-card">
-          ${badge('free')}
-          <h3>PocketKit Daily</h3>
-          <strong class="pk-price">Daily <span>everyday tools</span></strong>
-          <p>Common utilities for quick work, available without an account. Install to your device and use offline.</p>
-          <ul class="pk-feature-list">
-            <li>${POCKETS.find(p => p.id === 'daily')?.tools.length || 0} Daily tools</li>
-            <li>Install as PWA</li>
-            <li>Works offline</li>
-            <li>No uploads for local tools</li>
-          </ul>
-          <a class="btn btn-secondary" href="#/pocket/daily">Open Daily</a>
-        </div>
-        <div class="pk-price-card pk-price-card-featured">
-          ${badge('pro')}
-          <h3>All Pro pockets</h3>
-          <strong class="pk-price">Preview <span>specialized tools</span></strong>
-          <p>Every specialized pocket — PDF, Designer, Student, Developer, Office, QA, SEO, and Shop — is open in the preview.</p>
-          <div class="pk-pro-pocket-list">${POCKETS.filter(pocket => pocket.access === 'pro').map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
-          <a class="btn pk-btn-primary" href="#/all?q=pro">Open specialized tools</a>
-          <a class="btn btn-secondary" href="#/pocket/office">Open Office</a>
-        </div>
-      </div>
-      <p class="pk-pricing-note">No account is required for the preview. Local tools stay private in your browser.</p>
     </section>
   `);
 
-  const grid = view.querySelector('#pocket-grid');
-  POCKETS.forEach(pocket => grid.appendChild(makePocketCard(pocket)));
-  initSmartPaste(view);
+  initHomepageDirectory(view);
   renderPersonalRows();
 }
 
@@ -796,9 +833,9 @@ function renderPocket(pocketId) {
       </div>
       ${isPro ? `
         <div class="pk-pro-banner">
-          <div class="pk-mark">Pro</div>
+          <div class="pk-mark">Open</div>
           <p><strong>${pocket.name} is a specialized pocket.</strong> The preview is open, so you can use these tools now.</p>
-          <a class="btn pk-btn-primary" href="#/all?q=pro">Browse specialized tools</a>
+          <a class="btn pk-btn-primary" href="#/all?q=specialized">Browse specialized tools</a>
           <button class="btn btn-secondary" id="btn-preview-pocket">Show tools</button>
         </div>
       ` : ''}
@@ -989,7 +1026,7 @@ function renderAccount() {
     <section class="pk-account-page">
       <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>Preview access</span></div>
       <div class="pk-account-card pk-account-card-wide">
-        <p class="pk-section-title">PocketKit preview</p>
+        <p class="pk-section-title">PocketTools preview</p>
         <h2>Every pocket is open in this preview.</h2>
         <p>Daily and specialized pockets are available without an account, so you can move straight into the tool you need.</p>
         <div class="pk-account-status pk-account-status-active">
@@ -998,7 +1035,7 @@ function renderAccount() {
         </div>
         <div class="pk-pro-pocket-list">${proPockets.map(pocket => `<span style="--pocket-accent:${pocket.accent}">${pocket.shortName}</span>`).join('')}</div>
         <div class="pk-paywall-actions">
-          <a class="btn pk-btn-primary" href="#/all?q=pro">Open specialized tools</a>
+          <a class="btn pk-btn-primary" href="#/all?q=specialized">Open specialized tools</a>
           <a class="btn btn-secondary" href="#/pocket/office">Open Office</a>
         </div>
       </div>
@@ -1016,24 +1053,24 @@ function renderTrustPage(pageId) {
   const updated = 'May 30, 2026';
   const body = {
     privacy: [
-      ['What stays local', 'Text utilities, calculators, generators, image tools, PDF tools, and data formatters are designed to run in your browser. PocketKit does not need your files on a server for normal tool use.'],
+      ['What stays local', 'Text utilities, calculators, generators, image tools, PDF tools, and data formatters are designed to run in your browser. PocketTools does not need your files on a server for normal tool use.'],
       ['What may leave your device', 'Your browser requests static app files, fonts, icons, and metadata needed to load the site.'],
       ['Saved data', 'Favorites, recent tools, drafts, theme, and app preferences are stored in your browser storage on this device. Clearing site data removes them.'],
       ['Files', 'File tools process selected files locally where the browser and bundled libraries support it. Avoid uploading private files anywhere unless a page clearly says it will upload.'],
       ['Contact', `Questions or privacy requests can be sent to ${SUPPORT_EMAIL}.`],
     ],
     terms: [
-      ['Use', 'PocketKit is a collection of practical utilities for everyday work. You are responsible for checking results before relying on them in legal, financial, medical, or high-stakes decisions.'],
+      ['Use', 'PocketTools is a collection of practical utilities for everyday work. You are responsible for checking results before relying on them in legal, financial, medical, or high-stakes decisions.'],
       ['Availability', 'The app is provided as-is during launch preview. Offline support depends on your browser, storage settings, and whether the app shell has already loaded.'],
       ['Preview access', 'Every pocket is open in the current preview so you can test the full library without an account.'],
-      ['Content and files', 'You keep ownership of files and text you process in PocketKit. Keep your own backups before editing, compressing, splitting, or converting documents.'],
+      ['Content and files', 'You keep ownership of files and text you process in PocketTools. Keep your own backups before editing, compressing, splitting, or converting documents.'],
       ['Support', `For help, email ${SUPPORT_EMAIL}.`],
     ],
     refunds: [
       ['Launch preview', 'Every pocket is currently open for preview access.'],
       ['Support requests', `If something breaks or feels unclear, email ${SUPPORT_EMAIL} with the tool name and what happened.`],
       ['Product issues', 'Sample input, screenshots, browser details, and the page URL help make fixes faster.'],
-      ['Feedback', 'Requests are most useful when they describe a repeated job you want PocketKit to make easier.'],
+      ['Feedback', 'Requests are most useful when they describe a repeated job you want PocketTools to make easier.'],
     ],
     contact: [
       ['Support email', `${SUPPORT_EMAIL}`],
@@ -1042,14 +1079,14 @@ function renderTrustPage(pageId) {
       ['Product requests', 'New tool ideas are welcome when they solve a real repeated job, not just a novelty conversion.'],
     ],
     'local-first': [
-      ['Local tools', 'PocketKit is built around browser-side processing. Many tools continue working offline after the app has cached its shell and tool files.'],
-      ['No account required', 'PocketKit is designed to stay available without login or signup during the preview.'],
+      ['Local tools', 'PocketTools is built around browser-side processing. Many tools continue working offline after the app has cached its shell and tool files.'],
+      ['No account required', 'PocketTools is designed to stay available without login or signup during the preview.'],
       ['Open preview library', 'Specialized pockets are open so users can test the full library.'],
       ['Good limits', 'Local-first does not mean magic. Huge files, browser memory limits, private browsing, or blocked storage can affect some workflows.'],
       ['Trust signals', 'Tool pages highlight whether a tool uses files, downloads output, supports copyable output, or autosaves drafts locally.'],
     ],
     changelog: [
-      ['Launch foundation', 'PocketKit now ships 100 tools across 9 pockets: Daily, PDF, Designer, Student, Developer, Office, QA, SEO, and Shop.'],
+      ['Launch foundation', 'PocketTools now ships 100 tools across 9 categories: Daily, PDF, Designer, Student, Developer, Office, QA, SEO, and Shop.'],
       ['Smarter app shell', 'Quick Open, Smart Paste, recent tools, saved tools, most-used rails, offline caching, and install prompts are wired into the main experience.'],
       ['Trust and metadata', 'Public metadata files, OpenSearch, sitemap, robots.txt, tool JSON, privacy pages, and local-first explanations are available.'],
       ['Liquid glass refresh', 'The app shell, cards, controls, and tool surfaces now use the new translucent glass system.'],
@@ -1141,7 +1178,7 @@ function showUpdateNotice(registration) {
   notice.id = 'pk-update-notice';
   notice.className = 'pk-update-notice';
   notice.innerHTML = `
-    <span>Fresh PocketKit is ready.</span>
+    <span>Fresh PocketTools is ready.</span>
     <button type="button">Update now</button>
   `;
   notice.querySelector('button')?.addEventListener('click', () => {
@@ -1165,7 +1202,7 @@ function initInstallPrompt() {
     const button = event.target.closest('#btn-install-app');
     if (!button) return;
     if (!deferredInstallPrompt) {
-      window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Use your browser menu to install PocketKit.' }));
+      window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Use your browser menu to install PocketTools.' }));
       return;
     }
     deferredInstallPrompt.prompt();
@@ -1173,14 +1210,14 @@ function initInstallPrompt() {
     deferredInstallPrompt = null;
     document.documentElement.classList.remove('can-install');
     window.dispatchEvent(new CustomEvent('pt-toast', {
-      detail: result.outcome === 'accepted' ? 'PocketKit install started.' : 'Install skipped.',
+      detail: result.outcome === 'accepted' ? 'PocketTools install started.' : 'Install skipped.',
     }));
   });
 
   window.addEventListener('appinstalled', () => {
     deferredInstallPrompt = null;
     document.documentElement.classList.remove('can-install');
-    window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'PocketKit installed.' }));
+    window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'PocketTools installed.' }));
   });
 }
 
@@ -1263,7 +1300,7 @@ function buildCommandItems() {
     {
       type: 'action',
       section: 'Actions',
-      title: 'Install PocketKit',
+      title: 'Install PocketTools',
       subtitle: 'Add the app to this device',
       action: 'install',
       accent: 'var(--accent)',
@@ -1276,7 +1313,7 @@ function buildCommandItems() {
     type: 'pocket',
     section: 'Pockets',
     title: pocket.name,
-    subtitle: `${pocket.tools.length} tools · ${pocket.access === 'free' ? 'Free' : canUseProAccess() ? 'Open access' : 'Pro preview'}`,
+    subtitle: `${pocket.tools.length} tools · ${pocket.access === 'free' ? 'Free' : canUseProAccess() ? 'Open access' : 'Preview open'}`,
     href: `#/pocket/${encodeURIComponent(pocket.id)}`,
     accent: pocket.accent,
     mark: pocket.shortName.slice(0, 2),
