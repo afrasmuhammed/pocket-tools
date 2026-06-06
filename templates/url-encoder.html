@@ -6,11 +6,11 @@
 <div class="tool-dashboard">
   <section class="tool-panel">
     <div class="input-group">
-      <label for="url-input">Input</label>
-      <textarea id="url-input" class="textarea-medium" placeholder="https://example.com/search?q=hello world" spellcheck="false"></textarea>
+      <label for="url-input">Text or URL</label>
+      <textarea id="url-input" class="textarea-medium" placeholder="https://example.com/search?q=hello world" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
     </div>
     <div class="input-group">
-      <label for="url-mode">Mode</label>
+      <label for="url-mode">Encoding Mode</label>
       <select id="url-mode">
         <option value="component">URL component</option>
         <option value="full">Full URL</option>
@@ -18,31 +18,46 @@
       </select>
     </div>
     <div class="button-row">
-      <button id="btn-url-encode" class="btn">Encode</button>
-      <button id="btn-url-decode" class="btn btn-secondary">Decode</button>
-      <button id="btn-url-swap" class="btn btn-secondary">Swap</button>
+      <button id="btn-url-encode" class="btn">Encode Input</button>
+      <button id="btn-url-decode" class="btn btn-secondary">Decode Input</button>
       <button id="btn-url-clear" class="btn btn-secondary">Clear</button>
     </div>
   </section>
 
   <section class="tool-panel">
     <div class="input-group">
-      <label for="url-output">Output</label>
+      <label for="url-output">Result</label>
       <textarea id="url-output" class="textarea-medium" readonly placeholder="Result will appear here..." spellcheck="false"></textarea>
     </div>
+    <div class="button-row">
+      <button id="btn-url-swap" class="btn btn-secondary">Swap Result</button>
+      <button id="btn-url-copy" class="btn">Copy Result</button>
+      <button id="btn-url-to-qr" class="btn btn-secondary">Make QR</button>
+    </div>
+  </section>
+
+  <section class="tool-panel">
     <div class="metric-grid">
       <div class="metric">
         <span>Input Length</span>
         <strong id="url-input-length">0</strong>
       </div>
       <div class="metric">
-        <span>Output Length</span>
+        <span>Result Length</span>
         <strong id="url-output-length">0</strong>
       </div>
+      <div class="metric">
+        <span>Percent Escapes</span>
+        <strong id="url-escape-count">0</strong>
+      </div>
+      <div class="metric">
+        <span>Spaces</span>
+        <strong id="url-space-count">0</strong>
+      </div>
     </div>
-    <div class="button-row">
-      <button id="btn-url-copy" class="btn">Copy Output</button>
-      <button id="btn-url-to-qr" class="btn btn-secondary">Make QR</button>
+    <div class="input-group">
+      <label>Mode Summary</label>
+      <code class="uuid-display" id="url-mode-summary">URL component</code>
     </div>
   </section>
 </div>

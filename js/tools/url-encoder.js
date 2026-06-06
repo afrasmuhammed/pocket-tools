@@ -19,12 +19,18 @@ export default {
     const mode = document.getElementById('url-mode');
     const inputLength = document.getElementById('url-input-length');
     const outputLength = document.getElementById('url-output-length');
+    const escapeCount = document.getElementById('url-escape-count');
+    const spaceCount = document.getElementById('url-space-count');
+    const modeSummary = document.getElementById('url-mode-summary');
     const handoff = consumeHandoff('url-encoder');
     if (handoff?.value) input.value = handoff.value;
 
     const updateCounts = () => {
       inputLength.textContent = input.value.length.toLocaleString();
       outputLength.textContent = output.value.length.toLocaleString();
+      escapeCount.textContent = (output.value.match(/%[0-9a-f]{2}/gi) || []).length.toLocaleString();
+      spaceCount.textContent = (input.value.match(/\s/g) || []).length.toLocaleString();
+      modeSummary.textContent = mode.options[mode.selectedIndex]?.textContent || 'URL component';
     };
 
     const run = (operation) => {
@@ -75,6 +81,7 @@ export default {
 
     input.addEventListener('input', updateCounts);
     output.addEventListener('input', updateCounts);
+    mode.addEventListener('change', updateCounts);
     updateCounts();
   },
 };
