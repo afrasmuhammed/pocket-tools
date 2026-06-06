@@ -1538,6 +1538,35 @@ function initTheme() {
   });
 }
 
+function initLiquidGlassPointer() {
+  if (!matchMedia('(pointer: fine)').matches) return;
+  const selector = [
+    '.pk-directory-tool',
+    '.pk-home-stats div',
+    '.pk-home-search',
+    '.pk-directory-tabs a',
+    '.tool-panel',
+    '.image-panel',
+    '.results-container',
+    '.tool-container .output',
+    '.tool-container .result',
+    '.btn',
+    '.btn-icon',
+    '.app-header',
+  ].join(',');
+
+  document.addEventListener('pointermove', event => {
+    const target = event.target.closest(selector);
+    if (!target) return;
+    const rect = target.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    target.style.setProperty('--glass-x', `${Math.max(0, Math.min(100, x)).toFixed(1)}%`);
+    target.style.setProperty('--glass-y', `${Math.max(0, Math.min(100, y)).toFixed(1)}%`);
+  }, { passive: true });
+}
+
 function initMobileTabs() {
   document.querySelectorAll('[data-mobile-route]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1574,6 +1603,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRoute();
   appRouter.handleRoute();
   initTheme();
+  initLiquidGlassPointer();
   initCommandPalette();
   initMobileTabs();
   initInstallPrompt();

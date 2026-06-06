@@ -9,8 +9,8 @@ const required = [
   '/robots.txt',
   '/sitemap.xml',
   '/tools.json',
-  '/css/styles.css?v=46',
-  '/js/app.js?v=70',
+  '/css/styles.css?v=47',
+  '/js/app.js?v=71',
   '/js/router.js?v=54',
   '/js/core/access.js',
 ];
