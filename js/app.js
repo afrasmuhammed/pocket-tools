@@ -74,7 +74,7 @@ const TRUST_PAGES = {
   changelog: {
     eyebrow: 'Changelog',
     title: 'Launch notes.',
-    desc: 'PocketTools is now organized into 9 categories with 100 browser tools, smarter quick open, metadata files, and a polished liquid-glass app shell.',
+    desc: 'PocketTools is now organized into 9 categories with 100 browser tools, smarter quick open, metadata files, and a clean directory app shell.',
   },
 };
 const TOOL_ALIASES = {
@@ -1089,8 +1089,8 @@ function renderTrustPage(pageId) {
       ['Launch foundation', 'PocketTools now ships 100 tools across 9 categories: Daily, PDF, Designer, Student, Developer, Office, QA, SEO, and Shop.'],
       ['Smarter app shell', 'Quick Open, Smart Paste, recent tools, saved tools, most-used rails, offline caching, and install prompts are wired into the main experience.'],
       ['Trust and metadata', 'Public metadata files, OpenSearch, sitemap, robots.txt, tool JSON, privacy pages, and local-first explanations are available.'],
-      ['Liquid glass refresh', 'The app shell, cards, controls, and tool surfaces now use the new translucent glass system.'],
-      ['Latest pushed fix', 'The live preview now uses the liquid-glass design without purchase cards or access prompts.'],
+      ['Directory refresh', 'The app shell, cards, controls, and tool surfaces now use a clean directory layout.'],
+      ['Latest pushed fix', 'The live preview now uses the PocketTools directory design without purchase cards or access prompts.'],
     ],
   }[pageId] || [];
   const action = pageId === 'contact'
@@ -1538,35 +1538,6 @@ function initTheme() {
   });
 }
 
-function initLiquidGlassPointer() {
-  if (!matchMedia('(pointer: fine)').matches) return;
-  const selector = [
-    '.pk-directory-tool',
-    '.pk-home-stats div',
-    '.pk-home-search',
-    '.pk-directory-tabs a',
-    '.tool-panel',
-    '.image-panel',
-    '.results-container',
-    '.tool-container .output',
-    '.tool-container .result',
-    '.btn',
-    '.btn-icon',
-    '.app-header',
-  ].join(',');
-
-  document.addEventListener('pointermove', event => {
-    const target = event.target.closest(selector);
-    if (!target) return;
-    const rect = target.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-    target.style.setProperty('--glass-x', `${Math.max(0, Math.min(100, x)).toFixed(1)}%`);
-    target.style.setProperty('--glass-y', `${Math.max(0, Math.min(100, y)).toFixed(1)}%`);
-  }, { passive: true });
-}
-
 function initMobileTabs() {
   document.querySelectorAll('[data-mobile-route]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1603,7 +1574,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRoute();
   appRouter.handleRoute();
   initTheme();
-  initLiquidGlassPointer();
   initCommandPalette();
   initMobileTabs();
   initInstallPrompt();
