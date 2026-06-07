@@ -36,9 +36,9 @@ export default {
         const chars = text.length;
         const lines = text.split('\n').length;
         statsEl.textContent =
-          `${chars.toLocaleString()} chars · ${lines.toLocaleString()} lines`;
+          `${chars.toLocaleString()} chars · ${lines.toLocaleString()} lines · valid JSON`;
       } else {
-        statsEl.textContent = '';
+        statsEl.textContent = isError ? 'Invalid JSON' : '—';
       }
     }
 
@@ -46,7 +46,7 @@ export default {
       inputEl.value = '';
       outputEl.textContent = '';
       outputEl.classList.remove('json-error');
-      statsEl.textContent = '';
+      statsEl.textContent = '—';
     }
 
     document.getElementById('btn-jf-format').onclick = () => {
@@ -79,12 +79,21 @@ export default {
         launch: 'PocketKit',
         private: true,
         pockets: ['Daily', 'Developer', 'PDF'],
-        stats: { tools: 90, offline: true },
+        stats: { tools: 100, offline: true },
       });
       document.getElementById('btn-jf-format').click();
     };
 
     document.getElementById('btn-jf-clear').onclick = clearAll;
+
+    document.getElementById('btn-jf-paste').onclick = () => {
+      navigator.clipboard.readText()
+        .then(text => {
+          inputEl.value = text;
+          document.getElementById('btn-jf-format').click();
+        })
+        .catch(() => UI.showError('Paste failed.'));
+    };
 
     document.getElementById('btn-jf-copy').onclick = () => {
       const text = outputEl.textContent;

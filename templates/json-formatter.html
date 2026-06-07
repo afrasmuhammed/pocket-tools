@@ -1,33 +1,44 @@
 <div class="tool-header">
-  <h2>JSON Formatter</h2>
-  <p>Format, validate, or minify JSON. Parse errors show line and column info.</p>
+  <h2>JSON Formatter &amp; Validator</h2>
+  <p>Paste JSON to format, validate, sort, minify, and send into related data tools.</p>
 </div>
 
 <div class="tool-dashboard">
-  <section class="tool-panel">
-    <div class="input-group">
-      <label for="jf-input">Input JSON</label>
-      <textarea id="jf-input" placeholder='Paste JSON here… e.g. {"name":"Alice","age":30}' spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
-    </div>
-    <div class="button-row">
-      <button id="btn-jf-format" class="btn">Format</button>
+  <div class="tool-toolbar">
+    <div class="tool-mode-tabs" aria-label="JSON actions">
+      <button id="btn-jf-format" class="btn">Pretty</button>
       <button id="btn-jf-sort" class="btn btn-secondary">Sort Keys</button>
       <button id="btn-jf-minify" class="btn btn-secondary">Minify</button>
+    </div>
+    <div class="tool-toolbar-actions">
       <button id="btn-jf-sample" class="btn btn-secondary">Sample</button>
-      <button id="btn-jf-clear"  class="btn btn-secondary">Clear</button>
+      <button id="btn-jf-clear" class="btn btn-secondary">Clear</button>
     </div>
-  </section>
+  </div>
 
-  <section class="tool-panel">
-    <div class="input-group">
-      <label>Output</label>
-      <pre id="jf-output" class="json-output" aria-live="polite" aria-label="Formatted JSON output"></pre>
-      <p id="jf-stats" class="json-stats"></p>
-    </div>
-    <div class="button-row">
-      <button id="btn-jf-copy" class="btn">Copy Output</button>
-      <button id="btn-jf-to-csv" class="btn btn-secondary">Send to CSV</button>
-      <button id="btn-jf-to-schema" class="btn btn-secondary">Validate Schema</button>
-    </div>
-  </section>
+  <div class="tool-workspace tool-workspace-split json-workspace">
+    <section class="tool-panel">
+      <div class="tool-panel-header">
+        <span class="tool-panel-label">Input</span>
+        <div class="tool-panel-actions">
+          <button id="btn-jf-paste" class="btn btn-secondary" type="button">Paste</button>
+        </div>
+      </div>
+      <textarea id="jf-input" class="tool-editor" placeholder='Paste JSON here… e.g. {"name":"Alice","age":30}' spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    </section>
+
+    <section class="tool-panel">
+      <div class="tool-panel-header">
+        <span class="tool-panel-label">Output</span>
+        <div class="tool-panel-actions">
+          <button id="btn-jf-copy" class="btn btn-secondary">Copy</button>
+          <button id="btn-jf-to-csv" class="btn btn-secondary">Send to CSV</button>
+          <button id="btn-jf-to-schema" class="btn btn-secondary">Validate Schema</button>
+        </div>
+      </div>
+      <pre id="jf-output" class="json-output tool-editor-output" aria-live="polite" aria-label="Formatted JSON output"></pre>
+    </section>
+  </div>
+
+  <p id="jf-stats" class="tool-status-bar json-stats">—</p>
 </div>
