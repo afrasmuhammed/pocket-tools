@@ -198,7 +198,7 @@ const SAMPLE_ACTIONS = {
   'word-counter': container => {
     const input = container.querySelector('#wc-input');
     if (input) {
-      input.value = 'PocketTools keeps useful tools close, private, and ready offline. Paste text here to count words, characters, paragraphs, sentences, and reading time.';
+      input.value = 'PocketKit keeps useful tools close, private, and ready offline. Paste text here to count words, characters, paragraphs, sentences, and reading time.';
       input.dispatchEvent(new Event('input', { bubbles: true }));
     }
   },
@@ -214,8 +214,8 @@ const SAMPLE_ACTIONS = {
   'text-diff': container => {
     const original = container.querySelector('#diff-original');
     const modified = container.querySelector('#diff-modified');
-    if (original) original.value = 'PocketTools Daily is free.\nTools run locally.\nSearch opens every utility.';
-    if (modified) modified.value = 'PocketTools Daily stays free.\nTools run locally in your browser.\nQuick open finds every utility.';
+    if (original) original.value = 'PocketKit Daily is free.\nTools run locally.\nSearch opens every utility.';
+    if (modified) modified.value = 'PocketKit Daily stays free.\nTools run locally in your browser.\nQuick open finds every utility.';
     container.querySelector('#btn-diff')?.click();
   },
   'keyword-density': container => container.querySelector('#btn-kd-sample')?.click(),
@@ -284,7 +284,7 @@ class Router {
       document.body.classList.remove('tool-open');
       btnBack.classList.add('hidden');
       btnQuickOpen?.classList.remove('hidden');
-      setAppTitle(appTitle, 'PocketTools', true);
+      setAppTitle(appTitle, 'PocketKit', true);
       this.currentToolId = null;
 
       if (this._homeScroll) {

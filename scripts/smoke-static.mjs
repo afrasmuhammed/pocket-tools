@@ -10,7 +10,7 @@ const required = [
   '/sitemap.xml',
   '/tools.json',
   '/css/styles.css?v=49',
-  '/js/app.js?v=73',
+  '/js/app.js?v=74',
   '/js/router.js?v=55',
   '/js/core/access.js',
 ];

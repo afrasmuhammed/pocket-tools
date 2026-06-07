@@ -41,25 +41,25 @@ const DIRECTORY_POCKET_EMOJIS = {
   seo: 'SEO',
 };
 const DEFAULT_META = {
-  title: 'PocketTools',
-  desc: 'PocketTools — free, private browser tools for everyday tasks.',
+  title: 'PocketKit',
+  desc: 'PocketKit — free, private browser tools for everyday tasks.',
 };
 const SUPPORT_EMAIL = 'support@pocketkit.app';
 const TRUST_PAGES = {
   privacy: {
     eyebrow: 'Privacy',
     title: 'Privacy-first by design.',
-    desc: 'PocketTools is built as a local-first browser app. Most tools run on your device, and file tools are designed so your files do not leave the browser.',
+    desc: 'PocketKit is built as a local-first browser app. Most tools run on your device, and file tools are designed so your files do not leave the browser.',
   },
   terms: {
     eyebrow: 'Terms',
     title: 'Simple terms for a practical tool.',
-    desc: 'PocketTools is provided as a utility app for everyday work. Use it responsibly, check important outputs, and keep your own backups of files and results.',
+    desc: 'PocketKit is provided as a utility app for everyday work. Use it responsibly, check important outputs, and keep your own backups of files and results.',
   },
   refunds: {
     eyebrow: 'Launch support',
-    title: 'Fair support while PocketTools grows.',
-    desc: 'PocketTools is in preview, so the full tool library is open while the product settles into shape.',
+    title: 'Fair support while PocketKit grows.',
+    desc: 'PocketKit is in preview, so the full tool library is open while the product settles into shape.',
   },
   contact: {
     eyebrow: 'Contact',
@@ -69,12 +69,12 @@ const TRUST_PAGES = {
   'local-first': {
     eyebrow: 'Local-first',
     title: 'Your browser does the work.',
-    desc: 'PocketTools favors tools that process text, images, PDFs, and data inside your browser. That keeps work fast, private, and usable offline after the app has loaded.',
+    desc: 'PocketKit favors tools that process text, images, PDFs, and data inside your browser. That keeps work fast, private, and usable offline after the app has loaded.',
   },
   changelog: {
     eyebrow: 'Changelog',
     title: 'Launch notes.',
-    desc: 'PocketTools is now organized into 9 categories with 100 browser tools, smarter quick open, metadata files, and a clean directory app shell.',
+    desc: 'PocketKit is now organized into 9 categories with 100 browser tools, smarter quick open, metadata files, and a clean directory app shell.',
   },
 };
 const TOOL_ALIASES = {
@@ -266,34 +266,34 @@ function updateRouteMeta(hash = window.location.hash || '#/') {
   if (hash.startsWith('#/all')) {
     const q = getAllRouteQuery();
     const suffix = q ? ` matching "${q}"` : '';
-    setMeta('All PocketTools', `${TOOLS.length} private browser tools${suffix} across ${POCKETS.length} organized categories.`, hash);
+    setMeta('All PocketKit', `${TOOLS.length} private browser tools${suffix} across ${POCKETS.length} organized categories.`, hash);
     return;
   }
   if (hash.startsWith('#/account')) {
-    setMeta('PocketTools Preview Access', 'Open the PocketTools preview library and specialized categories.', hash);
+    setMeta('PocketKit Preview Access', 'Open the PocketKit preview library and specialized categories.', hash);
     return;
   }
   if (hash.startsWith('#/payment/')) {
-    setMeta('PocketTools Preview', 'PocketTools preview access is open.', hash);
+    setMeta('PocketKit Preview', 'PocketKit preview access is open.', hash);
     return;
   }
   const pageId = hash.replace('#/', '').split('?')[0];
   if (TRUST_PAGES[pageId]) {
     const page = TRUST_PAGES[pageId];
-    setMeta(`${page.eyebrow} — PocketTools`, page.desc, hash);
+    setMeta(`${page.eyebrow} — PocketKit`, page.desc, hash);
     return;
   }
   if (hash.startsWith('#/pocket/')) {
     const pocket = getPocket(decodeURIComponent(hash.replace('#/pocket/', '')).trim());
     if (pocket) {
-      setMeta(pocket.name, `${pocket.desc} ${pocket.tools.length} tools in this PocketTools category.`, `#/pocket/${pocket.id}`);
+      setMeta(pocket.name, `${pocket.desc} ${pocket.tools.length} tools in this PocketKit category.`, `#/pocket/${pocket.id}`);
       return;
     }
   }
   if (hash.startsWith('#/tool/')) {
     const tool = getTool(decodeURIComponent(hash.replace('#/tool/', '')).trim());
     if (tool) {
-      setMeta(`${tool.name} — PocketTools`, `${tool.desc}. Private, browser-based, and installable.`, `#/tool/${tool.id}`);
+      setMeta(`${tool.name} — PocketKit`, `${tool.desc}. Private, browser-based, and installable.`, `#/tool/${tool.id}`);
     }
   }
 }
@@ -499,10 +499,10 @@ function renderFooter() {
   return `
     <footer class="home-footer pk-footer">
       <div class="pk-footer-brand">
-        <strong>PocketTools</strong>
+        <strong>PocketKit</strong>
         <span>${TOOLS.length} private browser tools in ${POCKETS.length} organized pockets.</span>
       </div>
-      <nav class="pk-footer-links" aria-label="PocketTools footer">
+      <nav class="pk-footer-links" aria-label="PocketKit footer">
         <a href="#/local-first">Local-first</a>
         <a href="#/privacy">Privacy</a>
         <a href="#/terms">Terms</a>
@@ -644,7 +644,7 @@ function makeSmartPaste() {
     <div class="pk-smart-paste">
       <div class="pk-smart-paste-copy">
         <p class="pk-section-title">Smart paste</p>
-        <strong>Paste once. PocketTools picks the right tool.</strong>
+        <strong>Paste once. PocketKit picks the right tool.</strong>
         <span>Detects links, JSON, CSV, receipt text, meeting notes, and long text locally in your browser.</span>
       </div>
       <textarea id="smart-paste-input" placeholder="Paste a link, JSON, CSV, receipt text, or notes..." spellcheck="false"></textarea>
@@ -774,7 +774,7 @@ function renderLanding() {
   const view = setHomeContent(`
     <section class="pk-landing pk-landing-directory">
       <div class="pk-hero pk-hero-directory">
-        <p class="pk-kicker">PocketTools</p>
+        <p class="pk-kicker">PocketKit</p>
         <h2>Your pocket toolkit<br><em>for everyday tasks</em></h2>
         <p>Fast, privacy-friendly browser utilities for developers, students, and everyday use. No sign-ups. No uploads. Everything runs locally in your browser.</p>
         <label class="pk-home-search pk-hero-search">
@@ -789,7 +789,7 @@ function renderLanding() {
             </a>
           `).join('')}
         </div>
-        <div class="pk-home-stats" aria-label="PocketTools stats">
+        <div class="pk-home-stats" aria-label="PocketKit stats">
           <div><strong>${TOOLS.length}</strong><span>Free tools</span></div>
           <div><strong>100%</strong><span>Client-side</span></div>
           <div><strong>0</strong><span>Sign-ups needed</span></div>
@@ -1026,7 +1026,7 @@ function renderAccount() {
     <section class="pk-account-page">
       <div class="pk-breadcrumb"><a href="#/">Home</a><span>/</span><span>Preview access</span></div>
       <div class="pk-account-card pk-account-card-wide">
-        <p class="pk-section-title">PocketTools preview</p>
+        <p class="pk-section-title">PocketKit preview</p>
         <h2>Every pocket is open in this preview.</h2>
         <p>Daily and specialized pockets are available without an account, so you can move straight into the tool you need.</p>
         <div class="pk-account-status pk-account-status-active">
@@ -1053,24 +1053,24 @@ function renderTrustPage(pageId) {
   const updated = 'May 30, 2026';
   const body = {
     privacy: [
-      ['What stays local', 'Text utilities, calculators, generators, image tools, PDF tools, and data formatters are designed to run in your browser. PocketTools does not need your files on a server for normal tool use.'],
+      ['What stays local', 'Text utilities, calculators, generators, image tools, PDF tools, and data formatters are designed to run in your browser. PocketKit does not need your files on a server for normal tool use.'],
       ['What may leave your device', 'Your browser requests static app files, fonts, icons, and metadata needed to load the site.'],
       ['Saved data', 'Favorites, recent tools, drafts, theme, and app preferences are stored in your browser storage on this device. Clearing site data removes them.'],
       ['Files', 'File tools process selected files locally where the browser and bundled libraries support it. Avoid uploading private files anywhere unless a page clearly says it will upload.'],
       ['Contact', `Questions or privacy requests can be sent to ${SUPPORT_EMAIL}.`],
     ],
     terms: [
-      ['Use', 'PocketTools is a collection of practical utilities for everyday work. You are responsible for checking results before relying on them in legal, financial, medical, or high-stakes decisions.'],
+      ['Use', 'PocketKit is a collection of practical utilities for everyday work. You are responsible for checking results before relying on them in legal, financial, medical, or high-stakes decisions.'],
       ['Availability', 'The app is provided as-is during launch preview. Offline support depends on your browser, storage settings, and whether the app shell has already loaded.'],
       ['Preview access', 'Every pocket is open in the current preview so you can test the full library without an account.'],
-      ['Content and files', 'You keep ownership of files and text you process in PocketTools. Keep your own backups before editing, compressing, splitting, or converting documents.'],
+      ['Content and files', 'You keep ownership of files and text you process in PocketKit. Keep your own backups before editing, compressing, splitting, or converting documents.'],
       ['Support', `For help, email ${SUPPORT_EMAIL}.`],
     ],
     refunds: [
       ['Launch preview', 'Every pocket is currently open for preview access.'],
       ['Support requests', `If something breaks or feels unclear, email ${SUPPORT_EMAIL} with the tool name and what happened.`],
       ['Product issues', 'Sample input, screenshots, browser details, and the page URL help make fixes faster.'],
-      ['Feedback', 'Requests are most useful when they describe a repeated job you want PocketTools to make easier.'],
+      ['Feedback', 'Requests are most useful when they describe a repeated job you want PocketKit to make easier.'],
     ],
     contact: [
       ['Support email', `${SUPPORT_EMAIL}`],
@@ -1079,18 +1079,18 @@ function renderTrustPage(pageId) {
       ['Product requests', 'New tool ideas are welcome when they solve a real repeated job, not just a novelty conversion.'],
     ],
     'local-first': [
-      ['Local tools', 'PocketTools is built around browser-side processing. Many tools continue working offline after the app has cached its shell and tool files.'],
-      ['No account required', 'PocketTools is designed to stay available without login or signup during the preview.'],
+      ['Local tools', 'PocketKit is built around browser-side processing. Many tools continue working offline after the app has cached its shell and tool files.'],
+      ['No account required', 'PocketKit is designed to stay available without login or signup during the preview.'],
       ['Open preview library', 'Specialized pockets are open so users can test the full library.'],
       ['Good limits', 'Local-first does not mean magic. Huge files, browser memory limits, private browsing, or blocked storage can affect some workflows.'],
       ['Trust signals', 'Tool pages highlight whether a tool uses files, downloads output, supports copyable output, or autosaves drafts locally.'],
     ],
     changelog: [
-      ['Launch foundation', 'PocketTools now ships 100 tools across 9 categories: Daily, PDF, Designer, Student, Developer, Office, QA, SEO, and Shop.'],
+      ['Launch foundation', 'PocketKit now ships 100 tools across 9 categories: Daily, PDF, Designer, Student, Developer, Office, QA, SEO, and Shop.'],
       ['Smarter app shell', 'Quick Open, Smart Paste, recent tools, saved tools, most-used rails, offline caching, and install prompts are wired into the main experience.'],
       ['Trust and metadata', 'Public metadata files, OpenSearch, sitemap, robots.txt, tool JSON, privacy pages, and local-first explanations are available.'],
       ['Directory refresh', 'The app shell, cards, controls, and tool surfaces now use a clean directory layout.'],
-      ['Latest pushed fix', 'The live preview now uses the PocketTools directory design without purchase cards or access prompts.'],
+      ['Latest pushed fix', 'The live preview now uses the PocketKit directory design without purchase cards or access prompts.'],
     ],
   }[pageId] || [];
   const action = pageId === 'contact'
@@ -1178,7 +1178,7 @@ function showUpdateNotice(registration) {
   notice.id = 'pk-update-notice';
   notice.className = 'pk-update-notice';
   notice.innerHTML = `
-    <span>Fresh PocketTools is ready.</span>
+    <span>Fresh PocketKit is ready.</span>
     <button type="button">Update now</button>
   `;
   notice.querySelector('button')?.addEventListener('click', () => {
@@ -1202,7 +1202,7 @@ function initInstallPrompt() {
     const button = event.target.closest('#btn-install-app');
     if (!button) return;
     if (!deferredInstallPrompt) {
-      window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Use your browser menu to install PocketTools.' }));
+      window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'Use your browser menu to install PocketKit.' }));
       return;
     }
     deferredInstallPrompt.prompt();
@@ -1210,14 +1210,14 @@ function initInstallPrompt() {
     deferredInstallPrompt = null;
     document.documentElement.classList.remove('can-install');
     window.dispatchEvent(new CustomEvent('pt-toast', {
-      detail: result.outcome === 'accepted' ? 'PocketTools install started.' : 'Install skipped.',
+      detail: result.outcome === 'accepted' ? 'PocketKit install started.' : 'Install skipped.',
     }));
   });
 
   window.addEventListener('appinstalled', () => {
     deferredInstallPrompt = null;
     document.documentElement.classList.remove('can-install');
-    window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'PocketTools installed.' }));
+    window.dispatchEvent(new CustomEvent('pt-toast', { detail: 'PocketKit installed.' }));
   });
 }
 
@@ -1300,7 +1300,7 @@ function buildCommandItems() {
     {
       type: 'action',
       section: 'Actions',
-      title: 'Install PocketTools',
+      title: 'Install PocketKit',
       subtitle: 'Add the app to this device',
       action: 'install',
       accent: 'var(--accent)',
